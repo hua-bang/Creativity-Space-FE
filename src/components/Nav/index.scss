@@ -1,0 +1,16 @@
+.creativity-header__container {
+  width: 100vw;
+  padding: 0 10px;
+  height: 56px;
+  display: flex;
+  margin: auto;
+  align-items: center;
+  background: white;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+
+  >div {
+    flex: 1;
+  }
+   
+}
+
