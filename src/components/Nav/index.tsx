@@ -1,16 +1,16 @@
 import React from 'react';
-import './index.scss';
+import styles from './index.module.scss';
 import SearchArea from './components/Search-Area';
 import LoginArea from './components/Login-Area';
 
 function Nav() {
 
   return (
-    <div className='creativity-header__container'>
-      <div className='left-container'>
+    <div className={styles['creativity-header__container']}>
+      <div className={styles['left-container']}>
         <SearchArea />
       </div>
-      <div className='right-container'>
+      <div className={styles['right-container']}>
         <LoginArea />
       </div>
     </div>
