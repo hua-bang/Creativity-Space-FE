@@ -1,0 +1,17 @@
+.search-area {
+  display: flex;
+
+  .logo-area {
+
+    img {
+      width: 50px;
+    }
+  }
+
+  .input-area {
+    flex: 1;
+    display: flex;
+    padding-left: 10px;
+    align-items: center;
+  }
+}

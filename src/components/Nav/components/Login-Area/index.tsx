@@ -1,9 +1,19 @@
 import React from 'react';
+import styles from './index.module.scss';
+import { Button } from 'antd';
+
 
 const LoginArea = () => {
   return (
-    <div>
-      loginArea
+    <div className={styles['login-area']}>
+      <div className={styles['login-btn']}>
+        Log in
+      </div>
+      <div className={styles['register-btn']}>
+        <Button type="primary" ghost>
+          Create Account
+        </Button>
+      </div>
     </div>
   );
 };
