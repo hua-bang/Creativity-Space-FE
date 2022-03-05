@@ -2,7 +2,6 @@ import React from 'react';
 import menuList from '../../../../routes';
 import styles from './index.module.scss';
 import { useNavigate } from 'react-router-dom';
-import Icon from '../../../../../../assets/images/icon/home.svg';
 
 const defaultPath = 'content';
 
@@ -28,7 +27,7 @@ const MenuList = () => {
               }}
             >
               <span style={{ display: 'flex', alignItems: 'center' }}>
-                <img src={Icon} />
+                <img src={menu.icon} />
               </span>
               { menu.name }
             </div>

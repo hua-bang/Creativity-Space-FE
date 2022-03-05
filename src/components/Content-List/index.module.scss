@@ -1,0 +1,27 @@
+.content-item {
+  display: flex;
+  flex-wrap: wrap;
+  cursor: pointer;
+  height: 80px;
+  padding: 5px 0;
+
+  > div {
+    width: 100%;
+  }
+
+  .content-title {
+   
+    &:hover {
+      color: #165DFF;
+    }
+  }
+
+  .content-count-info {
+    color: #8a919f;
+    font-size: 14px;
+  
+    > span {
+      margin-right: 10px;
+    }
+  }
+}
