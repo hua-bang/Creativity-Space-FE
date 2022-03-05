@@ -4,7 +4,11 @@
   align-items: center;
 
   .login-btn {
-
+    
+    &:hover {
+      color: #165DFF;
+      cursor: pointer;
+    }
   }
 
   .register-btn {

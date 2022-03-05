@@ -1,16 +1,28 @@
 import React from 'react';
 import styles from './index.module.scss';
-import { Button } from 'antd';
-
+import { Button } from '@arco-design/web-react';
+import { useNavigate } from 'react-router-dom';
 
 const LoginArea = () => {
+
+  const navigate = useNavigate();
+
+  const toLogin = () => {
+    console.log('login');
+    navigate('/login');
+  };
+
+  const signUp = () => {
+    console.log('signUp');
+  };
+
   return (
     <div className={styles['login-area']}>
-      <div className={styles['login-btn']}>
+      <div className={styles['login-btn']} onClick= {toLogin}>
         Log in
       </div>
       <div className={styles['register-btn']}>
-        <Button type="primary" ghost>
+        <Button type="primary" onClick={signUp}>
           Create Account
         </Button>
       </div>

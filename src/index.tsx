@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import 'antd//dist/antd.css';
+// import 'antd//dist/antd.css';
+import '@arco-design/web-react/dist/css/arco.css';
 import './index.css';
 import App from './App';
 import { BrowserRouter } from 'react-router-dom';

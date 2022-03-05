@@ -1,7 +1,7 @@
 import React from 'react';
-import { Input } from 'antd';
+import { Input } from '@arco-design/web-react';
 import styles from './index.module.scss';
-import { SearchOutlined } from '@ant-design/icons';
+import { IconSearch } from '@arco-design/web-react/icon';
 
 const SearchArea = () => {
   return (
@@ -14,7 +14,7 @@ const SearchArea = () => {
       <div className={styles['input-area']}>
         <Input 
           style={{ maxWidth: '300px', height: '40px' }} 
-          suffix={<SearchOutlined />}
+          suffix={<IconSearch />}
         />
       </div>
     </div>
