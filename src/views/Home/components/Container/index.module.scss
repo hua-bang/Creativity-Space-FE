@@ -15,7 +15,12 @@
     padding: 0 10px;
     box-sizing: border-box;
     height: 400px;
-    background: yellow;
+    padding-top: 10px;
+
+    label {
+      margin-right: 0 !important;
+    }
+
   }
 
   .right-notice {

@@ -1,0 +1,12 @@
+.nav-item {
+  color: #575757;
+  // padding: 3px;
+  font-size: 17px;
+  margin-right: 10px;
+
+  &.active {
+    font-weight: 700;
+    color: #090909;
+  }
+}
+
