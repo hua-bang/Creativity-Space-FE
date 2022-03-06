@@ -5,7 +5,6 @@ import Container from './components/Container';
 const Home = () => {
   return (
     <>
-      <Nav />
       <Container />
     </>
   );

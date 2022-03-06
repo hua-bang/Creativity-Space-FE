@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 const LoginArea = () => {
 
   const navigate = useNavigate();
-
+  
   const toLogin = () => {
     console.log('login');
     navigate('/login');

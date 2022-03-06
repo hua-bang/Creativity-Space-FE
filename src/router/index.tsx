@@ -4,6 +4,7 @@ import Demo from '../views/Demo';
 import Home from '../views/Home';
 import Creator from '../views/Creator';
 import Editor from '../views/Editor';
+import Search from '../views/Search';
 
 const routes: RouteObject[] = [
   {
@@ -21,6 +22,10 @@ const routes: RouteObject[] = [
   {
     path: '/editor',
     element: <Editor />
+  },
+  {
+    path: '/search',
+    element: <Search />
   }
 ];
 

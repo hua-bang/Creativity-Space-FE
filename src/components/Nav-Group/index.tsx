@@ -6,15 +6,17 @@ import styles from './index.module.scss';
 export interface NavGroupProps {
   menuList: string[];
   defaultValue?: string;
+  onChange?: (activeKey: string) => void;
 }
 
 const NavGroup = ({
   menuList,
+  onChange,
   defaultValue = menuList[0] || ''
 } : NavGroupProps) => {
   return (
     <div>
-      <Radio.Group defaultValue={defaultValue}>
+      <Radio.Group defaultValue={defaultValue} onChange={onChange}>
         {
           menuList.map((item) => {
             return (
