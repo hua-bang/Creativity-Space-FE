@@ -3,6 +3,7 @@ import { RouteObject } from 'react-router-dom';
 import Demo from '../views/Demo';
 import Home from '../views/Home';
 import Creator from '../views/Creator';
+import Editor from '../views/Editor';
 
 const routes: RouteObject[] = [
   {
@@ -16,6 +17,10 @@ const routes: RouteObject[] = [
   {
     path: '/creator/*',
     element: <Creator />
+  },
+  {
+    path: '/editor',
+    element: <Editor />
   }
 ];
 
