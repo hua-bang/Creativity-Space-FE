@@ -1,7 +1,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Home from './subViews/Home';
-import Content from './subViews/Content';
+import Home from './SubViews/Home';
+import Content from './SubViews/Content';
 
 const Creator = () => {
   return (

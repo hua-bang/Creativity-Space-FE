@@ -1,7 +1,7 @@
 import React from 'react';
 import { RouteObject } from 'react-router-dom';
-import Author from './subViews/Author';
-import Content from './subViews/Content';
+import Author from './SubViews/Author';
+import Content from './SubViews/Content';
 import { 
   AuthorIcon,
   ContactIcon,

@@ -1,0 +1,27 @@
+.login-page {
+  width: 100vw;
+  max-width: 640px;
+  background: white;
+  margin: 80px auto;
+  box-sizing: border-box;
+  padding: 20px 48px;
+  border-radius: 5px;
+  min-height: 600px;
+  box-shadow: 0 0 0 1px rgba(23,23,23,0.1);
+}
+
+.description-area {
+  padding: 0px;
+  text-align: center;
+
+  > h1, p {
+    padding-bottom: 2px;
+    margin-bottom: 0;
+  }
+
+  p {
+    margin-top: 0px;
+    color: rgb(64, 64, 64);
+    font-size: 16px;
+  }
+}

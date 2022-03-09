@@ -1,0 +1,21 @@
+.info-area {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+
+  >div {
+    margin-right: 20px;
+    cursor: pointer;
+  }
+  .bth-area {
+    
+    &:hover {
+      color: #165DFF;
+      cursor: pointer;
+    }
+  }
+
+  .register-btn {
+    margin-left: 20px;
+  }
+}

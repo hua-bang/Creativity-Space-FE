@@ -5,6 +5,7 @@ import Home from '../views/Home';
 import Creator from '../views/Creator';
 import Editor from '../views/Editor';
 import Search from '../views/Search';
+import Login from '@/views/Login';
 
 const routes: RouteObject[] = [
   {
@@ -26,6 +27,10 @@ const routes: RouteObject[] = [
   {
     path: '/search',
     element: <Search />
+  },
+  {
+    path: '/login',
+    element: <Login />
   }
 ];
 
