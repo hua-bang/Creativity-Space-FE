@@ -26,6 +26,7 @@ module.exports = {
     'no-empty': 2,
     'eqeqeq': 2,
     'max-depth': [0, 4],
-    'max-len': [1, 120]
+    'max-len': [1, 120],
+    '@typescript-eslint/no-var-requires': 'off'
   }
 };

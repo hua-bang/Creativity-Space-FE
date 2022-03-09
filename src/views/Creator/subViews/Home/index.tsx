@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { observer } from 'mobx-react-lite';
-import { useStore } from '../../../../hooks/userStore';
+import { useStore } from '@/hooks/userStore';
 
 const HomePage = () => {
   const store = useStore();
