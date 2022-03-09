@@ -16,6 +16,7 @@ function Nav() {
         <div className={styles['left-container']}>
           <SearchArea />
         </div>
+        <div onClick={() => {userStore.setTest();}}>123</div>
         <div className={styles['right-container']}>
           {
             userStore.isLogin 

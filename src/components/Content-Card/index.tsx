@@ -19,7 +19,7 @@ const ContentCard = ({
   return (
     <Card
       hoverable
-      style={{ width: '100%' }}
+      style={{ width: '100%', cursor: 'pointer' }}
       bodyStyle={{
         padding: '0 15px 15px 15px',
       }}

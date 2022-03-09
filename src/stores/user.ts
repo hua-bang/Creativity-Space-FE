@@ -19,11 +19,7 @@ class UserStore {
 
   @action
   setTest() {
-    new Promise((resolve) => {
-      setTimeout(() => {
-        this.roles = ['1','2'];
-      }, 2000);
-    });
+    this.isLogin = false;
   }
 }
 
