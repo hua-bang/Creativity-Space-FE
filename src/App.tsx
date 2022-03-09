@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route, useRoutes } from 'react-router-dom';
+import { useRoutes } from 'react-router-dom';
 import { BackTop } from '@arco-design/web-react';
 import routes from './router/index';
 import Nav from './components/Nav';
@@ -15,7 +15,7 @@ function App() {
       </div>
       <BackTop
         visibleHeight={30}
-        style={{ 
+        style={{
           position: 'fixed',
           right: '60px'
         }}

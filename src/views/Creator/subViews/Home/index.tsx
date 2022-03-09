@@ -1,13 +1,30 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { observer } from 'mobx-react-lite';
+import { useStore } from '../../../../hooks/userStore';
 
-const Home = () => {
-  console.log('home');
+const HomePage = () => {
+  const store = useStore();
+  const { counterStore } = store;
+
+  const handleIncrease = () => {
+    counterStore.increase();
+  };
+  const handleDecrease = () => {
+    counterStore.decrease();
+  };
+  const handleTest = () => {
+    counterStore.test(12);
+  };
 
   return (
     <div>
-      Home
+      <p>count:{counterStore.count}</p>
+      <button onClick={handleIncrease}>add</button>
+      <button onClick={handleDecrease}>minus</button>
+      <button onClick={handleTest}>handleTest</button>
+      <p>doubleCount:{counterStore.doubleCount}</p>
     </div>
   );
 };
 
-export default Home;
+export default observer(HomePage);

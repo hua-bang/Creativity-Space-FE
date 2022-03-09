@@ -19,5 +19,5 @@ code {
 }
 
 .bytemd{
-  height: calc(100vh);
+  height: calc(100vh - 76px);
 }
