@@ -1,0 +1,43 @@
+.nav-area {
+  background: white;
+  height: 56px;
+  display: flex;
+
+  > div {
+    flex: 1;
+  }
+}
+
+.nav-title-input {
+  padding-left: 42px;
+  height: 100%;
+
+  input {
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    line-height: 56px;
+    font-size: 24px;
+    color: #1d2129;
+    font-weight: 600;
+  }
+}
+
+.nav-btn-area {
+  height: 100%;
+  line-height: 56px;
+  margin-right: 20px;
+  text-align: right;
+
+  .tip, span:eq(1) {
+    color: #c9cdd4;
+  }
+  > * {
+    margin-right: 20px;
+  }
+}
+
+.tip{
+  color: #c9cdd4;
+}

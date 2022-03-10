@@ -2,9 +2,11 @@ import React from 'react';
 import styles from './index.module.scss';
 import { Dropdown, Avatar, Badge, Button, Menu } from '@arco-design/web-react';
 import { IconNotification, IconUser } from '@arco-design/web-react/icon';
-
+import { useNavigate } from 'react-router-dom';
 
 const InfoArea = () => {
+
+  const navigate = useNavigate();
 
   const dropList = (
     <Menu>
@@ -15,10 +17,14 @@ const InfoArea = () => {
     </Menu>
   );
 
+  const toEdit = () => {
+    navigate('/editor');
+  };
+
   return (
     <div className={styles['info-area']}>
       <div className={styles['btn-area']}>
-        <Button type="primary">Create Post</Button>      
+        <Button type="primary" onClick={toEdit}>Create Post</Button>      
       </div>
       <div className={styles['notification-area']}>
         <Badge count={10} style={{ fontSize: '3px' }}>
