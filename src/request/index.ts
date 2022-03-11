@@ -1,5 +1,6 @@
-import { BASE_URL, TOKEN_NAME } from '../config/network';
+import { BASE_URL } from '../config/network';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { getToken } from '@/utils/token';
 
 const service = axios.create({
   baseURL: BASE_URL, // 设置统一的请求前缀
@@ -7,6 +8,10 @@ const service = axios.create({
 
 service.interceptors.request.use((config: AxiosRequestConfig) => {
   // process config
+  const token = getToken() ?? '';
+  config.headers = Object.assign({}, config.headers, {
+    Authorization: `Bearer ${token}`
+  });
   return config;
 });
 

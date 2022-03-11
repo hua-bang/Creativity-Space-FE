@@ -1,4 +1,4 @@
-import useLocalStorageState from "./useLocalStorage";
+import useLocalStorageState from './useLocalStorage';
 import { TOKEN_NAME } from '@/config/network';
 
 const useToken = () => {

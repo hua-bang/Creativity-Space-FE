@@ -13,3 +13,7 @@ export function signIn(username: string, password: string) {
     password
   });
 }
+
+export function getUserInfo() {
+  return request.get('/auth/userInfo');
+}
