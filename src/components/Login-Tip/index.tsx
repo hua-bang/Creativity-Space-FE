@@ -1,8 +1,16 @@
 import React from 'react';
 import styles from './index.module.scss';
 import { Button } from '@arco-design/web-react';
+import useAuth from '@/hooks/useAuth';
+import { observer } from 'mobx-react-lite';
+import { useNavigate } from 'react-router-dom';
 
 const LoginTip = () => {
+
+  const isAuth = useAuth();
+
+  const navigate = useNavigate();
+
   return (
     <div className={styles['login-tip']}>
       <div className={styles['main-text']}>
@@ -11,21 +19,44 @@ const LoginTip = () => {
       <div className={styles['description-text']}>
         We are a place where coders share, stay up-to-date and grow their careers.
       </div>
-      <div className={styles['btn-area']}>
-        <Button 
-          type="primary"
-          style={{
-            width: '100%'
-          }}
-        >
-          Create Account
-        </Button>
-      </div>
-      <div className={styles['login-area']}>
-        Log in
-      </div>
+      {
+        !isAuth ? (
+          <>
+            <div className={styles['btn-area']}>
+              <Button 
+                type="primary"
+                style={{
+                  width: '100%'
+                }}
+                onClick={ () => { navigate('/login?type=register'); }}
+              >
+              Create Account
+              </Button>
+            </div>
+            <div 
+              className={styles['login-area']}
+              onClick={ () => { navigate('/login'); }}
+            >
+              Log in
+            </div>
+          </>
+        ) :
+          (
+            <div className={styles['btn-area']}>
+              <Button 
+                type="primary"
+                style={{
+                  width: '100%'
+                }}
+                onClick={ () => { navigate('/editor'); }}
+              >
+              Create Post
+              </Button>
+            </div>
+          )
+      }
     </div>
   );
 };
 
-export default LoginTip;
+export default observer(LoginTip);

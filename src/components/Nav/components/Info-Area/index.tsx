@@ -3,10 +3,14 @@ import styles from './index.module.scss';
 import { Dropdown, Avatar, Badge, Button, Menu } from '@arco-design/web-react';
 import { IconNotification, IconUser } from '@arco-design/web-react/icon';
 import { useNavigate } from 'react-router-dom';
+import useStore from '@/hooks/useStore';
+import { observer } from 'mobx-react-lite';
 
 const InfoArea = () => {
 
   const navigate = useNavigate();
+
+  const { userStore } = useStore();
 
   const dropList = (
     <Menu>
@@ -34,7 +38,7 @@ const InfoArea = () => {
       <div className={styles['avatar-area']}>
         <Dropdown position="bottom" droplist={dropList}>
           <Avatar size={28} style={{ background: '#3370ff'}}>
-            <IconUser />
+            { userStore.userInfo?.avatar ?? <IconUser fontSize={20} /> }
           </Avatar>
         </Dropdown>
       </div>
@@ -42,4 +46,4 @@ const InfoArea = () => {
   );
 };
 
-export default InfoArea;
+export default observer(InfoArea);

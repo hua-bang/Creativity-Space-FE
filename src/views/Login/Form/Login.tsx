@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
-import { Form, Input, Button, Checkbox, Link, Message } from '@arco-design/web-react';
+import { Form, Input, Button, Link, Message } from '@arco-design/web-react';
 import { signIn } from '@/api/user';
 import { useNavigate } from 'react-router-dom';
+import useToken from '@/hooks/useToken';
+import useStore from '@/hooks/useStore';
+
 interface LoginProps {
   toggle: () => void
 }
@@ -13,16 +16,20 @@ const Login = ({
 }: LoginProps) => {
 
   const navigate = useNavigate();
+  
+  const [, setToken] = useToken();
 
   const [loading, setLoading] = useState(false);
+
+  const { userStore } = useStore();
 
   const handleSubmit = (data: any) => {
     setLoading(true);
     const { username, password } = data;
     signIn(username, password).then(res => {
-      const { accessToken } = res.data;
-   
-      // TODO: set accessToken to local
+      const { accessToken, userInfo, roles } = res.data;
+      setToken(accessToken);
+      userStore.setUser(userInfo, roles);
       Message.success('登录成功');
       setTimeout(() => {
         navigate('/home/content');

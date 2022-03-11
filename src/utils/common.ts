@@ -1,1 +1,3 @@
-export const a = 1;
+export const isFunction = (value: any) => {
+  return typeof value === 'function' && value !== null;
+};

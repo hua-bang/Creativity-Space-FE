@@ -8,12 +8,11 @@ const LoginArea = () => {
   const navigate = useNavigate();
   
   const toLogin = () => {
-    console.log('login');
     navigate('/login');
   };
 
   const signUp = () => {
-    console.log('signUp');
+    navigate('/login?type=register');
   };
 
   return (

@@ -2,7 +2,7 @@ import { makeAutoObservable, observable, action } from 'mobx';
 import { User } from '@/typings/user';
 
 class UserStore {
-  @observable isLogin = true;
+  @observable isLogin = false;
   @observable userInfo: User | undefined = undefined; 
   @observable roles: string[] = [];
 
