@@ -2,23 +2,31 @@ import React from 'react';
 import { Card, Avatar, Typography } from '@arco-design/web-react';
 import styles from './index.module.scss';
 import { IconHeart, IconMessage, IconStar, IconStarFill, IconHeartFill } from '@arco-design/web-react/icon';
+import { useNavigate } from 'react-router-dom';
+import { Article } from '@/typings/article';
 
 interface ContentCardProps {
   expand?: boolean;
-  // coverUrl: string;
-  // author: string;
-  // likeCount: number;
-  // title: string;
+  article: Article;
 }
 
 const { Meta } = Card;
 
 const ContentCard = ({ 
-  expand = true
+  expand = true,
+  article
 }: ContentCardProps) => {
+  
+  const navigate = useNavigate();
+
+  const toArticleDetail = () => {
+    navigate(`/article/${article.id}`);
+  };
+  
   return (
     <Card
       hoverable
+      onClick={toArticleDetail}
       style={{ width: '100%', cursor: 'pointer' }}
       bodyStyle={{
         padding: '0 15px 15px 15px',
@@ -34,7 +42,7 @@ const ContentCard = ({
           <img
             style={{ width: '100%', transform: 'translateY(-20px)' }}
             alt='dessert'
-            src='https://res.cloudinary.com/practicaldev/image/fetch/s--EaWTMetC--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/kvekov7dwu9fw2fec2r4.png'
+            src={article.cover_url}
           />
         </div>
       }
@@ -47,21 +55,21 @@ const ContentCard = ({
                 A
               </Avatar>
               <div>
-                <Typography.Text><b>Username</b></Typography.Text>
+                <Typography.Text><b>{article.user?.name ?? article.user?.username}</b></Typography.Text>
               </div>
             </div>
             <div className={styles['content-info']}>
               <div className={styles['content-title']}>
-                What is your favorite post on DEV? (by someone else!)
+                {article.title}
               </div>
               <div className={styles['count-info']}>
                 <span>
                   <IconHeart />
-                  <span className={styles['count-number']}>123 Likes</span>
+                  <span className={styles['count-number']}>{article.like_count} Likes</span>
                 </span>
                 <span>
                   <IconMessage />
-                  <span className={styles['count-number']}>123 Comments</span>
+                  <span className={styles['count-number']}>{article.comment_count} Comments</span>
                 </span>
               </div>
             </div>

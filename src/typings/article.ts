@@ -1,3 +1,4 @@
+import { User } from './user';
 import { RequiredKey } from './utils';
 
 export enum ArticleStatusEnum {
@@ -26,6 +27,7 @@ export interface Article {
   content: string;
   like_count: number;
   cover_url: string;
+  user?: User;
 }
 
 export type CreateArticleType = RequiredKey<

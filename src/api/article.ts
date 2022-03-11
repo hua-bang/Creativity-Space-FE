@@ -8,3 +8,11 @@ export function createArticle(article: CreateArticleType) {
     data: article
   });
 }
+
+export function getArticles() {
+  return request('/article/all');
+}
+
+export function getArticleById(articleId: string) {
+  return request(`/article/${articleId}`);
+}

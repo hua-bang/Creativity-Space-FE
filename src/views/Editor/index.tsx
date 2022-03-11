@@ -40,14 +40,12 @@ const Editor = () => {
     });
   };
 
-
   const dropComponent = (
     <Card title="发布文章" style={{ width: '500px', marginRight: '20px', background: 'white' }}>
       <PublishForm onSave={onSave} />
     </Card>
   );
   
-
   return (
     <>
       <div className={styles['nav-area']}>

@@ -1,0 +1,23 @@
+.operation-area {
+  width: 5%;
+  height: 300px;
+  padding-top: 50px;
+  box-sizing: border-box;
+}
+
+.operation-item {
+  margin-bottom: 20px;
+
+  cursor: pointer;
+  
+  .operation-item-icon {
+    font-size: 26px;
+    text-align: center;
+    font-weight: 100;
+  }
+
+  .operation-item-count {
+    margin-top: -5px;
+    text-align: center;
+  }
+}

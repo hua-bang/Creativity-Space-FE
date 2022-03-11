@@ -1,0 +1,43 @@
+.recommend-area {
+  width: 24%;
+  margin-left: 1%;
+  box-sizing: border-box;
+}
+
+.article-author-info {
+  width: 100%;
+  background: white;
+  box-sizing: border-box;
+  border-radius: 5px;
+  padding: 20px;
+  padding-bottom: 5px;
+  margin-bottom: 20px;
+}
+
+.article-author-info-name {
+  margin-left: 20px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.article-author-basic-info {
+  padding-bottom: 15px;
+  border-bottom: 1.5px solid #eee;
+}
+
+.article-author-others-info {
+  margin-top: 10px;
+}
+
+.article-author-count-item {
+  padding-bottom: 5px;
+  > span {
+    font-size: 18px;
+    margin-right: 10px;
+  }
+  
+}
+
+.article-btn {
+  padding: 10px 0;
+}

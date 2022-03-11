@@ -1,0 +1,39 @@
+.article-area {
+  width: 65%;
+  background: white;
+  box-shadow: 0 0 0 1px rgba(23, 23, 23, 0.1);
+  border-radius: 5px;
+  margin: 0 10px;
+  box-sizing: border-box;
+
+  .article-main {
+    width: 100%;
+
+    .article-img > img {
+      width: 100%;
+      border-radius: 5px 5px 0 0;
+    }
+  }
+
+  .article-title {
+    padding: 5px 50px;
+    font-size: 3rem;
+    color: rgb(23, 23, 23);
+    font-weight: bolder;
+  }
+
+  .article-content {
+    padding: 50px;
+  }
+}
+.article-author-info {
+  padding: 20px 50px;
+  height: 40px;
+}
+
+.article-author-info-name {
+  margin-left: 20px;
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 40px;
+}

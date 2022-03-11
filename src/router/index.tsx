@@ -6,6 +6,7 @@ import Creator from '../views/Creator';
 import Editor from '../views/Editor';
 import Search from '../views/Search';
 import Login from '@/views/Login';
+import Article from '@/views/Article';
 
 const routes: RouteObject[] = [
   {
@@ -31,6 +32,10 @@ const routes: RouteObject[] = [
   {
     path: '/login',
     element: <Login />
+  },
+  {
+    path: '/article/:id',
+    element: <Article />
   }
 ];
 
