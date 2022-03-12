@@ -38,7 +38,11 @@ const InfoArea = () => {
       <div className={styles['avatar-area']}>
         <Dropdown position="bottom" droplist={dropList}>
           <Avatar size={28} style={{ background: '#3370ff'}}>
-            { userStore.userInfo?.avatar ?? <IconUser fontSize={20} /> }
+            { 
+              userStore.userInfo?.avatar 
+                ? <img alt='avatar' src={userStore.userInfo?.avatar} />
+                : <IconUser fontSize={20} /> 
+            }
           </Avatar>
         </Dropdown>
       </div>

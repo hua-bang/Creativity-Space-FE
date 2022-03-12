@@ -3,6 +3,11 @@
   display: flex; 
   align-items: center;
   padding-bottom: 0px;
+
+  &-name {
+    margin-left: 10px;
+    letter-spacing: 2px;
+  }
 }
 
 .content-info {

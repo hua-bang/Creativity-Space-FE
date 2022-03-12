@@ -5,10 +5,13 @@ import { Button, Dropdown, Card, Message } from '@arco-design/web-react';
 import PublishForm, { ArticleFormProps } from './components/PublishForm';
 import { createArticle } from '@/api/article';
 import { ArticleTypeEnum } from '@/typings/article';
+import { useNavigate } from 'react-router-dom';
 
 const Editor = () => {
   const [content, setContent] = useState('');
   const [title, setTitle] = useState('');
+
+  const navigate = useNavigate();
 
   const handleEditorChange: (val: string) => void = (val: string) => {
     setContent(val);
@@ -33,8 +36,12 @@ const Editor = () => {
       content,
       type: ArticleTypeEnum.NORMAL
     };
-    createArticle(addArticle).then(_ => {
-      Message.success('新建成功');
+    createArticle(addArticle).then(res => {
+      const { id }  = res.data;
+      Message.success('新建成功,爲你跳轉文章詳情頁。');
+      setTimeout(() => {
+        navigate(`/article/${id}`);
+      }, 1000);
     }).catch(err => {
       Message.warning(err.message);
     });

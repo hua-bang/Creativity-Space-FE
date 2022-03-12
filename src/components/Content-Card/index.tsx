@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, Avatar, Typography } from '@arco-design/web-react';
 import styles from './index.module.scss';
-import { IconHeart, IconMessage, IconStar, IconStarFill, IconHeartFill } from '@arco-design/web-react/icon';
+import { IconHeart, IconMessage, IconStar, IconStarFill, IconHeartFill, IconUser } from '@arco-design/web-react/icon';
 import { useNavigate } from 'react-router-dom';
 import { Article } from '@/typings/article';
 
@@ -51,10 +51,14 @@ const ContentCard = ({
         description={
           <>
             <div className={styles['author-info']}>
-              <Avatar size={24} style={{ marginRight: 8 }}>
-                A
+              <Avatar size={28} style={{ background: '#3370ff'}}>
+                { 
+                  article.user?.avatar 
+                    ? <img alt='avatar' src={article.user?.avatar } />
+                    : <IconUser fontSize={20} /> 
+                }
               </Avatar>
-              <div>
+              <div className={styles['author-info-name']}>
                 <Typography.Text><b>{article.user?.name ?? article.user?.username}</b></Typography.Text>
               </div>
             </div>
