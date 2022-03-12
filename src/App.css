@@ -41,3 +41,14 @@
   margin-top: 56px;
   margin-bottom: 20px;
 }
+
+.app-skeleton-wrapper {
+  background: white; 
+  padding: 50px; 
+  padding-top: 36px;
+  box-sizing: border-box;
+  height: calc(100vh - 56px);
+  margin-top: 56px;
+  margin-bottom: -56px;
+  overflow-y: hidden;
+}
