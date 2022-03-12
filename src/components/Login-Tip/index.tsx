@@ -1,13 +1,13 @@
 import React from 'react';
 import styles from './index.module.scss';
 import { Button } from '@arco-design/web-react';
-import useAuth from '@/hooks/useAuth';
+import useLogin from '@/hooks/useLogin';
 import { observer } from 'mobx-react-lite';
 import { useNavigate } from 'react-router-dom';
 
 const LoginTip = () => {
 
-  const isAuth = useAuth();
+  const isLogin = useLogin();
 
   const navigate = useNavigate();
 
@@ -20,7 +20,7 @@ const LoginTip = () => {
         We are a place where coders share, stay up-to-date and grow their careers.
       </div>
       {
-        !isAuth ? (
+        !isLogin ? (
           <>
             <div className={styles['btn-area']}>
               <Button 

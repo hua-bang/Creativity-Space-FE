@@ -1,7 +1,8 @@
 import { TOKEN_NAME } from '@/config/network';
 
 export function getToken() {
-  return  JSON.parse(localStorage.getItem(TOKEN_NAME) || '');
+  const tokenValue = localStorage.getItem(TOKEN_NAME);
+  return tokenValue ? JSON.parse(tokenValue) : '';
 }
 
 export function setToken(val: string) {

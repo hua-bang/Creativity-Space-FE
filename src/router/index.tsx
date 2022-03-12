@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { RouteObject } from 'react-router-dom';
 import Demo from '../views/Demo';
 import Home from '../views/Home';
@@ -7,19 +7,23 @@ import Editor from '../views/Editor';
 import Search from '../views/Search';
 import Login from '@/views/Login';
 import Article from '@/views/Article';
+import Setting from '@/views/Setting';
 
-const routes: RouteObject[] = [
+interface RouterConfig extends RouteObject {
+  auth?: string | string[];
+  redirectPath?: string;
+  noMatch?: ReactElement<any, any>; 
+}
+
+const routes: RouterConfig[] = [
   {
     path: '/home/*',
     element: <Home />
   },
   {
-    path: '/demo',
-    element: <Demo />
-  },
-  {
     path: '/creator/*',
-    element: <Creator />
+    element: <Creator />,
+    auth: ['user']
   },
   {
     path: '/editor',
@@ -36,6 +40,11 @@ const routes: RouteObject[] = [
   {
     path: '/article/:id',
     element: <Article />
+  },
+  {
+    path: '/setting',
+    element: <Setting />,
+    auth: ['user'],
   }
 ];
 
