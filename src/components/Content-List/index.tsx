@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Link } from '@arco-design/web-react';
-import { mockContent } from './mockData';
 import styles from './index.module.scss';
 import { getArticles } from '@/api/article';
 import { Article } from '@/typings/article';
