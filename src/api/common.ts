@@ -7,3 +7,7 @@ export function getTags() {
 export function getCategories() {
   return request('/category/all').then(res => res.data);
 }
+
+export function getAuthors() {
+  return request('/user/author');
+}

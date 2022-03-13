@@ -1,0 +1,46 @@
+.author-item {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 8px 20px;
+  box-sizing: border-box;
+
+  > div {
+    display: flex;
+    align-items: center;
+  }
+
+  &-info {
+    padding: 10px 5px;
+    flex: 1;
+    display: flex;
+    cursor: pointer;
+    
+    img {
+      width: 50px;
+      border-radius: 50%;
+      margin-right: 20px;
+    }
+
+    &-main {
+      height: 100%;
+
+      h4, p {
+        margin: 0;
+        padding: 0;
+        line-height: 24px;
+      }
+    }
+  }
+
+  &-btn {
+    width: 80px;
+    justify-content: center;
+  }
+
+  border-bottom: 1px solid rgba(178, 186, 194, 0.26);
+}
+
+.job-title {
+  color: #b9c0c8;
+}
