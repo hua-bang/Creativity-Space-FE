@@ -7,6 +7,7 @@ import { getUserInfo } from '@/api/user';
 import useStore from '@/hooks/useStore';
 import './App.css';
 import AuthWrapper from './components/Auth/AuthWrapper';
+import HomeBtn from './components/Home-Btn';
 
 function App() {
 
@@ -16,7 +17,7 @@ function App() {
     getUserInfo().then(res => {
       const user = res.data;
       userStore.setUser(user, user.roles);
-    }).catch(console.log);
+    }).catch(console.warn);
   };
 
   useEffect(() => {
@@ -30,7 +31,7 @@ function App() {
         {
           <Routes>
             {
-              routes.map((route, index) => {
+              routes.map((route) => {
                 const { auth, path, element, redirectPath } = route;
 
                 return (
@@ -62,6 +63,7 @@ function App() {
           right: '60px'
         }}
       />
+      <HomeBtn />
     </>
   );
 }

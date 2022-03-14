@@ -9,8 +9,8 @@ export function createArticle(article: CreateArticleType) {
   });
 }
 
-export function getArticles() {
-  return request('/article/all');
+export function getArticles(data?: Record<string, string>) {
+  return request.post('/article/all', data);
 }
 
 export function getArticleById(articleId: string) {

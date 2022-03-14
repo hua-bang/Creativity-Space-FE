@@ -9,37 +9,41 @@ import { Spin } from '@arco-design/web-react';
 const Content = () => {
 
   const [navKey, setNavKey] = useState<string>();
-  const [hasLoad, setHasLoad] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const [articles, setArticles] = useState<Article[]>([]);
 
   const handleActiveKeyChange = (activeKey: string) => {
     setNavKey(activeKey);
   };
 
-  const loadArticles = () => {
-    getArticles().then(res => {
+  const loadArticles = (data?: Record<string,any>) => {
+    setLoading(true);
+    getArticles(data).then(res => {
       setArticles(res.data);
     }).finally(() => {
-      setHasLoad(true);
+      setLoading(false);
     });
   };
 
   useEffect(() => {
-    loadArticles();
-  }, []);
+    const orderBy = navKey === 'Latest' ? 'create_time' : 'like_count';
+    loadArticles({ orderBy });
+  }, [navKey]);
 
   return (
     <div>
       <NavGroup defaultValue={navKey} onChange={handleActiveKeyChange} menuList={['Relevant', 'Latest']} />    
       <div className={styles['content-list']}>
         {
-          hasLoad ? (
-            articles.map((item, index) => {
-              return (
-                <ContentCard article={item} key={index} expand={index === 0 ? true : false } />
-              );
-            })
-          ) : <Spin size={80} style={{ display: 'block', height: '100%', textAlign: 'center' }} />
+          loading 
+            ? <Spin size={80} style={{ display: 'block', height: '100%', textAlign: 'center' }} />
+            : (
+              articles.map((item, index) => {
+                return (
+                  <ContentCard article={item} key={index} expand={index === 0 ? true : false } />
+                );
+              })
+            ) 
         }
       </div>
     </div>

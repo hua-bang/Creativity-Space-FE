@@ -18,11 +18,14 @@ const Author = () => {
   }, []);
 
   return (
-    <div className={styles['author-list']}>
-      {
-        authorArr.map(item => ( <AuthorItem key={item.id} author={item} /> ))
-      }
-    </div>
+    <>
+      <div className={styles['author-title']}>Author</div>
+      <div className={styles['author-list']}>
+        {
+          authorArr.map(item => ( <AuthorItem key={item.id} author={item} /> ))
+        }
+      </div>
+    </>
   );
 };
 

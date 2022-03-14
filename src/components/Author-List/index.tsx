@@ -3,8 +3,10 @@ import { Card, Link } from '@arco-design/web-react';
 import styles from './index.module.scss';
 import { User } from '@/typings/user';
 import { getAuthors } from '@/api/common';
+import { useNavigate } from 'react-router-dom';
 
 const AuthorList = () => {
+  const navigate = useNavigate();
   const [authorList, setAuthorList] = useState<User[]>([]);
 
   useEffect(() => {
@@ -19,7 +21,7 @@ const AuthorList = () => {
       bodyStyle={{ padding: '0' }} 
       style={{ borderRadius: '5px 5px 0 0'}} 
       title='🎖️作者榜' 
-      extra={<Link>查看全部</Link>}
+      extra={<Link onClick={() => {navigate('/home/author');}}>查看全部</Link>}
     >
       {
         authorList.map(author => (
