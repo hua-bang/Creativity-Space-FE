@@ -11,3 +11,7 @@ export function getCategories() {
 export function getAuthors() {
   return request('/user/author');
 }
+
+export function getAuthorById(id: string) {
+  return request(`/user/author/${id}`);
+}

@@ -1,0 +1,19 @@
+.author-detail {
+  margin: 0 auto;
+  margin-top: 76px;
+  width: 100%;
+  max-width: 1000px;
+  display: flex;
+}
+
+.author-main {
+  flex: 3;
+  box-sizing: border-box;
+  margin-right: 20px;
+}
+
+.author-info {
+  flex: 1;
+  box-sizing: border-box;
+  margin-right: 20px;
+}
