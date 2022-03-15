@@ -6,8 +6,6 @@ import NoticeArea from '../Notice-Area';
 import menuList from '../../routes';
 
 const Container = () => {
-  console.log('container');
-
   return (
     <div className={styles['home_container']}>
       <div className={styles['left-menu']}>

@@ -1,0 +1,15 @@
+.icon-tip {
+  cursor: pointer;
+  display: inline-block;
+  line-height: 30px;
+  vertical-align: middle;
+
+  > span {
+    line-height: 30px;
+    vertical-align: middle; 
+  }
+}
+
+.icon-tip:hover {
+  color: #1e80ff !important;
+}

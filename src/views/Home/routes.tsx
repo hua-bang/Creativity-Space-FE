@@ -2,6 +2,7 @@ import React from 'react';
 import { RouteObject } from 'react-router-dom';
 import Author from './SubViews/Author';
 import Content from './SubViews/Content';
+import Point from './SubViews/Point';
 import { 
   AuthorIcon,
   ContactIcon,
@@ -46,10 +47,10 @@ const menuList: Menu[] = [
     icon: TagIcon
   },
   {
-    name: 'Contact',
-    path: 'tag',
+    name: 'Point',
+    path: 'point',
     hidden: false,
-    element: <Author />,
+    element: <Point />,
     icon: ContactIcon
   },
 ];

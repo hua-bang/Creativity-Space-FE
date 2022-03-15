@@ -1,0 +1,31 @@
+.text-editor-wrapper {
+  border-radius: 4px;
+  // border: 1px solid #f2f3f5;
+  // background-color: #f2f3f5;
+  min-height: 60px;
+}
+
+.text-editor-img-area {
+  padding: 10px 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.text-btn-area {
+  margin-top: 20px;
+  width: 100%;
+  display: flex;
+}
+
+.text-icon-area {
+  flex: 1;
+  
+  > div {
+    margin-right: 15px;
+  }
+}
+
+.text-publish-btn-area {
+  width: 100px;
+  text-align: right;
+}
