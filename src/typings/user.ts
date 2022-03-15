@@ -1,3 +1,4 @@
+import { Article } from '@/typings/article';
 export enum UserStatus {
   FORBIDDEN = -1,
   NO_COMPLETE = 0,
@@ -19,4 +20,5 @@ export interface User {
   get_view_count: number;
   follow_count: number;
   followed_count: number; 
+  articles: Article[];
 }

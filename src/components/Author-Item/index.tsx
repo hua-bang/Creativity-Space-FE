@@ -2,6 +2,7 @@ import React from 'react';
 import { User as Author } from '@/typings/user';
 import styles from './index.module.scss';
 import { Button } from '@arco-design/web-react';
+import { useNavigate } from 'react-router-dom';
 
 interface AuthorItemProps {
   author: Author;
@@ -10,9 +11,15 @@ interface AuthorItemProps {
 const AuthorItem: React.FC<AuthorItemProps> = ({
   author
 }) => {
+  const navigate = useNavigate();
+
+  const toAuthorDetail = () => {
+    navigate(`/author/${author.id}`);
+  };
+
   return (
     <div className={styles['author-item']}>
-      <div className={styles['author-item-info']}>
+      <div className={styles['author-item-info']} onClick={toAuthorDetail}>
         <div className={styles['author-item-info-avatar']}>
           <img src={author.avatar} />
         </div>

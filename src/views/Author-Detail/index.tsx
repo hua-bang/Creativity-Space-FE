@@ -6,6 +6,7 @@ import { getAuthorById } from '@/api/common';
 import { useParams } from 'react-router-dom';
 import { Message } from '@arco-design/web-react';
 import { User } from '@/typings/user';
+import SkeletonPage from '@/components/Skeleton-Page';
 
 const AuthorDetail: React.FC = () => {
 
@@ -37,7 +38,7 @@ const AuthorDetail: React.FC = () => {
         </div>
       </div>)
       : (
-        <h3>no data</h3>
+        <SkeletonPage />
       )
   );
 };
