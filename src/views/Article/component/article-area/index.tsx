@@ -4,6 +4,13 @@ import React from 'react';
 import styles from './index.module.scss';
 import { Viewer } from '@bytemd/react';
 import Avatar from '@arco-design/web-react/es/Avatar/avatar';
+import gfm from '@bytemd/plugin-gfm';
+import highlight from '@bytemd/plugin-highlight';
+
+const plugins = [
+  gfm(),
+  highlight()
+];
 
 interface ArticleAreaProps {
   article?: Article;
@@ -33,7 +40,7 @@ const ArticleArea: React.FC<ArticleAreaProps> = ({
                 {article.title}
               </div>
               <div className={styles['article-content']}>
-                <Viewer value={article.content}/>
+                <Viewer plugins={plugins} value={article.content}/>
               </div>
             </div>
           ) :

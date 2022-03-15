@@ -5,7 +5,13 @@ import { User } from '@/typings/user';
 import { getAuthors } from '@/api/common';
 import { useNavigate } from 'react-router-dom';
 
-const AuthorList = () => {
+interface AuthorListProps {
+  bordered?: boolean;
+}
+
+const AuthorList: React.FC<AuthorListProps> = ({
+  bordered = true
+}) => {
   const navigate = useNavigate();
   const [authorList, setAuthorList] = useState<User[]>([]);
 
@@ -15,9 +21,14 @@ const AuthorList = () => {
     });
   }, []);
 
+  const toAuthorDetail = (authorId: string) => {
+    navigate(`/author/${authorId}`);
+  };
+
 
   return (
     <Card 
+      bordered={bordered}
       bodyStyle={{ padding: '0' }} 
       style={{ borderRadius: '5px 5px 0 0'}} 
       title='🎖️作者榜' 
@@ -25,7 +36,7 @@ const AuthorList = () => {
     >
       {
         authorList.map(author => (
-          <div className={styles['author-item']} key={author.id}>
+          <div className={styles['author-item']} key={author.id} onClick={() => {toAuthorDetail(author.id);}}>
             <div className={styles['author-avatar']}>
               <img src={author.avatar} style={{ width: '40px' }} />
             </div>

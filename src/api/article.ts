@@ -16,3 +16,7 @@ export function getArticles(data?: Record<string, string>) {
 export function getArticleById(articleId: string) {
   return request(`/article/${articleId}`);
 }
+
+export function getArticleByAuthorId(authorId: string) {
+  return request.post(`/article/authorId/${authorId}`);
+}

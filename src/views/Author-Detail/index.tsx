@@ -25,7 +25,7 @@ const AuthorDetail: React.FC = () => {
 
   useEffect(() => {
     authorId && getAuthor(authorId);
-  }, []);
+  }, [authorId]);
 
   return (
     author 
