@@ -1,5 +1,17 @@
 .point-page {
-  padding: 20px;
-  box-sizing: border-box;
-  background: white;
+  width: 100%;
+
+  &-editor {
+    padding: 20px;
+    box-sizing: border-box;
+    background: white;
+  }
+
+  &-list {
+    margin-top: 20px;
+    
+    > div {
+      margin-bottom: 20px;
+    }
+  }
 }
