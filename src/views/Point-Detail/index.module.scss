@@ -1,0 +1,20 @@
+.point-detail {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  margin-top: 76px;
+  display: flex;
+
+  > div {
+    box-sizing: border-box;
+    padding: 0 20px;
+  }
+}
+
+.point-main {
+  flex: 3;
+}
+
+.point-recommend {
+  flex: 1;
+}

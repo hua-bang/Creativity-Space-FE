@@ -2,26 +2,34 @@ import React from 'react';
 import styles from './index.module.scss';
 import IconTip from '../Icon-Tip';
 import { IconMessage, IconShareExternal, IconThumbUp } from '@arco-design/web-react/icon';
+import { Point } from '@/typings/point';
 
-const PointModal: React.FC = () => {
+interface PointModalProps {
+  point: Point;
+}
+
+const PointModal: React.FC<PointModalProps> = ({
+  point
+}) => {
+
   return (
     <div className={styles['point-modal']}>
       <div className={styles['point-info']}>
         <div className={styles['point-user-info']}>
           <div className={styles['point-user-info-avatar']}>
-            <img src="https://res.cloudinary.com/practicaldev/image/fetch/s---DG-eTcu--/c_fill,f_auto,fl_progressive,h_50,q_auto,w_50/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/286870/7078154e-079f-49a3-bdb1-fe3ef8d7f075.jpeg" />
+            <img src={point.user.avatar} />
           </div>
           <div className={styles['point-user-info-other']}>
             <div className={styles['user-info-name']}>
-              神说要有光
+              {point.user.name}
             </div>
             <div className={styles['user-info-description']}>
-              前端工程师
+              {point.user.job_title} | {point.user.company}
             </div>
           </div>
         </div>
         <div className={styles['point-content-info']}>
-          兄弟们，xxx东西有学习网址么？
+          {point.content}
         </div>
       </div>
       <div className={styles['point-operate']}>

@@ -9,6 +9,7 @@ import Login from '@/views/Login';
 import Article from '@/views/Article';
 import Setting from '@/views/Setting';
 import AuthorDetail from '@/views/Author-Detail';
+import PointDetail from '@/views/Point-Detail';
 
 interface RouterConfig extends RouteObject {
   auth?: string | string[];
@@ -50,6 +51,10 @@ const routes: RouterConfig[] = [
   {
     path: '/author/:id',
     element: <AuthorDetail />
+  },
+  {
+    path: '/point/:id',
+    element: <PointDetail />
   }
 ];
 

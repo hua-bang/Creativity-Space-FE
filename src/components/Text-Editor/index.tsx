@@ -8,24 +8,41 @@ import { IconImage, IconLink, IconPushpin } from '@arco-design/web-react/icon';
 interface TextEditorProps {
   value?: string;
   imgArr?: string[];
-  onChange?: (value: string, images: Array<string>) => void; 
+  onChange?: (value: string, images: Array<string>) => void;
+  onFinish?: (value: string, images: Array<string>, tag?: string) => void;
 }
 
 const TextEditor: React.FC<TextEditorProps> = ({
   value,
   imgArr,
-  onChange
+  onChange,
+  onFinish
 }) => {
 
   const fileList: UploadItem[] = [];
+
+  const handleTextAreaChange = (val: string) => {
+    onChange && onChange(val || '', []);
+  };
 
   const handleImageIconClick = () => {
     console.log('click');
   };
 
+  const handleSubmit = () => {
+    onFinish && onFinish(value || '', []);
+  };
+
   return (
     <div className={styles['text-editor-wrapper']}>
-      <Input.TextArea rows={3} maxLength={1000} showWordLimit placeholder='快来分享你的新鲜事吧！' />
+      <Input.TextArea 
+        value={value} 
+        onChange={handleTextAreaChange} 
+        rows={3} 
+        maxLength={1000} 
+        showWordLimit 
+        placeholder='快来分享你的新鲜事吧！' 
+      />
       {
         (fileList.length > 0) &&
         (
@@ -54,7 +71,7 @@ const TextEditor: React.FC<TextEditorProps> = ({
           <IconTip icon={<IconPushpin />} text="话题" />
         </div>
         <div className={styles['text-publish-btn-area']}>
-          <Button disabled={!value} style={{ width: '80px' }} type="primary">发布</Button>
+          <Button disabled={!value} onClick={handleSubmit} style={{ width: '80px' }} type="primary">发布</Button>
         </div>
       </div>
     </div>
