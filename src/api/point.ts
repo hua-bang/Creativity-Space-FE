@@ -12,3 +12,7 @@ export function creatPoint(point: CreatePointType) {
     method: 'post'
   });
 }
+
+export function getPointById(pointId: string) {
+  return request(`point/${pointId}`);
+}

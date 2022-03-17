@@ -3,6 +3,7 @@ import styles from './index.module.scss';
 import IconTip from '../Icon-Tip';
 import { IconMessage, IconShareExternal, IconThumbUp } from '@arco-design/web-react/icon';
 import { Point } from '@/typings/point';
+import { useNavigate } from 'react-router-dom';
 
 interface PointModalProps {
   point: Point;
@@ -11,9 +12,14 @@ interface PointModalProps {
 const PointModal: React.FC<PointModalProps> = ({
   point
 }) => {
+  const navigate = useNavigate();
+
+  const toPointDetail = () => {
+    navigate(`/point/${point.id}`);
+  };
 
   return (
-    <div className={styles['point-modal']}>
+    <div className={styles['point-modal']} onClick={toPointDetail}>
       <div className={styles['point-info']}>
         <div className={styles['point-user-info']}>
           <div className={styles['point-user-info-avatar']}>
@@ -40,7 +46,7 @@ const PointModal: React.FC<PointModalProps> = ({
           <IconTip icon={<IconMessage />} text="评论" />
         </div>
         <div>
-          <IconTip icon={<IconThumbUp />} text="分享" />
+          <IconTip icon={<IconThumbUp />} text="点赞" />
         </div>
       </div>
     </div>
