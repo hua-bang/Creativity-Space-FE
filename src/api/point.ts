@@ -14,5 +14,9 @@ export function creatPoint(point: CreatePointType) {
 }
 
 export function getPointById(pointId: string) {
-  return request(`point/${pointId}`);
+  return request(`/point/${pointId}`);
+}
+
+export function getCommentByPointId(pointId: string) {
+  return request(`/point-comment/point/${pointId}`);
 }

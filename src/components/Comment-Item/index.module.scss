@@ -1,0 +1,41 @@
+.comment-item {
+
+  .comment-item-main {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  &-avatar {
+    width: 60px;    
+  }
+
+  &-content {
+    flex: 1;
+  }
+}
+
+.comment-author {
+  font-style: 14px;
+  font-weight: bold;
+}
+
+.comment-author-info {
+  margin-left: 40px;
+  color: #8a919f;
+  font-weight: normal;
+}
+
+.comment-content {
+  color: #515767;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.comment-btn-area {
+  padding-bottom: 10px;
+}
+
+.comment-children-area {
+  padding: 10px;
+  padding-top: 10px;
+}

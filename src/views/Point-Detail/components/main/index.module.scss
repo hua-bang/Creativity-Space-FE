@@ -1,5 +1,27 @@
 .main-page {
+}
+
+.main-page-point, .main-comment-area {
   background: white;
   padding: 10px;
   box-sizing: border-box;
+}
+
+.main-comment-area {
+  margin-top: 20px;
+  padding: 20px;
+
+  .main-comment-title {
+    font-size: 18px;
+    padding: 5px;
+    margin-bottom: 10px;
+  }
+}
+
+.main-comment-comment-list {
+  margin-top: 15px;
+
+  > div {
+    margin-bottom: 15px;
+  }
 }

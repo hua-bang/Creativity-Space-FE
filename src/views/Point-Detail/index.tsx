@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './index.module.scss';
 import PointMain from './components/main';
+import PointList from '@/components/Point-List';
 
 const PointDetail: React.FC = () => {
   return (
@@ -8,7 +9,9 @@ const PointDetail: React.FC = () => {
       <div className={styles['point-main']}>
         <PointMain />        
       </div>
-      <div className={styles['point-recommend']}>2</div>
+      <div className={styles['point-recommend']}>
+        <PointList />        
+      </div>
     </div>
   );
 };

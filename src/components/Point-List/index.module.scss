@@ -1,0 +1,27 @@
+.point-item {
+  display: flex;
+  flex-wrap: wrap;
+  cursor: pointer;
+  padding: 5px 15px;
+
+  > div {
+    width: 100%;
+  }
+
+  .point-title {
+    padding: 10px 0;
+
+    &:hover {
+      color: #165DFF;
+    }
+  }
+
+  .point-count-info {
+    color: #8a919f;
+    font-size: 14px;
+  
+    > span {
+      margin-right: 10px;
+    }
+  }
+}
