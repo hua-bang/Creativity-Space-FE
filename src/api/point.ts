@@ -20,3 +20,8 @@ export function getPointById(pointId: string) {
 export function getCommentByPointId(pointId: string) {
   return request(`/point-comment/point/${pointId}`);
 }
+
+
+export function getPointByUserId(userId: string) {
+  return request(`/point/user/${userId}`);
+}
