@@ -1,5 +1,6 @@
 import request from '@/request';
 import { CreatePointType } from '@/typings/point';
+import { CreateCommentType} from '@/typings/comment';
 
 export function getAllPoint() {
   return request('/point/all');
@@ -24,4 +25,8 @@ export function getCommentByPointId(pointId: string) {
 
 export function getPointByUserId(userId: string) {
   return request(`/point/user/${userId}`);
+}
+
+export function createComment(comment: CreateCommentType) {
+  return request.post('/point-comment/add', comment);
 }

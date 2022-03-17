@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PointModal from '@/components/Point-Modal';
-import { Empty } from '@arco-design/web-react';
+import { Empty, Message } from '@arco-design/web-react';
 import styles from './index.module.scss';
 import { getPointById, getCommentByPointId } from '@/api/point';
 import { Point } from '@/typings/point';
@@ -9,6 +9,7 @@ import CommentEditor from '@/components/Comment-Editor';
 import CommentItem from '@/components/Comment-Item';
 import { Comment } from '@/typings/comment';
 import { transformCommentToTree } from '@/utils/comment';
+import { createComment } from '@/api/point';
 
 const Main: React.FC = () => {
 
@@ -24,7 +25,23 @@ const Main: React.FC = () => {
   };
 
   const handleSubmit = () => {
-    console.log(commentValue);
+    if (pointId) {
+      createComment({
+        comment: commentValue,
+        point_id: pointId
+      }).then(res => {
+        Message.success('新增成功');
+        loadComments(pointId);
+      }).catch(err => {
+        Message.warning(err.message);
+      });
+    }  
+  };
+
+  const handleComment = () => {
+    if(pointId) {
+      loadComments(pointId);
+    }
   };
 
   const loadPointData = (pointId: string) => {
@@ -66,7 +83,7 @@ const Main: React.FC = () => {
           {
             comments.length > 0 
               ? comments.map(comment => (
-                <CommentItem key={comment.id} comment={comment} />
+                <CommentItem onComment={handleComment} key={comment.id} comment={comment} />
               ))
               : <Empty />
           }

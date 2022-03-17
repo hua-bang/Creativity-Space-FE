@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import useStore from '@/hooks/useStore';
 import styles from './index.module.scss';
@@ -8,7 +8,7 @@ import { IconUser } from '@arco-design/web-react/icon';
 interface CommentEditorProps {
   value?: string;
   onChange?: (value: string) => void;
-  onFinish?: () => void; 
+  onFinish?: (value: string) => void; 
   withAvatar?: boolean;
 }
 
@@ -16,13 +16,25 @@ const CommentEditor: React.FC<CommentEditorProps> = (props) => {
   
   const {
     onFinish,
+    onChange,
     withAvatar = true,
     ...rest
   } = props;
 
   const { userStore } = useStore();
 
+  const [currVal, setCurrVal] = useState(props.value);
+
   const isLogin = userStore.isLogin;
+
+  const handleChange = (val: string) => {
+    setCurrVal(val);
+    onChange && onChange(val);
+  };
+
+  const handleClick = () => {
+    onFinish && currVal && onFinish(currVal);
+  };
 
   return (
     <div className={styles['comment-editor']}>
@@ -41,11 +53,11 @@ const CommentEditor: React.FC<CommentEditorProps> = (props) => {
           )
         }
         <div className={styles['comment-editor-text-area']}>
-          <Input.TextArea {...rest} rows={3} placeholder="输入评论（Enter换行）" />
+          <Input.TextArea {...rest} onChange={handleChange} rows={3} placeholder="输入评论（Enter换行）" />
         </div>
       </div>      
       <div className={styles['comment-editor-btn-area']}>
-        <Button type='primary' disabled={!isLogin} onClick={onFinish}>
+        <Button type='primary' disabled={!isLogin} onClick={handleClick}>
           { isLogin ? '发布评论' : '未登录请先登录' }
         </Button>
       </div>

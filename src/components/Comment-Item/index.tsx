@@ -1,17 +1,20 @@
-import { Avatar } from '@arco-design/web-react';
+import { Avatar, Message } from '@arco-design/web-react';
 import { IconMessage, IconUser } from '@arco-design/web-react/icon';
 import React, { useState } from 'react';
 import styles from './index.module.scss';
 import { Comment } from '@/typings/comment';
 import IconTip from '../Icon-Tip';
 import CommentEditor from '@/components/Comment-Editor';
+import { createComment } from '@/api/point';
 
 interface CommentItemProps {
   comment: Comment;
+  onComment?: () => void;
 }
 
 const CommentItem: React.FC<CommentItemProps> = ({
-  comment
+  comment,
+  onComment
 }) => {
 
   const [showEditor, setShowEditor] = useState(false);
@@ -20,8 +23,27 @@ const CommentItem: React.FC<CommentItemProps> = ({
     setShowEditor(prev => !prev);
   };
 
-
   const { user } = comment; 
+
+  const handleComment = () => {
+    setShowEditor(false);
+    onComment && onComment();
+  };
+
+  const handleFinish = (value: string) => {
+    createComment({
+      comment: value,
+      point_id: comment.point_id,
+      to_user_id: user.id,
+      be_comment_id: comment.id
+    }).then(res => {
+      Message.success('添加成功。');
+      handleComment();
+    }).catch(_ => {
+      Message.warning('回复失败。');
+    });
+  };
+
   return (
     <div className={styles['comment-item']}>
       <div className={styles['comment-item-main']}>
@@ -33,7 +55,18 @@ const CommentItem: React.FC<CommentItemProps> = ({
         <div className={styles['comment-item-content']}>
           <div className={styles['comment-author']}>
             {user.name}
-            <span className={styles['comment-author-info']}>{user.job_title}  @{user.company}</span>
+            {
+              comment.be_comment_id && comment.toUser ? (
+                <span className={styles['comment-reply']}>
+                  回复
+                  <span className={styles['comment-reply-username']}>
+                    {comment.toUser.name}
+                  </span>
+                </span>
+              ) : (
+                <span className={styles['comment-author-info']}>{user.job_title}  @{user.company}</span>
+              )
+            }
           </div>
           <div className={styles['comment-content']}>
             {comment.comment}
@@ -46,13 +79,13 @@ const CommentItem: React.FC<CommentItemProps> = ({
               color="#8a919f"
             />
           </div>
-          { showEditor && (<CommentEditor withAvatar={false} /> )}
+          { showEditor && (<CommentEditor onFinish={handleFinish} withAvatar={false} /> )}
           {
-            comment.children?.length && (
+            !!comment.children?.length && comment.children?.length > 0 && (
               <div className={styles['comment-children-area']}>
                 {
                   comment.children && comment.children.map(item => (
-                    <CommentItem comment={item} key={item.id}/>
+                    <CommentItem onComment={handleComment} comment={item} key={item.id}/>
                   ))
                 }
               </div>

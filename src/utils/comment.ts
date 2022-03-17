@@ -17,6 +17,7 @@ export const transformCommentToTree = (comments: Comment[]): Comment[] => {
     comments.forEach(item => {
       if (item.be_comment_id === commentId || childrenCommentIdArr?.includes(item.be_comment_id)) {
         comment.children?.push(item);
+        childrenCommentIdArr?.push(item.id);
       }
     });
   });

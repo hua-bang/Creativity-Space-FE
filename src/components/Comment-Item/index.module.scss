@@ -39,3 +39,13 @@
   padding: 10px;
   padding-top: 10px;
 }
+
+.comment-reply {
+  margin-left: 20px;
+  color: #8a919f;
+
+  &-username {
+    margin-left: 20px;
+    color: black;
+  }
+}
