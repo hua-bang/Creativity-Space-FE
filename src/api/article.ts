@@ -20,3 +20,9 @@ export function getArticleById(articleId: string) {
 export function getArticleByAuthorId(authorId: string) {
   return request.post(`/article/authorId/${authorId}`);
 }
+
+export function uploadArticleImg(file: File) {
+  const params = new FormData();
+  params.append('file', file);
+  return request.post('/cos/article/upload', params);
+}

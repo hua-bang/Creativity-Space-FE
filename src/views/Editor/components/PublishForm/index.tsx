@@ -3,6 +3,8 @@ import { Form, Input, Button, Select, Upload, Modal } from '@arco-design/web-rea
 import { getCategories, getTags } from '@/api/common';
 import { Tag, Category } from '@/typings/resource';
 import { CreateArticleType } from '@/typings/article';
+import { BASE_URL } from '@/config/network';
+import useToken from '@/hooks/useToken';
 
 export type ArticleFormProps = Omit<CreateArticleType, 'content' | 'title'>;
 
@@ -19,6 +21,7 @@ const PublishForm: React.FC<PublishFormProps> = ({
   
   const [tags, setTags] = useState<Tag[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
+  const [token] = useToken();
 
   const loadTagAndCategoryData = () => {
     Promise.all([getCategories(), getTags()]).then(res => {
@@ -32,13 +35,19 @@ const PublishForm: React.FC<PublishFormProps> = ({
     loadTagAndCategoryData();
   }, []);
 
-  const handleSubmit = (data: ArticleFormProps) => {
-    onSave(data);
+  const handleSubmit = (data: ArticleFormProps & { cover_file: any }) => {
+    const { cover_file } = data;
+    const file = cover_file[0];
+    const { url } = file.response.data;
+    onSave({
+      ...data,
+      cover_url: url
+    });
   };
-
+  
   return (
     <Form<ArticleFormProps>
-      onSubmit={handleSubmit}
+      onSubmit={handleSubmit as any}
       style={{  marginTop: '10px', width: '100%' }}
       size="large"
     >
@@ -67,25 +76,25 @@ const PublishForm: React.FC<PublishFormProps> = ({
       </FormItem>
       <Form.Item
         label='文章封面'
-        field='cover_url'
+        field='cover_file'
         triggerPropName='fileList'
         required
       >
-        <Input.TextArea 
-          autoSize={{ minRows: 3, maxRows: 6 }}
-          placeholder='please enter your name'
-        />
-        {/* <Upload
+        <Upload
           listType='picture-card'
-          name='files'
-          action='/'
+          name='file'
+          limit={1}
+          action={`${BASE_URL}/cos/article/upload`}
+          headers={{
+            Authorization: `Bearer ${token}`
+          }}
           onPreview={(file: any) => {
             Modal.info({
               title: 'Preview',
               content: <img src={file.url || URL.createObjectURL(file.originFile)} style={{maxWidth: '100%'}}></img>
             });
           }}
-        /> */}
+        />
       </Form.Item>
       <FormItem label='编辑摘要' field='description' rules={[{required: true}]}>
         <Input.TextArea 

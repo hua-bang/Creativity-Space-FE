@@ -3,7 +3,7 @@ import MarkDownEditor from '../../components/MarkDown-Editor';
 import styles from './index.module.scss';
 import { Button, Dropdown, Card, Message } from '@arco-design/web-react';
 import PublishForm, { ArticleFormProps } from './components/PublishForm';
-import { createArticle } from '@/api/article';
+import { createArticle, uploadArticleImg } from '@/api/article';
 import { ArticleTypeEnum } from '@/typings/article';
 import { useNavigate } from 'react-router-dom';
 
@@ -18,11 +18,14 @@ const Editor = () => {
   };
 
   const uploadImg = async (files: File[]) => {
-    return [
-      {
-        url: 'https://img1.baidu.com/it/u=1407750889,3441968730&fm=253&fmt=auto&app=120&f=JPEG?w=1200&h=799'
-      }
-    ];
+    try {
+      const res = await uploadArticleImg(files[0]);
+      const { url } = res.data;
+      return [{ url }];
+    } catch(err) {
+      Message.warning('图片上传失败，请稍后再试。');
+    }
+    return [];
   };
 
   const handleTitleInput: React.FormEventHandler<HTMLInputElement> = (e) => {
