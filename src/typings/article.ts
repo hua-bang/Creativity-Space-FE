@@ -1,5 +1,6 @@
 import { User } from './user';
 import { RequiredKey } from './utils';
+import { Tag } from './tag';
 
 export enum ArticleStatusEnum {
   DELETED = -2,
@@ -28,6 +29,7 @@ export interface Article {
   like_count: number;
   cover_url: string;
   user?: User;
+  tags: Tag[];
 }
 
 export type CreateArticleType = RequiredKey<

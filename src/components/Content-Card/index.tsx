@@ -66,6 +66,17 @@ const ContentCard = ({
               <div className={styles['content-title']}>
                 {article.title}
               </div>
+              {
+                article.tags.length > 0 && (
+                  <div className={styles['tags-area']}>
+                    { 
+                      article.tags.map(tag => (
+                        <span key={tag.id}>#{tag.name}</span>
+                      )) 
+                    }
+                  </div>
+                )
+              }
               <div className={styles['count-info']}>
                 <span>
                   <IconHeart />
