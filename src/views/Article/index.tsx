@@ -7,6 +7,7 @@ import styles from './index.module.scss';
 import OperatorArea from './component/operator-area';
 import RecommendArea from './component/recommend-area';
 import ArticleArea from './component/article-area';
+import SkeletonPage from '@/components/Skeleton-Page';
 
 const ArticleDetail = () => {
   
@@ -17,7 +18,9 @@ const ArticleDetail = () => {
 
   const getArticleInfo = (id: string) => {
     getArticleById(id).then(res => {
-      setArticle(res.data);
+      setTimeout(() => {
+        setArticle(res.data);
+      }, 500);
     }).catch(err => {
       Message.warning('获取文章详情失败，请刷新重试。');
     });
@@ -27,13 +30,13 @@ const ArticleDetail = () => {
     articleId && getArticleInfo(articleId);
   }, [articleId]);
 
-  return (
+  return article ? (
     <div className={styles['article-detail']}>
       <OperatorArea article={article} />
       <ArticleArea article={article} />
       <RecommendArea article={article} />
     </div>
-  );
+  ) : (<SkeletonPage />);
 };
 
 export default ArticleDetail;

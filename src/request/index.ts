@@ -26,7 +26,7 @@ service.interceptors.response.use(
   },
   (err) => {
     const res = err.response;
-    console.log(err);
+    console.log(res);
     throw res.data;
   },
 );

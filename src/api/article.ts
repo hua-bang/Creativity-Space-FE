@@ -26,3 +26,7 @@ export function uploadArticleImg(file: File) {
   params.append('file', file);
   return request.post('/cos/article/upload', params);
 }
+
+export function likeArticle(articleId: string) {
+  return request.get(`/article/like/${articleId}`);
+}
