@@ -5,6 +5,7 @@ import { IconNotification, IconUser } from '@arco-design/web-react/icon';
 import { useNavigate } from 'react-router-dom';
 import useStore from '@/hooks/useStore';
 import { observer } from 'mobx-react-lite';
+import DropList from './DropList';
 
 const InfoArea = () => {
 
@@ -13,13 +14,7 @@ const InfoArea = () => {
   const { userStore } = useStore();
 
   const dropList = (
-    <Menu>
-      <Menu.Item key='3'>写文章</Menu.Item>
-      <Menu.Item key='1'>个人主页</Menu.Item>
-      <Menu.Item key='2'>创作者中心</Menu.Item>
-      <Menu.Item key='5' onClick={() => { navigate('/setting'); } }>设置</Menu.Item>
-      <Menu.Item key='4'>注销</Menu.Item>
-    </Menu>
+    <DropList />
   );
 
   const toEdit = () => {
