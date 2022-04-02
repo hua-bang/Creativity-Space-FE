@@ -1,12 +1,13 @@
 import { Article } from '@/typings/article';
-import { IconHeart, IconMessage, IconSubscribe } from '@arco-design/web-react/icon';
+import { IconHeart, IconHeartFill, IconMessage, IconSubscribe, IconSubscribed } from '@arco-design/web-react/icon';
 import React, { useEffect, useState } from 'react';
 import styles from './index.module.scss';
-import { likeArticle } from '@/api/article';
+import { likeArticle, followArticle } from '@/api/article';
 import { Message } from '@arco-design/web-react';
+import { getArticleLikeInfo } from '@/api/article';
 
 interface OperatorAreaProps {
-  article?: Article;
+  article: Article;
 }
 
 const DefaultCountInfo = {
@@ -26,28 +27,52 @@ const OperatorArea: React.FC<OperatorAreaProps> = ({
     collect_count,
     comment_count
   });
+
+  const [userLikeInfo, setUserLikeInfo] = useState({
+    like: false,
+    follow: false
+  });
   
 
   const handleLikeClick = () => {
     if (article) {
       likeArticle(article.id).then(res => {
         Message.success('操作成功');
-        console.log(res);
         setArticleCountInfo(prev => ({
           ...prev,
           like_count: res.data.likeCount
-        }));           
+        }));
+        setUserLikeInfo(prev => ({
+          ...prev,
+          like: !prev.like
+        }));          
       }).catch(err => {
         Message.warning('点赞有误，稍后再试。');
       });
     }
   };
 
+  const handleFollowClick = () => {
+    followArticle(article.id).then(res => {
+      Message.success('操作成功。');
+      setArticleCountInfo(prev => ({
+        ...prev,
+        collect_count: res.data.collectCount
+      }));
+      setUserLikeInfo(prev => ({
+        ...prev,
+        follow: !prev.follow
+      }));
+    }).catch(() => {
+      Message.warning('收藏请求错误，请稍后再试。');
+    });
+  };
+
   const operationList = [
     {
-      icon: <IconHeart />,
+      icon: userLikeInfo.like ? (<IconHeartFill />) : (<IconHeart />),
       count: articleCountInfo.like_count,
-      onClick: handleLikeClick 
+      onClick: handleLikeClick
     },
     {
       icon: <IconMessage />,
@@ -55,11 +80,25 @@ const OperatorArea: React.FC<OperatorAreaProps> = ({
       onClick: handleLikeClick
     },
     {
-      icon: <IconSubscribe />,
+      icon: userLikeInfo.follow ? (<IconSubscribed />) : (<IconSubscribe />),
       count: articleCountInfo.collect_count,
-      onClick: handleLikeClick
+      onClick: handleFollowClick
     }
   ];
+
+  const loadUserLikeInfo = () => {
+    getArticleLikeInfo(article.id).then(res => {
+      const data = Object.keys(res.data).reduce((prev, curr) => {
+        prev[curr] = !!res.data[curr];
+        return prev;
+      }, {} as Record<string, any>);
+      setUserLikeInfo(data as any);
+    });
+  };
+
+  useEffect(() => {
+    loadUserLikeInfo();
+  }, []);
 
   return (
     <div className={styles['operation-area']}>

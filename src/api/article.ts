@@ -30,3 +30,11 @@ export function uploadArticleImg(file: File) {
 export function likeArticle(articleId: string) {
   return request.get(`/article/like/${articleId}`);
 }
+
+export function getArticleLikeInfo(articleId: string) {
+  return request.get(`/article/user/like/info/${articleId}`);
+}
+
+export function followArticle(articleId: string) {
+  return request.get(`/article/follow/${articleId}`);
+}
