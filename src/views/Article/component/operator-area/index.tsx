@@ -1,10 +1,11 @@
 import { Article } from '@/typings/article';
-import { IconHeart, IconHeartFill, IconMessage, IconSubscribe, IconSubscribed } from '@arco-design/web-react/icon';
+import { IconHeart, IconHeartFill, IconMessage, IconShareExternal, IconSubscribe, IconSubscribed } from '@arco-design/web-react/icon';
 import React, { useEffect, useState } from 'react';
 import styles from './index.module.scss';
 import { likeArticle, followArticle } from '@/api/article';
 import { Message } from '@arco-design/web-react';
 import { getArticleLikeInfo } from '@/api/article';
+import { toAnchor } from '@/utils/common';
 
 interface OperatorAreaProps {
   article: Article;
@@ -68,6 +69,10 @@ const OperatorArea: React.FC<OperatorAreaProps> = ({
     });
   };
 
+  const handleCommentClick = () => {
+    toAnchor('#article-comment');
+  };
+
   const operationList = [
     {
       icon: userLikeInfo.like ? (<IconHeartFill />) : (<IconHeart />),
@@ -77,12 +82,19 @@ const OperatorArea: React.FC<OperatorAreaProps> = ({
     {
       icon: <IconMessage />,
       count: articleCountInfo.comment_count,
-      onClick: handleLikeClick
+      onClick: handleCommentClick
     },
     {
       icon: userLikeInfo.follow ? (<IconSubscribed />) : (<IconSubscribe />),
       count: articleCountInfo.collect_count,
       onClick: handleFollowClick
+    },
+    {
+      icon: <IconShareExternal />,
+      onClick: () => {
+        // TODO: use copy lib
+        Message.success('链接已复制剪贴板。');
+      }
     }
   ];
 
@@ -108,9 +120,13 @@ const OperatorArea: React.FC<OperatorAreaProps> = ({
             <div className={styles['operation-item-icon']}>
               {item.icon}
             </div>
-            <div className={styles['operation-item-count']}>
-              {item.count}
-            </div>
+            {
+              item.count !== undefined && (
+                <div className={styles['operation-item-count']}>
+                  {item.count}
+                </div>
+              )
+            }
           </div>
         ))
       }

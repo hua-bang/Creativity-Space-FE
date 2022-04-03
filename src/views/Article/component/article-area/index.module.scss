@@ -4,6 +4,7 @@
   box-shadow: 0 0 0 1px rgba(23, 23, 23, 0.1);
   border-radius: 5px;
   margin: 0 10px;
+  margin-left: calc(5% + 10px);
   box-sizing: border-box;
 
   .article-main {
@@ -22,8 +23,13 @@
     font-weight: bolder;
   }
 
+  .article-tag {
+    padding: 5px 50px;
+  }
+
   .article-content {
     padding: 50px;
+    padding-bottom: 10px;
   }
 }
 .article-author-info {
@@ -36,4 +42,9 @@
   font-size: 24px;
   font-weight: bold;
   line-height: 40px;
+}
+
+.article-comment-wrapper {
+  margin-top: 20px;
+  padding: 0px 50px;
 }

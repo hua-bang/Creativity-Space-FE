@@ -1,0 +1,10 @@
+.tag {
+  padding: 10px;
+  border-radius: 5px;
+  margin-right: 20px;
+  cursor: pointer;
+
+  &:hover {
+    background: #0000001a;
+  }  
+}

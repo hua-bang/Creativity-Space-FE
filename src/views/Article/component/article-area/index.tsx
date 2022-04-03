@@ -6,6 +6,8 @@ import { Viewer } from '@bytemd/react';
 import Avatar from '@arco-design/web-react/es/Avatar/avatar';
 import gfm from '@bytemd/plugin-gfm';
 import highlight from '@bytemd/plugin-highlight';
+import CommentArea from './components/comment-area';
+import Tag from '@/components/Tag';
 
 const plugins = [
   gfm(),
@@ -19,6 +21,7 @@ interface ArticleAreaProps {
 const ArticleArea: React.FC<ArticleAreaProps> = ({
   article
 }) => {
+  
   return (
     <div className={styles['article-area']}>
       {
@@ -39,8 +42,22 @@ const ArticleArea: React.FC<ArticleAreaProps> = ({
               <div className={styles['article-title']}>
                 {article.title}
               </div>
+              {
+                article.tags.length > 0 && (
+                  <div className={styles['article-tag']}>
+                    {
+                      article.tags.map(item => (
+                        <Tag key={item.id}>{item.name}</Tag>                    
+                      ))
+                    }
+                  </div>
+                )
+              }
               <div className={styles['article-content']}>
                 <Viewer plugins={plugins} value={article.content}/>
+              </div>
+              <div className={styles['article-comment-wrapper']} id="article-comment">
+                <CommentArea />
               </div>
             </div>
           ) :
