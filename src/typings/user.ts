@@ -21,4 +21,10 @@ export interface User {
   follow_count: number;
   followed_count: number; 
   articles: Article[];
+  phone: string;
 }
+
+export type UserBasicInfo = Pick<
+  User, 
+  'name' | 'company' | 'avatar' | 'description' | 'home_page' | 'phone' | 'job_title'
+>

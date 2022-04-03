@@ -46,7 +46,7 @@ const routes: RouterConfig[] = [
   {
     path: '/setting',
     element: <Setting />,
-    auth: ['user'],
+    // auth: ['user'],
   },
   {
     path: '/author/:id',

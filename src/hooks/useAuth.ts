@@ -6,8 +6,7 @@ function getAuthKeys(auth: string | string []) {
 }
 
 function useAuth() {
-  const authConfig = useRole();
-
+  const authConfig = useRole() || [];
   const hasAuth = useCallback(
     (auth: string | string[]) =>
       getAuthKeys(auth).some(key => authConfig.includes(key)),
