@@ -13,7 +13,6 @@ export interface Comment {
   comment: string;
   user: User;
   user_id: string;
-  point_id: string;
   point: Point;
   toUser: User;
   to_user_id: string;
@@ -23,7 +22,20 @@ export interface Comment {
   children?: Comment[];
 }
 
+export interface PointComment extends Comment {
+  point_id: string;
+}
+
 export type CreateCommentType = RequiredKey<
-  Comment, 
+  PointComment, 
   'comment' | 'point_id'
 >
+
+export interface ArticleComment extends Comment {
+  article_id: string;
+}
+
+export type CreateArticleComment = RequiredKey<
+  ArticleComment,
+  'comment' | 'article_id'
+>;

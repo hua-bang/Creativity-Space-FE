@@ -5,7 +5,7 @@ import { Comment } from '@/typings/comment';
  * 将comments转成树结构
  * TODO: 该方案需要优化
  */
-export const transformCommentToTree = (comments: Comment[]): Comment[] => {
+export const transformCommentToTree = <T extends Comment[]>(comments: T): T => {
   const newComments = comments.filter(comment => !comment.be_comment_id).map(item => {
     item.children = [];
     return item;
@@ -21,5 +21,5 @@ export const transformCommentToTree = (comments: Comment[]): Comment[] => {
       }
     });
   });
-  return newComments;
+  return newComments as T;
 };

@@ -1,3 +1,4 @@
+import { CreateArticleComment } from './../typings/comment';
 import request from '@/request';
 import { CreateArticleType } from '@/typings/article';
 
@@ -37,4 +38,12 @@ export function getArticleLikeInfo(articleId: string) {
 
 export function followArticle(articleId: string) {
   return request.get(`/article/follow/${articleId}`);
+}
+
+export function createComment(comment: CreateArticleComment) {
+  return request.post('/article-comment/create', comment);
+}
+
+export function getCommentByArticleId(articleId: string) {
+  return request.get(`/article-comment/article/${articleId}`);
 }

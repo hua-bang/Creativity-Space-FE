@@ -57,7 +57,7 @@ const ArticleArea: React.FC<ArticleAreaProps> = ({
                 <Viewer plugins={plugins} value={article.content}/>
               </div>
               <div className={styles['article-comment-wrapper']} id="article-comment">
-                <CommentArea />
+                <CommentArea article={article} />
               </div>
             </div>
           ) :
