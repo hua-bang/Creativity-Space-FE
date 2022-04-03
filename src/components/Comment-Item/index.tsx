@@ -5,16 +5,23 @@ import styles from './index.module.scss';
 import { Comment } from '@/typings/comment';
 import IconTip from '../Icon-Tip';
 import CommentEditor from '@/components/Comment-Editor';
-import { createComment } from '@/api/point';
+
+export interface OnFinishCommentType {
+  comment: string;
+  to_user_id: string;
+  be_comment_id: string;
+}
 
 interface CommentItemProps {
   comment: Comment;
   onComment?: () => void;
+  onFinish?: (finishComment: OnFinishCommentType, handleComment?: () => void) => void;
 }
 
 const CommentItem: React.FC<CommentItemProps> = ({
   comment,
-  onComment
+  onComment,
+  onFinish
 }) => {
 
   const [showEditor, setShowEditor] = useState(false);
@@ -31,17 +38,13 @@ const CommentItem: React.FC<CommentItemProps> = ({
   };
 
   const handleFinish = (value: string) => {
-    createComment({
-      comment: value,
-      point_id: comment.point_id,
-      to_user_id: user.id,
-      be_comment_id: comment.id
-    }).then(res => {
-      Message.success('添加成功。');
-      handleComment();
-    }).catch(_ => {
-      Message.warning('回复失败。');
-    });
+    if (onFinish) {
+      onFinish({
+        comment: value,
+        to_user_id: user.id,
+        be_comment_id: comment.id
+      }, handleComment);
+    }
   };
 
   return (
@@ -85,7 +88,7 @@ const CommentItem: React.FC<CommentItemProps> = ({
               <div className={styles['comment-children-area']}>
                 {
                   comment.children && comment.children.map(item => (
-                    <CommentItem onComment={handleComment} comment={item} key={item.id}/>
+                    <CommentItem onComment={handleComment} onFinish={onFinish} comment={item} key={item.id}/>
                   ))
                 }
               </div>
