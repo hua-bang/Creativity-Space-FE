@@ -29,3 +29,15 @@
   width: 100px;
   text-align: right;
 }
+
+.tag-item {
+  
+  &:hover {
+    color: #1E80FF;
+    cursor: pointer;
+  }
+}
+
+.select-tag {
+  color: #1E80FF;
+}

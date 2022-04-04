@@ -3,7 +3,7 @@ import styles from './index.module.scss';
 
 interface IconTipProps {
   icon: ReactElement;
-  text?: string;
+  text?: string | ReactElement;
   onClick?: () => void;
   style?: CSSProperties;
   size?: string;

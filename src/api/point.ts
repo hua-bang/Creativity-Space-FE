@@ -34,3 +34,7 @@ export function createComment(comment: CreateCommentType) {
 export function likePoint(id: string) {
   return request.get(`/point/like/${id}`);
 }
+
+export function getPointTag() {
+  return request.get('/point-tag/all');
+}

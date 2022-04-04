@@ -1,3 +1,4 @@
+import { Tag } from './tag';
 import { User } from './user';
 import { RequiredKey } from './utils';
 
@@ -17,6 +18,7 @@ export interface Point {
   user: User;
   point_tag_id?: string; 
   img_str: string;
+  tag?: Tag;
 }
 
 export type CreatePointType = RequiredKey<

@@ -39,8 +39,8 @@ const PointModal: React.FC<PointModalProps> = ({
     });
   };
 
-  const imgList = point.img_str?.split(',') || [];
-
+  const imgList = point.img_str ? point.img_str.split(',') : [];
+  
   return (
     <div className={styles['point-modal']} onClick={toPointDetail}>
       <div className={styles['point-info']}>
@@ -58,7 +58,8 @@ const PointModal: React.FC<PointModalProps> = ({
           </div>
         </div>
         <div className={styles['point-content-info']}>
-          {point.content}
+          { point.tag && <span className={styles['point-tag-item']}>#{point.tag.name}#</span> }
+          { point.content }
         </div>
         {
           imgList.length > 0 && (    
