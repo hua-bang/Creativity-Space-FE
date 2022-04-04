@@ -30,3 +30,7 @@ export function getPointByUserId(userId: string) {
 export function createComment(comment: CreateCommentType) {
   return request.post('/point-comment/add', comment);
 }
+
+export function likePoint(id: string) {
+  return request.get(`/point/like/${id}`);
+}

@@ -1,26 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './index.module.scss';
 import { Input, Upload, Modal, Button } from '@arco-design/web-react';
 import { UploadItem } from '@arco-design/web-react/es/Upload';
 import IconTip from '@/components/Icon-Tip';
 import { IconImage, IconLink, IconPushpin } from '@arco-design/web-react/icon';
+import CosUpload from '@/components/Cos-Upload';
 
 interface TextEditorProps {
   value?: string;
   imgArr?: string[];
   onChange?: (value: string, images: Array<string>) => void;
-  onFinish?: (value: string, images: Array<string>, tag?: string) => void;
+  onFinish?: (value: string, images: Array<string>, tag: string) => void;
 }
 
 const TextEditor: React.FC<TextEditorProps> = ({
   value,
-  imgArr,
   onChange,
   onFinish
 }) => {
 
-  const fileList: UploadItem[] = [];
-
+  const [fileList, setFileList] = useState<UploadItem[]>([]);
+  const [tag, setTag] = useState('');
+  
   const handleTextAreaChange = (val: string) => {
     onChange && onChange(val || '', []);
   };
@@ -29,8 +30,14 @@ const TextEditor: React.FC<TextEditorProps> = ({
     console.log('click');
   };
 
+  const handleUploadChange = (fileList: UploadItem[]) => {
+    setFileList(fileList);
+  };
+
   const handleSubmit = () => {
-    onFinish && onFinish(value || '', []);
+    const imgArr = fileList.filter(file => !!(file.response as any).data.url).
+      map(item => (item.response as any).data.url);
+    onFinish && onFinish(value || '', imgArr as string[], tag);
   };
 
   return (
@@ -47,9 +54,9 @@ const TextEditor: React.FC<TextEditorProps> = ({
         (fileList.length > 0) &&
         (
           <div className={styles['text-editor-img-area']}>
-            <Upload
+            <CosUpload
               multiple
-              action='/'
+              onChange={handleUploadChange}
               fileList={fileList}
               listType='picture-card'
               onPreview={file => {
@@ -66,7 +73,11 @@ const TextEditor: React.FC<TextEditorProps> = ({
       }
       <div className={styles['text-btn-area']}>
         <div className={styles['text-icon-area']}>
-          <IconTip icon={<IconImage />} text="图片" onClick={handleImageIconClick} />
+          <div className={styles['text-icon-item']}>
+            <CosUpload limit={3} showUploadList={false} multiple={true} onChange={handleUploadChange}>
+              <IconTip icon={<IconImage />} text="图片" onClick={handleImageIconClick} />
+            </CosUpload>
+          </div>
           <IconTip icon={<IconLink />} text="链接" />
           <IconTip icon={<IconPushpin />} text="话题" />
         </div>

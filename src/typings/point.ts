@@ -15,10 +15,11 @@ export interface Point {
   content: string;
   like_count: number;
   user: User;
-  tags_id?: string; 
+  point_tag_id?: string; 
+  img_str: string;
 }
 
 export type CreatePointType = RequiredKey<
   Point, 
-  'content'
+  'content' | 'point_tag_id'| 'img_str'
 >;
