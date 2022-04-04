@@ -1,5 +1,12 @@
 import { Article } from '@/typings/article';
-import { IconHeart, IconHeartFill, IconMessage, IconShareExternal, IconSubscribe, IconSubscribed } from '@arco-design/web-react/icon';
+import { 
+  IconHeart, 
+  IconHeartFill, 
+  IconMessage, 
+  IconShareExternal, 
+  IconSubscribe, 
+  IconSubscribed 
+} from '@arco-design/web-react/icon';
 import React, { useEffect, useState } from 'react';
 import styles from './index.module.scss';
 import { likeArticle, followArticle } from '@/api/article';
@@ -48,7 +55,7 @@ const OperatorArea: React.FC<OperatorAreaProps> = ({
           like: !prev.like
         }));          
       }).catch(err => {
-        Message.warning('点赞有误，稍后再试。');
+        Message.warning(err.message);
       });
     }
   };
@@ -64,8 +71,8 @@ const OperatorArea: React.FC<OperatorAreaProps> = ({
         ...prev,
         follow: !prev.follow
       }));
-    }).catch(() => {
-      Message.warning('收藏请求错误，请稍后再试。');
+    }).catch((err) => {
+      Message.warning(err.message);
     });
   };
 
@@ -105,12 +112,22 @@ const OperatorArea: React.FC<OperatorAreaProps> = ({
         return prev;
       }, {} as Record<string, any>);
       setUserLikeInfo(data as any);
+    }).catch(console.warn);
+  };
+
+  const updateArticleCountInfo = () => {
+    const { like_count, collect_count, comment_count  } = article;
+    setArticleCountInfo({
+      like_count,
+      collect_count,
+      comment_count
     });
   };
 
   useEffect(() => {
     loadUserLikeInfo();
-  }, []);
+    updateArticleCountInfo();
+  }, [article.id]);
 
   return (
     <div className={styles['operation-area']}>

@@ -28,3 +28,8 @@ export type UserBasicInfo = Pick<
   User, 
   'name' | 'company' | 'avatar' | 'description' | 'home_page' | 'phone' | 'job_title'
 >
+
+export type UpdatePasswordInfo = Pick<User, 'username'> & {
+  password: string;
+  newPassword: string;
+}

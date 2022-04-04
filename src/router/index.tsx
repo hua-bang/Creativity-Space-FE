@@ -1,6 +1,5 @@
 import React, { ReactElement } from 'react';
-import { RouteObject } from 'react-router-dom';
-import Demo from '../views/Demo';
+import { RouteObject, Navigate } from 'react-router-dom';
 import Home from '../views/Home';
 import Creator from '../views/Creator';
 import Editor from '../views/Editor';
@@ -19,13 +18,17 @@ interface RouterConfig extends RouteObject {
 
 const routes: RouterConfig[] = [
   {
+    path: '/',
+    element: <Navigate to="/home/content" />
+  },
+  {
     path: '/home/*',
     element: <Home />
   },
   {
     path: '/creator/*',
     element: <Creator />,
-    auth: ['user']
+    // auth: ['user']
   },
   {
     path: '/editor',
