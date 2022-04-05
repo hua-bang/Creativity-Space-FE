@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import styles from './index.module.scss';
 import IconTip from '../Icon-Tip';
-import { IconMessage, IconShareExternal, IconThumbUp } from '@arco-design/web-react/icon';
+import { IconDelete, IconMessage, IconShareExternal, IconThumbUp } from '@arco-design/web-react/icon';
 import { Point } from '@/typings/point';
 import { useNavigate } from 'react-router-dom';
-import { Image, Message, Space } from '@arco-design/web-react';
+import { Image, Message, Popconfirm, Space } from '@arco-design/web-react';
 import useStore from '@/hooks/useStore';
 import { observer } from 'mobx-react-lite';
-import { likePoint } from '@/api/point';
+import { deletePoint, likePoint } from '@/api/point';
 import copy from 'copy-to-clipboard';
 
 interface PointModalProps {
@@ -19,6 +19,8 @@ const PointModal: React.FC<PointModalProps> = ({
 }) => {
   const navigate = useNavigate();
   const { userStore } = useStore();
+  
+  const canDelete = userStore.userInfo?.id === point.user.id;
 
   const [likeCount, setLikeCount] = useState(point.like_count);
 
@@ -47,9 +49,18 @@ const PointModal: React.FC<PointModalProps> = ({
   };
 
   const imgList = point.img_str ? point.img_str.split(',') : [];
+
+  const delPoint = () => {
+    deletePoint(point.id).then(res => {
+      Message.success('删除成功');
+      navigate('/');
+    }).catch(err => {
+      Message.warning(err.message);
+    });
+  };
   
   return (
-    <div className={styles['point-modal']} onClick={toPointDetail}>
+    <div className={styles['point-modal']}>
       <div className={styles['point-info']}>
         <div className={styles['point-user-info']}>
           <div className={styles['point-user-info-avatar']}>
@@ -61,10 +72,22 @@ const PointModal: React.FC<PointModalProps> = ({
             </div>
             <div className={styles['user-info-description']}>
               {point.user.job_title} | {point.user.company}
+              {
+                canDelete && (
+                  <div className={styles['user-info-delete']}>
+                    <Popconfirm
+                      title="确定删除？该操作不可逆"
+                      onOk={delPoint}
+                    >
+                      <IconTip icon={<IconDelete />} text="删除" />
+                    </Popconfirm>
+                  </div>
+                )
+              }
             </div>
           </div>
         </div>
-        <div className={styles['point-content-info']}>
+        <div className={styles['point-content-info']} onClick={toPointDetail}>
           { point.tag && <span className={styles['point-tag-item']}>#{point.tag.name}#</span> }
           { point.content }
         </div>
@@ -92,7 +115,7 @@ const PointModal: React.FC<PointModalProps> = ({
         <div onClick={handleShareClick}>
           <IconTip icon={<IconShareExternal />} text="分享" />
         </div>
-        <div>
+        <div onClick={toPointDetail}>
           <IconTip icon={<IconMessage />} text={ point.comment_count ? `${point.comment_count}` : '评论' } />
         </div>
         <div onClick={handleLikeClick} >

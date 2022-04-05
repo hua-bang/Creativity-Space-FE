@@ -39,6 +39,13 @@
     color: #8a919f;
     font-size: 14px;  
     line-height: 30px;
+    position: relative;
+
+    .user-info-delete {
+      position: absolute;
+      right: 50px;
+      top: 0;
+    }
   }
 }
 

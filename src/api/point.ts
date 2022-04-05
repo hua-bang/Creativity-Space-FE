@@ -14,6 +14,10 @@ export function creatPoint(point: CreatePointType) {
   });
 }
 
+export function deletePoint(pointId: string) {
+  return request.post(`/point/delete/${pointId}`);
+}
+
 export function getPointById(pointId: string) {
   return request(`/point/${pointId}`);
 }
