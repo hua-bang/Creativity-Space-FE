@@ -13,6 +13,7 @@ import { likeArticle, followArticle } from '@/api/article';
 import { Message } from '@arco-design/web-react';
 import { getArticleLikeInfo } from '@/api/article';
 import { toAnchor } from '@/utils/common';
+import copy from 'copy-to-clipboard';
 
 interface OperatorAreaProps {
   article: Article;
@@ -99,7 +100,7 @@ const OperatorArea: React.FC<OperatorAreaProps> = ({
     {
       icon: <IconShareExternal />,
       onClick: () => {
-        // TODO: use copy lib
+        copy(window.location.href);
         Message.success('链接已复制剪贴板。');
       }
     }

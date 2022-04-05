@@ -33,6 +33,11 @@
 
 .comment-btn-area {
   padding-bottom: 10px;
+  position: relative;
+
+  > span, div {
+    margin-right: 10px;
+  }
 }
 
 .comment-children-area {

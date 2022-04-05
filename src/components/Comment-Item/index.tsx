@@ -1,10 +1,13 @@
-import { Avatar, Message } from '@arco-design/web-react';
-import { IconMessage, IconUser } from '@arco-design/web-react/icon';
+import { Avatar, Message, Popconfirm } from '@arco-design/web-react';
+import { IconDelete, IconMessage, IconUser } from '@arco-design/web-react/icon';
 import React, { useState } from 'react';
 import styles from './index.module.scss';
 import { Comment } from '@/typings/comment';
 import IconTip from '../Icon-Tip';
 import CommentEditor from '@/components/Comment-Editor';
+import useStore from '@/hooks/useStore';
+import { observer } from 'mobx-react-lite';
+import { deleteComment } from '@/api/point'; 
 
 export interface OnFinishCommentType {
   comment: string;
@@ -24,10 +27,23 @@ const CommentItem: React.FC<CommentItemProps> = ({
   onFinish
 }) => {
 
+  const { userStore } = useStore();
+
+  const canDelete = userStore.userInfo?.id === comment.user_id;
+
   const [showEditor, setShowEditor] = useState(false);
 
   const toggle = () => {
     setShowEditor(prev => !prev);
+  };
+
+  const delComment = () => {
+    deleteComment(comment.id).then(() => {
+      Message.success('删除成功');
+      onComment && onComment();
+    }).catch(err => {
+      Message.warning(err.message);
+    });
   };
 
   const { user } = comment; 
@@ -81,6 +97,24 @@ const CommentItem: React.FC<CommentItemProps> = ({
               text={showEditor ? '取消回复' : '回复'} 
               color="#8a919f"
             />
+            {
+              canDelete && (    
+                <span className={styles['comment-delete-btn']}>
+                  <Popconfirm
+                    title="确定删除该评论么?"
+                    onOk={() => {
+                      delComment();
+                    }}
+                  >
+                    <IconTip
+                      icon={<IconDelete />} 
+                      text="删除" 
+                      color="#8a919f"
+                    />
+                  </Popconfirm>
+                </span>
+              )
+            }
           </div>
           { showEditor && (<CommentEditor onFinish={handleFinish} withAvatar={false} /> )}
           {
@@ -100,4 +134,4 @@ const CommentItem: React.FC<CommentItemProps> = ({
   );
 };
 
-export default CommentItem;
+export default observer(CommentItem);

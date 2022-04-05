@@ -8,6 +8,7 @@ import { Image, Message, Space } from '@arco-design/web-react';
 import useStore from '@/hooks/useStore';
 import { observer } from 'mobx-react-lite';
 import { likePoint } from '@/api/point';
+import copy from 'copy-to-clipboard';
 
 interface PointModalProps {
   point: Point;
@@ -23,6 +24,12 @@ const PointModal: React.FC<PointModalProps> = ({
 
   const toPointDetail = () => {
     navigate(`/point/${point.id}`);
+  };
+
+  const handleShareClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.stopPropagation();
+    copy(window.location.href);
+    Message.success('连接复制到剪切板，请查收。');
   };
 
   const handleLikeClick: React.MouseEventHandler<HTMLDivElement> = (e) => {
@@ -82,7 +89,7 @@ const PointModal: React.FC<PointModalProps> = ({
         }
       </div>
       <div className={styles['point-operate']}>
-        <div>
+        <div onClick={handleShareClick}>
           <IconTip icon={<IconShareExternal />} text="分享" />
         </div>
         <div>

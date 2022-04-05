@@ -31,6 +31,10 @@ export function createComment(comment: CreateCommentType) {
   return request.post('/point-comment/add', comment);
 }
 
+export function deleteComment(commentId: string) {
+  return request.post(`/point-comment/delete/${commentId}`);
+}
+
 export function likePoint(id: string) {
   return request.get(`/point/like/${id}`);
 }
