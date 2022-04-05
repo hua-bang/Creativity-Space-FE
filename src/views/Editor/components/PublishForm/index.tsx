@@ -2,25 +2,31 @@ import React, { useEffect, useState } from 'react';
 import { Form, Input, Button, Select, Upload, Modal } from '@arco-design/web-react';
 import { getCategories, getTags } from '@/api/common';
 import { Tag, Category } from '@/typings/resource';
-import { CreateArticleType } from '@/typings/article';
+import { Article, CreateArticleType } from '@/typings/article';
 import { BASE_URL } from '@/config/network';
 import useToken from '@/hooks/useToken';
+import { UploadItem } from '@arco-design/web-react/es/Upload';
 
 export type ArticleFormProps = Omit<CreateArticleType, 'content' | 'title'>;
 
 interface PublishFormProps {
   onSave: (article: ArticleFormProps) => void;
+  article?: Article;
 }
 
 const FormItem = Form.Item;
 const Option = Select.Option;
 
 const PublishForm: React.FC<PublishFormProps> = ({
-  onSave
+  onSave,
+  article,
 }) => {
+
+  const [form] = Form.useForm<ArticleFormProps>();
   
   const [tags, setTags] = useState<Tag[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
+  const imgList: UploadItem[] = article ? [{ uid: 'article_img', name: 'test', url: article.cover_url } ] : [];
   const [token] = useToken();
 
   const loadTagAndCategoryData = () => {
@@ -35,10 +41,30 @@ const PublishForm: React.FC<PublishFormProps> = ({
     loadTagAndCategoryData();
   }, []);
 
+  const setFormValueFromArticle = (article: Article) =>  {
+    const { 
+      category_id,
+      description,
+      tags,
+      cover_url
+    } = article;
+    const tagIds = tags.map(item => item.id);
+    form.setFieldsValue({
+      category_id,
+      tags: tagIds as any,
+      description
+    });
+  };
+
+  useEffect(() => {
+    article && setFormValueFromArticle(article);
+  }, [article]);
+
   const handleSubmit = (data: ArticleFormProps & { cover_file: any }) => {
     const { cover_file } = data;
     const file = cover_file[0];
-    const { url } = file.response.data;
+    const url = file.response ? file.response.data.url : file.url;
+    
     onSave({
       ...data,
       cover_url: url
@@ -47,6 +73,7 @@ const PublishForm: React.FC<PublishFormProps> = ({
   
   return (
     <Form<ArticleFormProps>
+      form={form}
       onSubmit={handleSubmit as any}
       style={{  marginTop: '10px', width: '100%' }}
       size="large"
@@ -79,6 +106,7 @@ const PublishForm: React.FC<PublishFormProps> = ({
         field='cover_file'
         triggerPropName='fileList'
         required
+        initialValue={imgList}
       >
         <Upload
           listType='picture-card'

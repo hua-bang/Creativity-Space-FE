@@ -3,8 +3,8 @@ import MarkDownEditor from '../../components/MarkDown-Editor';
 import styles from './index.module.scss';
 import { Button, Dropdown, Card, Message, Modal } from '@arco-design/web-react';
 import PublishForm, { ArticleFormProps } from './components/PublishForm';
-import { createArticle, uploadArticleImg } from '@/api/article';
-import { ArticleTypeEnum } from '@/typings/article';
+import { createArticle, getArticleById, uploadArticleImg, updateArticle } from '@/api/article';
+import { Article, ArticleTypeEnum, UpdateArticleType } from '@/typings/article';
 import { useNavigate } from 'react-router-dom';
 import useInterval from '@/hooks/useInterval';
 import useSessionStorageState from '@/hooks/useSessionStorage';
@@ -23,8 +23,10 @@ const Editor = () => {
     }
   });
   const [saveTime, setSaveTime] = useState(dayjs());
+  const [article, setArticle] = useState<Article>();
   const [draft, setDraft] = useState<UpsertDraftType>();
   const draftId = useSearchParamByKey('draftId');
+  const articleId = useSearchParamByKey('articleId');
 
   const navigate = useNavigate();
 
@@ -61,7 +63,7 @@ const Editor = () => {
     });
   };
 
-  const onSave = (article: ArticleFormProps) => {
+  const addArticle = (article: ArticleFormProps) => {
     const addArticle = {
       ...article,
       title,
@@ -80,9 +82,36 @@ const Editor = () => {
     });
   };
 
+  const update = (articleVal: ArticleFormProps) => {
+    const addArticle = {
+      ...article,
+      ...articleVal,
+      title,
+      content
+    };
+    updateArticle(addArticle as UpdateArticleType).then(res => {
+      const { id }  = res.data;
+      setEditorContent({ title: '', content: '' });
+      Message.success('新建成功,爲你跳轉文章詳情頁。');
+      setTimeout(() => {
+        navigate(`/article/${id}`);
+      }, 1000);
+    }).catch(err => {
+      Message.warning(err.message);
+    });
+  };
+
+  const onSave = (article: ArticleFormProps) => {
+    if (!articleId) {
+      addArticle(article);
+    } else {
+      update(article);
+    }
+  };
+
   const dropComponent = (
     <Card title="发布文章" style={{ width: '500px', marginRight: '20px', background: 'white' }}>
-      <PublishForm onSave={onSave} />
+      <PublishForm onSave={onSave} article={article} />
     </Card>
   );
 
@@ -104,8 +133,21 @@ const Editor = () => {
     });
   };
 
+  const loadArticle = (id: string) => {
+    getArticleById(id).then(res => {
+      const { content, title }= res.data;
+      setContent(content);
+      setTitle(title);
+      setArticle(res.data);
+    }).catch(() => {
+      Message.warning('拉取失败。');
+    });
+  };
+
   const load = () => {
-    if (draftId) {
+    if (articleId) {
+      loadArticle(articleId);
+    } else if (draftId) {
       loadDraft(draftId);     
     } else if (editorContent?.content) {
       Modal.confirm({

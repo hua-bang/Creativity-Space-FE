@@ -29,7 +29,7 @@ const CommentItem: React.FC<CommentItemProps> = ({
 
   const { userStore } = useStore();
 
-  const canDelete = userStore.userInfo?.id === comment.user_id;
+  const canDelete = userStore.userInfo?.id === comment.user.id;
 
   const [showEditor, setShowEditor] = useState(false);
 

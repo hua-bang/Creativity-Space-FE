@@ -36,3 +36,9 @@ export type CreateArticleType = RequiredKey<
   Article, 
   'title' | 'description' | 'category_id' | 'type' | 'content' | 'cover_url'
 >;
+
+
+export type UpdateArticleType = RequiredKey<
+  Article, 
+  'id' | 'title' | 'description' | 'category_id' | 'type' | 'content' | 'cover_url'
+>;

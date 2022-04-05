@@ -1,6 +1,6 @@
 import { CreateArticleComment } from './../typings/comment';
 import request from '@/request';
-import { CreateArticleType } from '@/typings/article';
+import { CreateArticleType, UpdateArticleType } from '@/typings/article';
 
 export function createArticle(article: CreateArticleType) {
   return request({
@@ -46,4 +46,8 @@ export function createComment(comment: CreateArticleComment) {
 
 export function getCommentByArticleId(articleId: string) {
   return request.get(`/article-comment/article/${articleId}`);
+}
+
+export function updateArticle(article: UpdateArticleType) {
+  return request.post('/article/update', article);
 }
