@@ -51,3 +51,7 @@ export function getCommentByArticleId(articleId: string) {
 export function updateArticle(article: UpdateArticleType) {
   return request.post('/article/update', article);
 }
+
+export function deleteComment(commentId: string) {
+  return request.post(`/article-comment/delete/${commentId}`);
+}

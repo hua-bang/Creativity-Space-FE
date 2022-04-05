@@ -7,7 +7,6 @@ import IconTip from '../Icon-Tip';
 import CommentEditor from '@/components/Comment-Editor';
 import useStore from '@/hooks/useStore';
 import { observer } from 'mobx-react-lite';
-import { deleteComment } from '@/api/point'; 
 
 export interface OnFinishCommentType {
   comment: string;
@@ -19,12 +18,14 @@ interface CommentItemProps {
   comment: Comment;
   onComment?: () => void;
   onFinish?: (finishComment: OnFinishCommentType, handleComment?: () => void) => void;
+  onDelComment?: (id: string) => void;
 }
 
 const CommentItem: React.FC<CommentItemProps> = ({
   comment,
   onComment,
-  onFinish
+  onFinish,
+  onDelComment
 }) => {
 
   const { userStore } = useStore();
@@ -38,12 +39,7 @@ const CommentItem: React.FC<CommentItemProps> = ({
   };
 
   const delComment = () => {
-    deleteComment(comment.id).then(() => {
-      Message.success('删除成功');
-      onComment && onComment();
-    }).catch(err => {
-      Message.warning(err.message);
-    });
+    onDelComment && onDelComment(comment.id);
   };
 
   const { user } = comment; 
@@ -122,7 +118,13 @@ const CommentItem: React.FC<CommentItemProps> = ({
               <div className={styles['comment-children-area']}>
                 {
                   comment.children && comment.children.map(item => (
-                    <CommentItem onComment={handleComment} onFinish={onFinish} comment={item} key={item.id}/>
+                    <CommentItem 
+                      onDelComment={onDelComment} 
+                      onComment={handleComment} 
+                      onFinish={onFinish} 
+                      comment={item} 
+                      key={item.id}
+                    />
                   ))
                 }
               </div>

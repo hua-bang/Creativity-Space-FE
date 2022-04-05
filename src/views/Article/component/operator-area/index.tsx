@@ -1,5 +1,6 @@
 import { Article } from '@/typings/article';
 import { 
+  IconEdit,
   IconHeart, 
   IconHeartFill, 
   IconMessage, 
@@ -14,6 +15,9 @@ import { Message } from '@arco-design/web-react';
 import { getArticleLikeInfo } from '@/api/article';
 import { toAnchor } from '@/utils/common';
 import copy from 'copy-to-clipboard';
+import useStore from '@/hooks/useStore';
+import { useNavigate } from 'react-router-dom';
+import { observer } from 'mobx-react-lite';
 
 interface OperatorAreaProps {
   article: Article;
@@ -28,6 +32,10 @@ const DefaultCountInfo = {
 const OperatorArea: React.FC<OperatorAreaProps> = ({
   article
 }) => {
+
+  const { userStore } = useStore();
+
+  const navigate = useNavigate();
 
   const { like_count, collect_count, comment_count  } = article || DefaultCountInfo;
 
@@ -81,7 +89,7 @@ const OperatorArea: React.FC<OperatorAreaProps> = ({
     toAnchor('#article-comment');
   };
 
-  const operationList = [
+  const defaultOperationList = [
     {
       icon: userLikeInfo.like ? (<IconHeartFill />) : (<IconHeart />),
       count: articleCountInfo.like_count,
@@ -105,6 +113,18 @@ const OperatorArea: React.FC<OperatorAreaProps> = ({
       }
     }
   ];
+
+  const operationList = userStore.userInfo?.id === article.user?.id ? (
+    [
+      ...defaultOperationList, 
+      {
+        icon: <IconEdit />,
+        onClick: () => {
+          navigate(`/editor?articleId=${article.id}`);
+        }
+      }
+    ]
+  ) : defaultOperationList;
 
   const loadUserLikeInfo = () => {
     getArticleLikeInfo(article.id).then(res => {
@@ -152,4 +172,4 @@ const OperatorArea: React.FC<OperatorAreaProps> = ({
   );
 };
 
-export default OperatorArea;
+export default observer(OperatorArea);

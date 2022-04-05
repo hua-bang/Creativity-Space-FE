@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from './index.module.scss';
 import CommentEditor from '@/components/Comment-Editor';
-import { createComment, getCommentByArticleId } from '@/api/article';
+import { createComment, deleteComment, getCommentByArticleId } from '@/api/article';
 import { Article } from '@/typings/article';
 import { Message } from '@arco-design/web-react';
 import { ArticleComment } from '@/typings/comment';
@@ -58,9 +58,18 @@ const CommentArea: React.FC<CommentAreaProps> = ({
     });
   };
 
+  const handleDelComment = (commentId: string) => {
+    deleteComment(commentId).then(res => {
+      Message.success('删除成功.');
+      loadComments();
+    }).catch(err => {
+      Message.warning(err.message);
+    });
+  };
+
   useEffect(() => {
     loadComments();
-  },[]);
+  },[article]);
 
   return (
     <div className={styles['comment-area']}>
@@ -73,7 +82,12 @@ const CommentArea: React.FC<CommentAreaProps> = ({
       <div className={styles['comment-area-main']}>
         {
           comments.map(comment => (
-            <CommentItem onFinish={handleCommentFinish} key={comment.id} comment={comment} />
+            <CommentItem 
+              onDelComment={handleDelComment} 
+              onFinish={handleCommentFinish} 
+              key={comment.id} 
+              comment={comment} 
+            />
           ))
         }
       </div>

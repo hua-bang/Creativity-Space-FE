@@ -30,7 +30,7 @@ const AuthorItem: React.FC<AuthorItemProps> = ({
         </div>
       </div>
       <div className={styles['author-item-btn']}>
-        <Button size='large' type='outline'>关注</Button>
+        <Button size='large' onClick={toAuthorDetail} type='outline'>详情</Button>
       </div>
     </div>
   );

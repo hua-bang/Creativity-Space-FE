@@ -8,6 +8,7 @@ import gfm from '@bytemd/plugin-gfm';
 import highlight from '@bytemd/plugin-highlight';
 import CommentArea from './components/comment-area';
 import Tag from '@/components/Tag';
+import { observer } from 'mobx-react-lite';
 
 const plugins = [
   gfm(),
@@ -21,7 +22,6 @@ interface ArticleAreaProps {
 const ArticleArea: React.FC<ArticleAreaProps> = ({
   article
 }) => {
-  
   return (
     <div className={styles['article-area']}>
       {
@@ -67,4 +67,4 @@ const ArticleArea: React.FC<ArticleAreaProps> = ({
   );
 };
 
-export default ArticleArea;
+export default observer(ArticleArea);

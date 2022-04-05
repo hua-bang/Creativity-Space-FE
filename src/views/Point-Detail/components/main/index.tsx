@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PointModal from '@/components/Point-Modal';
 import { Empty, Message } from '@arco-design/web-react';
 import styles from './index.module.scss';
-import { getPointById, getCommentByPointId } from '@/api/point';
+import { getPointById, getCommentByPointId, deleteComment } from '@/api/point';
 import { Point } from '@/typings/point';
 import { useParams } from 'react-router-dom';
 import CommentEditor from '@/components/Comment-Editor';
@@ -43,6 +43,16 @@ const Main: React.FC = () => {
       loadComments(pointId);
     }
   };
+
+  const handleDelComment = (id: string) => {
+    deleteComment(id).then(() => {
+      Message.success('删除成功');
+      handleComment();
+    }).catch(err => {
+      Message.warning(err.message);
+    });
+  };
+  
 
   const loadPointData = (pointId: string) => {
     getPointById(pointId).then(res => {
@@ -97,7 +107,13 @@ const Main: React.FC = () => {
           {
             comments.length > 0 
               ? comments.map(comment => (
-                <CommentItem onComment={handleComment} onFinish={handleFinish} key={comment.id} comment={comment} />
+                <CommentItem 
+                  onComment={handleComment} 
+                  onDelComment={handleDelComment} 
+                  onFinish={handleFinish} 
+                  key={comment.id} 
+                  comment={comment} 
+                />
               ))
               : <Empty />
           }
