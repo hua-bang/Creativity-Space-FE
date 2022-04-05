@@ -1,15 +1,30 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import MarkDownEditor from '../../components/MarkDown-Editor';
 import styles from './index.module.scss';
-import { Button, Dropdown, Card, Message } from '@arco-design/web-react';
+import { Button, Dropdown, Card, Message, Modal } from '@arco-design/web-react';
 import PublishForm, { ArticleFormProps } from './components/PublishForm';
 import { createArticle, uploadArticleImg } from '@/api/article';
 import { ArticleTypeEnum } from '@/typings/article';
 import { useNavigate } from 'react-router-dom';
+import useInterval from '@/hooks/useInterval';
+import useSessionStorageState from '@/hooks/useSessionStorage';
+import dayjs from 'dayjs';
+import { getDraftById, upsertDraft } from '@/api/draft';
+import { DraftTypeEnum, UpsertDraftType } from '@/typings/draft';
+import useSearchParamByKey from '@/hooks/useSearchParamByKey';
 
 const Editor = () => {
   const [content, setContent] = useState('');
   const [title, setTitle] = useState('');
+  const [editorContent, setEditorContent] = useSessionStorageState('article_editor_content', {
+    defaultValue: {
+      title,
+      content
+    }
+  });
+  const [saveTime, setSaveTime] = useState(dayjs());
+  const [draft, setDraft] = useState<UpsertDraftType>();
+  const draftId = useSearchParamByKey('draftId');
 
   const navigate = useNavigate();
 
@@ -32,6 +47,20 @@ const Editor = () => {
     setTitle(e.currentTarget.value);
   };
 
+  const saveDraft = () => {
+    const newDraft: UpsertDraftType = {
+      ...draft,
+      title,
+      type: DraftTypeEnum.ARTICLE,
+      content
+    };
+
+    upsertDraft(newDraft).then(res => {
+      Message.success('保存成功');
+      setDraft(res.data);
+    });
+  };
+
   const onSave = (article: ArticleFormProps) => {
     const addArticle = {
       ...article,
@@ -41,6 +70,7 @@ const Editor = () => {
     };
     createArticle(addArticle).then(res => {
       const { id }  = res.data;
+      setEditorContent({ title: '', content: '' });
       Message.success('新建成功,爲你跳轉文章詳情頁。');
       setTimeout(() => {
         navigate(`/article/${id}`);
@@ -55,6 +85,44 @@ const Editor = () => {
       <PublishForm onSave={onSave} />
     </Card>
   );
+
+  useInterval(() => {
+    if (title || content) {
+      setEditorContent({ title, content });
+      setSaveTime(dayjs());
+    }
+  }, 10000);
+
+  const loadDraft = (id: string) => {
+    getDraftById(id).then(res => {
+      setDraft(res.data);
+      const { title, content } = res.data;
+      setTitle(title);
+      setContent(content);
+    }).catch(err => {
+      Message.warning('拉取草稿信息有误。');
+    });
+  };
+
+  const load = () => {
+    if (draftId) {
+      loadDraft(draftId);     
+    } else if (editorContent?.content) {
+      Modal.confirm({
+        title: '缓存提示',
+        content: '检测到有文章缓存，是否恢复',
+        onOk() {
+          const { content, title } = editorContent;
+          setContent(content);
+          setTitle(title);
+        }
+      });
+    }
+  };
+
+  useEffect(() => {
+    load();
+  }, []);
   
   return (
     <>
@@ -63,8 +131,8 @@ const Editor = () => {
           <input type="text" onInput={handleTitleInput} value={title} placeholder='输入文章标题...' />
         </div>
         <div className={styles['nav-btn-area']}>
-          <span className={styles['tip']}>保存成功</span>
-          <Button type="dashed">草稿箱</Button>
+          <span className={styles['tip']}>本地缓存成功： { saveTime.format('YYYY MM-DD HH:mm:ss') }</span>
+          <Button type="dashed" onClick={saveDraft}>保存草稿箱</Button>
           <Dropdown droplist={dropComponent} position="bl" trigger="click" unmountOnExit={false}>
             <Button type="primary">发布</Button>
           </Dropdown>

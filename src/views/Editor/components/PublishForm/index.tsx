@@ -105,7 +105,7 @@ const PublishForm: React.FC<PublishFormProps> = ({
       <FormItem style={{ width: '100%', textAlign: 'right' }} wrapperCol={{ span: 24 }}>
         <div>
           <Button>重置</Button>
-          <Button type='primary' htmlType='submit'>Submit</Button>
+          <Button style={{ marginLeft: '10px' }} type='primary' htmlType='submit'>发布</Button>
         </div>
       </FormItem>
     </Form>
