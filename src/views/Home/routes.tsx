@@ -3,6 +3,7 @@ import { RouteObject } from 'react-router-dom';
 import Author from './SubViews/Author';
 import Content from './SubViews/Content';
 import Point from './SubViews/Point';
+import BookletList from '../Booklet-List';
 import { 
   AuthorIcon,
   ContactIcon,
@@ -33,10 +34,10 @@ const menuList: Menu[] = [
     icon: AuthorIcon
   },
   { 
-    name: 'Content', 
-    path: 'content',
+    name: 'Booklet', 
+    path: 'booklet',
     hidden: false,
-    element: <Content />,
+    element: <BookletList />,
     icon: ContentIcon
   },
   {
