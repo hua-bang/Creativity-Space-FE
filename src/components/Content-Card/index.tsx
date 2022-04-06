@@ -1,26 +1,49 @@
 import React from 'react';
-import { Card, Avatar, Typography } from '@arco-design/web-react';
+import { Card, Avatar, Typography, Popconfirm, Message } from '@arco-design/web-react';
 import styles from './index.module.scss';
-import { IconHeart, IconMessage, IconStar, IconStarFill, IconHeartFill, IconUser } from '@arco-design/web-react/icon';
+import { IconHeart, IconMessage, IconStar, IconStarFill, IconHeartFill, IconUser, IconDelete, IconEdit } from '@arco-design/web-react/icon';
 import { useNavigate } from 'react-router-dom';
 import { Article } from '@/typings/article';
+import IconTip from '../Icon-Tip';
+import { deleteArticle } from '@/api/article';
 
 interface ContentCardProps {
   expand?: boolean;
   article: Article;
+  canDelete?: boolean;
 }
 
 const { Meta } = Card;
 
 const ContentCard = ({ 
   expand = true,
-  article
+  article,
+  canDelete = false
 }: ContentCardProps) => {
   
   const navigate = useNavigate();
 
   const toArticleDetail = () => {
     navigate(`/article/${article.id}`);
+  };
+
+  const operateAreaClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.stopPropagation();
+  };
+
+  const handleDelete = () => {
+    deleteArticle(article.id).then(res => {
+      Message.success('删除成功');
+      setTimeout(() => {
+        location.reload();
+      }, 1000);
+    }).catch(err => {
+      console.log(err);
+    });
+  };
+
+  const handleEdit = () => {
+    navigate(`/editor?articleId=${article.id}`);
   };
   
   return (
@@ -49,7 +72,7 @@ const ContentCard = ({
     >
       <Meta
         description={
-          <>
+          <div className='wrapper'>
             <div className={styles['author-info']}>
               <Avatar size={28} style={{ background: '#3370ff'}}>
                 { 
@@ -65,6 +88,9 @@ const ContentCard = ({
             <div className={styles['content-info']}>
               <div className={styles['content-title']}>
                 {article.title}
+              </div>
+              <div className={styles['content-description']}>
+                {article.description}
               </div>
               {
                 article.tags.length > 0 && (
@@ -87,8 +113,18 @@ const ContentCard = ({
                   <span className={styles['count-number']}>{article.comment_count} Comments</span>
                 </span>
               </div>
+              {
+                canDelete && (    
+                  <div className={styles['operate-info']} onClick={operateAreaClick}>
+                    <Popconfirm title="确定删除？（该操作不可逆）" onOk={handleDelete}>
+                      <IconTip icon={<IconDelete />} size="20px"/>
+                    </Popconfirm>
+                    <IconTip onClick={handleEdit} icon={<IconEdit />} size="20px" />
+                  </div>
+                )
+              }
             </div>
-          </>
+          </div>
           
         }
       />

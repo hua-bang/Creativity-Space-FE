@@ -1,15 +1,22 @@
 import { User } from '@/typings/user';
-import { Button } from '@arco-design/web-react';
+import { Button, Message } from '@arco-design/web-react';
 import React from 'react';
 import styles from './index.module.scss';
 
 interface AuthorBasicInfoProps {
   author: User;
+  userInfo?: User;
 }
 
 const AuthorBasicInfo: React.FC<AuthorBasicInfoProps> = ({
-  author
+  author,
+  userInfo
 }) => {
+  const isSelf = userInfo?.id === author.id;
+
+  const follow = () => {
+    Message.success('关注成功');
+  };
 
   return (
     <div className={styles['author-basic-info']}>
@@ -31,9 +38,13 @@ const AuthorBasicInfo: React.FC<AuthorBasicInfoProps> = ({
               {`🌐  ${author.home_page}`}
             </div>
           </div>
-          <div className={styles['author-basic-info-introdcut-right']}>
-            <Button type='outline' style={{ width: '80px' }}>关注</Button>
-          </div>
+          {
+            !isSelf && (    
+              <div className={styles['author-basic-info-introdcut-right']}>
+                <Button onClick={follow} type='outline' style={{ width: '80px' }}>关注</Button>
+              </div>
+            )
+          }
         </div>
       </div>
     </div>

@@ -3,6 +3,7 @@ import styles from './index.module.scss';
 import ContentList from '@/components/Content-List';
 import { Avatar, Button } from '@arco-design/web-react';
 import { Article } from '@/typings/article';
+import { useNavigate } from 'react-router-dom';
 
 interface RecommendAreaProps {
   article?: Article;
@@ -11,7 +12,13 @@ interface RecommendAreaProps {
 const RecommendArea: React.FC<RecommendAreaProps> = ({
   article
 }) => {
-  
+
+  const navigate = useNavigate();
+
+  const toDetail = () => {
+    navigate(`/author/${article?.user?.id}`);
+  };
+
   return (
     <div className={styles['recommend-area']}>
       {
@@ -35,7 +42,7 @@ const RecommendArea: React.FC<RecommendAreaProps> = ({
               </div>
             </div>
             <div className={styles['article-btn']}>
-              <Button long type="primary">关注</Button>
+              <Button long type="primary" onClick={toDetail}>详情</Button>
             </div>
           </div>
         )

@@ -16,8 +16,16 @@
 
   .content-title {
     padding: 12px 0;
+    padding-bottom: 0;
     font-size: 26px;
     font-weight: 700;
+  }
+
+  .content-description {
+    color: #86909c;
+    font-size: 16px;
+    padding-top: 8px;
+    padding-bottom: 12px;
   }
 }
 
@@ -51,5 +59,25 @@
     &:hover {
       background: #0000001a;
     }  
+  }
+}
+
+.wrapper {
+  position: relative;
+}
+
+.operate-info {
+  position: absolute;
+  opacity: 0;
+  right: 20px;
+  top: 20px;
+  transition: all 0.5s;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  > div {
+    margin-left: 10px;
   }
 }

@@ -3,24 +3,29 @@ import { User } from '@/typings/user';
 import React, { useEffect, useState } from 'react';
 import styles from './index.module.scss';
 import { getArticleByAuthorId } from '@/api/article';
-import { Article } from '@/typings/article';
+import { Article, ArticleStatusEnum } from '@/typings/article';
 import { Message, Empty, Button } from '@arco-design/web-react';
 
 interface AuthorArticleListProps {
   author: User;
+  userInfo?: User;
 }
 
 const AuthorArticleList: React.FC<AuthorArticleListProps> = ({
-  author
+  author,
+  userInfo,
 }) => {
 
   const { id } = author;
   const [articles, setArticles] = useState<Article[]>([]);
 
+  const canDeleteArticle = userInfo?.id === author.id;
+
   const loadArticleData = () => {
     getArticleByAuthorId(id).then(res => {
-      setArticles(res.data);
-      if(res.data.length === 0) {
+      const data = res.data.filter((item: Article) => (item.status === ArticleStatusEnum.AUDITED));
+      setArticles(data);
+      if(data.length === 0) {
         Message.info('该作者还没有文章喔。');
       }
     }).catch(err => {
@@ -38,7 +43,7 @@ const AuthorArticleList: React.FC<AuthorArticleListProps> = ({
         articles.length > 0 
           ? (
             articles.map(article => (
-              <ContentCard key={article.id} expand={false} article={article} />
+              <ContentCard canDelete={canDeleteArticle} key={article.id} expand={false} article={article} />
             ))
           ):
           (

@@ -2,8 +2,15 @@ import React from 'react';
 import { Menu, Message } from '@arco-design/web-react';
 import { useNavigate } from 'react-router-dom';
 import { logout } from '@/api/user';
+import { User } from '@/typings/user';
 
-const DropList = () => {
+interface DropListProps {
+  userInfo?: User;
+}
+
+const DropList: React.FC<DropListProps> = ({
+  userInfo
+}) => {
 
   const navigate = useNavigate();
 
@@ -17,7 +24,9 @@ const DropList = () => {
     {
       title: '个人主页',
       onClick() {
-        navigate('/creator/content');
+        if (userInfo) {
+          navigate(`/author/${userInfo.id}`);
+        }
       } 
     },
     {

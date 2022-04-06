@@ -10,6 +10,10 @@ export function createArticle(article: CreateArticleType) {
   });
 }
 
+export function deleteArticle(id: string) {
+  return request.post(`/article/user/delete/${id}`);
+}
+
 export function getArticles(data?: Record<string, string>) {
   return request.post('/article/all', data);
 }

@@ -14,7 +14,7 @@ const InfoArea = () => {
   const { userStore } = useStore();
 
   const dropList = (
-    <DropList />
+    <DropList userInfo={userStore.userInfo} />
   );
 
   const toEdit = () => {

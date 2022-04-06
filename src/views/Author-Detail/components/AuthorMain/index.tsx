@@ -5,6 +5,8 @@ import { User } from '@/typings/user';
 import AuthorArticleList from './components/AuthorArticleList';
 import AuthorPointList from './components/AuthorPointList';
 import { Menu } from '@arco-design/web-react';
+import useStore from '@/hooks/useStore';
+import { observer } from 'mobx-react-lite';
 
 const MenuItem = Menu.Item;
 interface AuthorMainProps {
@@ -30,6 +32,7 @@ const AuthorMain: React.FC<AuthorMainProps> = ({
 
   const [selectedKey, setSelectedKey] = useState(['article']);
   const RenderComponent = menus[selectedKey[0] as MenuKey].component;
+  const { userStore } = useStore();
 
   const handleKeyChange = (key: string) => {
     setSelectedKey([key]);
@@ -37,7 +40,7 @@ const AuthorMain: React.FC<AuthorMainProps> = ({
 
   return (
     <div className={styles['author-main']}>
-      <AuthorBasicInfo author={author} />
+      <AuthorBasicInfo author={author} userInfo={userStore.userInfo} />
       <div className={styles['list-area']}>
         <div className={styles['list-nav']}>
           <Menu  mode='horizontal' onClickMenuItem={handleKeyChange} selectedKeys={selectedKey}>
@@ -48,10 +51,10 @@ const AuthorMain: React.FC<AuthorMainProps> = ({
             }
           </Menu>
         </div>
-        <RenderComponent author={author}/>
+        <RenderComponent author={author} userInfo={userStore.userInfo} />
       </div>
     </div>
   );
 };
 
-export default AuthorMain;
+export default observer(AuthorMain);

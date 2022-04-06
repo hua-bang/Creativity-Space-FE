@@ -8,10 +8,12 @@ import PointModal from '@/components/Point-Modal';
 
 interface AuthorPointListProps {
   author: User;
+  userInfo?: User;
 }
 
 const AuthorPointList: React.FC<AuthorPointListProps> = ({
-  author
+  author,
+  userInfo, 
 }) => {
   const { id } = author;
 
