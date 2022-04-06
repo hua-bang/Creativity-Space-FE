@@ -1,0 +1,31 @@
+.booklet-detail-wrapper {
+  margin: 0 auto;
+  margin-top: 76px;
+  width: 100%;
+  max-width: 1000px;
+  display: flex;
+  flex-wrap: wrap;
+
+  .booklet-detail-info {
+    width: 100%;
+  }
+
+  .booklet-detail-container {
+    display: flex;
+    margin-top: 20px;
+    width: 100%;
+
+    .booklet-detail-main {
+      width: 70%;
+      box-sizing: border-box;
+      margin-right: 10px;
+      background: white;
+    }
+
+    .booklet-detail-list {
+      width: 30%;
+      box-sizing: border-box;
+      margin-left: 10px;
+    }
+  }
+}

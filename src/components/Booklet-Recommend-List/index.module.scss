@@ -1,0 +1,45 @@
+.booklet-item {
+  display: flex;
+  width: 100%;
+  padding: 8px 0;
+  align-items: center;
+  cursor: pointer;
+  background: white;
+
+  &:hover {
+    background: white;
+  }
+
+  .booklet-avatar {
+    margin: 0 10px;
+    
+    > img {
+      // border-radius: 50%;
+      width: 60px;
+    }
+    
+  }
+
+  .booklet-info {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+
+    .booklet-name {
+      width: 100%;
+      font-weight: 525;
+      &:hover {
+        color: #165DFF;
+      }
+    }
+
+    .job-title {
+      width: 100%;
+      padding: 10px 0;
+      font-size: 12px;
+      color: #909090;
+    }
+  }
+}

@@ -10,6 +10,7 @@ import Setting from '@/views/Setting';
 import AuthorDetail from '@/views/Author-Detail';
 import PointDetail from '@/views/Point-Detail';
 import CreateBooklet from '@/views/Create-Booklet';
+import BookletDetail from '@/views/Booklet-Detail';
 
 interface RouterConfig extends RouteObject {
   auth?: string | string[];
@@ -67,6 +68,10 @@ const routes: RouterConfig[] = [
   {
     path: '/booklet/update/:id',
     element: <CreateBooklet />
+  },
+  {
+    path: '/booklet/detail/:id',
+    element: <BookletDetail />
   }
 ];
 

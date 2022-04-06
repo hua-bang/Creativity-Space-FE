@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import styles from './index.module.scss';
-import { Form, Modal, Upload, Input, Button, Message } from '@arco-design/web-react';
+import { Form, Modal, Upload, Input, Button, Message, Drawer } from '@arco-design/web-react';
 import CosUpload from '@/components/Cos-Upload';
 import { UploadItem } from '@arco-design/web-react/es/Upload';
 import { createBooklet, getBookletDetail, updateBooklet } from '@/api/booklet';
 import { Booklet, CreateBookletType } from '@/typings/booklet';
 import { useParams } from 'react-router-dom';
+import MarkDownEditor from '@/components/MarkDown-Editor';
 
 const BookletForm: React.FC = () => {
 
   const [imgList, setImgList] = useState<UploadItem[]>([]);
   const [urls, setUrls] = useState<string[]>([]);
   const [booklet, setBooklet] = useState<Booklet>();
+  const [introduce, setIntroduce] = useState<string>('');
+  const [visible, setVisible] = useState(false); 
 
   const params = useParams();
   const bookletId = params.id;
@@ -19,6 +22,10 @@ const BookletForm: React.FC = () => {
   const FormItem = Form.Item;
   const [ form ] = Form.useForm();
 
+  const handleEditorChange = (value: string) => {
+    setIntroduce(value);
+  };
+  
   const handleUploadSuccess = (urls: string[]) => {
     setUrls(urls);
   };
@@ -31,6 +38,7 @@ const BookletForm: React.FC = () => {
     createBooklet({
       ...data,
       cover_url: urls[0],
+      introduce,
     }).then(res => {
       Message.success('新建成功。');
     }).catch(err => {
@@ -43,6 +51,7 @@ const BookletForm: React.FC = () => {
       updateBooklet({
         ...booklet,
         ...data,
+        introduce,
         cover_url: urls[0],
       }).then(res => {
         Message.success('修改成功。');
@@ -64,6 +73,7 @@ const BookletForm: React.FC = () => {
     getBookletDetail(bookletId).then(res => {
       if (res.data) {
         setBooklet(res.data);
+        setIntroduce(res.data.introduce);
       }
     }).catch(err => {
       Message.warning(err.message);
@@ -107,14 +117,23 @@ const BookletForm: React.FC = () => {
           <FormItem label='小册描述' field="description" required>
             <Input placeholder='请输入小册描述' maxLength={50} showWordLimit />
           </FormItem>
-          <FormItem label='小册介绍' field="introduce" required>
-            <Input placeholder='请输入小册介绍' />
+          <FormItem label='小册介绍' required>
+            <Button type="primary" onClick={() => { setVisible(true); }}>查看 / 编辑</Button>
           </FormItem>
           <FormItem wrapperCol={{ offset: 3, span: 19 }}>
             <Button type='primary' htmlType="submit" long>保 存 😊 </Button>
           </FormItem>
         </Form>
       </div>
+      <Drawer 
+        onCancel={() => { setVisible(false); }} 
+        visible={visible} width="100%" 
+        title="小册介绍(同步修改)" 
+        bodyStyle={{ margin: 0, padding: 0 }}
+        footer={null}
+      >
+        <MarkDownEditor value={introduce} onChange={handleEditorChange} />
+      </Drawer>
     </div>
   );
 };
