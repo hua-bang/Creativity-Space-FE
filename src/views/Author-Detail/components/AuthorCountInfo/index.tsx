@@ -32,7 +32,7 @@ const AuthorCountInfo: React.FC<AuthorCountInfoProps> = ({
         </div>
         <div>
           <div>关注者</div>
-          <div>{author.follow_count}</div>
+          <div>{author.followed_count}</div>
         </div>
       </div>
       <div className={styles['author-recommend-list']}>

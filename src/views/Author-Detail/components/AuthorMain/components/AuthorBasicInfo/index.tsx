@@ -1,6 +1,8 @@
+import { followUser, getUserFollowByFollowUserId } from '@/api/user-follow';
+import { Follow, UserFollowStatusEnum } from '@/typings/follow';
 import { User } from '@/typings/user';
 import { Button, Message } from '@arco-design/web-react';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './index.module.scss';
 
 interface AuthorBasicInfoProps {
@@ -13,10 +15,26 @@ const AuthorBasicInfo: React.FC<AuthorBasicInfoProps> = ({
   userInfo
 }) => {
   const isSelf = userInfo?.id === author.id;
+  const [followInfo, setFollowInfo] = useState<Follow>();
 
   const follow = () => {
-    Message.success('关注成功');
+    followUser(author.id).then((res) => {
+      setFollowInfo(res.data);
+      Message.success('操作成功');
+    }).catch(err => {
+      Message.warning(err.message);
+    });
   };
+
+  const loadFollowInfo = () => {
+    getUserFollowByFollowUserId(author.id).then(res => {
+      setFollowInfo(res.data);
+    }).catch(console.warn);
+  };
+
+  useEffect(() => {
+    loadFollowInfo();
+  }, [author]);
 
   return (
     <div className={styles['author-basic-info']}>
@@ -41,7 +59,9 @@ const AuthorBasicInfo: React.FC<AuthorBasicInfoProps> = ({
           {
             !isSelf && (    
               <div className={styles['author-basic-info-introdcut-right']}>
-                <Button onClick={follow} type='outline' style={{ width: '80px' }}>关注</Button>
+                <Button onClick={follow} type='outline'>
+                  { followInfo && followInfo.status === UserFollowStatusEnum.NORMAL ? '取消关注' : '关注' }
+                </Button>
               </div>
             )
           }
