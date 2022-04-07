@@ -16,3 +16,11 @@ export const updateBooklet = (booklet: UpdateBookletType) => {
 export const getBookletDetail = (id: string) => {
   return request(`/booklet/detail/${id}`);
 };
+
+export const getArticlesByBookletId = (id: string) => {
+  return request(`/booklet-article/booklet/${id}`);
+};
+
+export const getBookletArticleById= (id: string) => {
+  return request(`/booklet-article/detail/${id}`);
+};

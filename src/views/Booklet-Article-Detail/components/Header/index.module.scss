@@ -1,0 +1,27 @@
+.article-detail-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 70vw;
+  background: white;
+  height: 56px;
+  z-index: 100;
+  display: flex;
+}
+
+.logo-area {
+
+  margin-left: 30px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+
+  img {
+    width: 45px;
+  }
+}
+
+.logo-area-title {
+  margin-left: 10px;
+  font-size: 22px;
+}

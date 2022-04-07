@@ -1,3 +1,4 @@
+import { BookletArticle } from '@/typings/booklet-article';
 import { User } from "./user";
 
 export enum BookletStatusEnum {
@@ -25,6 +26,8 @@ export interface Booklet {
   cover_url: string;
 
   user: User;
+
+  articles: BookletArticle[];
 }
 
 export type CreateBookletType = Pick<

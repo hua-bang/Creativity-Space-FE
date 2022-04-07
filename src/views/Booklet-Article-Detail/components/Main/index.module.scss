@@ -1,0 +1,29 @@
+.detail-main-wrapper {
+  width: 100vw;
+  display: flex;
+  overflow: hidden;
+  margin-bottom: -20px;
+}
+
+.detail-main-nav {
+  width: 20%;
+  box-sizing: border-box;
+  padding-top: 10px;
+  background: white;
+  height: calc(100vh - 56px);
+}
+
+.detail-main-content-wrapper {
+  width: 80%;
+  box-sizing: border-box;
+  padding: 30px 150px;
+  overflow-y: scroll;
+  background: #e5e5e5;
+  height: calc(100vh - 56px);
+}
+
+.detail-main-content {
+  padding: 50px;
+  background: white;
+  min-height: calc(100vh - 156px);
+}

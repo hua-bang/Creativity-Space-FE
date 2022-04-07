@@ -1,0 +1,29 @@
+.section-item-wrapper {
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:hover {
+    background: #f7f7f7;
+    cursor: pointer;
+  }
+}
+
+.section-item-index {
+  width: 60px;
+  text-align: center;
+  color: #8a919f;
+}
+
+.section-item-info {
+  flex: 1;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+}
+
+.section-item-status {
+  padding-top: 3px;
+  color: #8a919f;
+  font-size: 14px;
+}
