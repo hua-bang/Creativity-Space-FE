@@ -21,6 +21,10 @@ export const getArticlesByBookletId = (id: string) => {
   return request(`/booklet-article/booklet/${id}`);
 };
 
-export const getBookletArticleById= (id: string) => {
+export const getBookletArticleById = (id: string) => {
   return request(`/booklet-article/detail/${id}`);
+};
+
+export const getBookletListByUserId = (id: string) => {
+  return request(`/booklet/user/${id}`);
 };

@@ -7,6 +7,7 @@ import AuthorPointList from './components/AuthorPointList';
 import { Menu } from '@arco-design/web-react';
 import useStore from '@/hooks/useStore';
 import { observer } from 'mobx-react-lite';
+import AuthorBookletList from './components/AuthorBookletList';
 
 const MenuItem = Menu.Item;
 interface AuthorMainProps {
@@ -22,6 +23,10 @@ const menus = {
     title: '动态',
     component: AuthorPointList
   },
+  booklet: {
+    title: '小册',
+    component: AuthorBookletList
+  }
 };
 
 type MenuKey = keyof typeof menus;
