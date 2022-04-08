@@ -13,6 +13,7 @@ import CreateBooklet from '@/views/Create-Booklet';
 import BookletDetail from '@/views/Booklet-Detail';
 import BookletArticleDetail from '@/views/Booklet-Article-Detail';
 import BookletArticleEditor from '@/views/Booklet-Article-Editor';
+import Chat from '@/views/Chat';
 
 interface RouterConfig extends RouteObject {
   auth?: string | string[];
@@ -82,6 +83,10 @@ const routes: RouterConfig[] = [
   {
     path: '/booklet/:bookletId/edit/:articleId',
     element: <BookletArticleEditor />
+  },
+  {
+    path: '/chat',
+    element: <Chat />
   }
 ];
 
