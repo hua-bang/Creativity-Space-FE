@@ -21,7 +21,20 @@
   }
 }
 
+.booklet-operate-area {
+  position: absolute;
+  right: 10px;
+  top: 0px;
+  width: auto !important;
+  opacity: 0;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
 .booklet-item-info {
+  position: relative;
   flex: 1;
   display: flex;
   flex-direction: row;

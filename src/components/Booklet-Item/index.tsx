@@ -3,19 +3,28 @@ import { Avatar } from '@arco-design/web-react';
 import React from 'react';
 import styles from './index.module.scss';
 import { useNavigate } from 'react-router-dom';
+import IconTip from '../Icon-Tip';
+import { IconEdit } from '@arco-design/web-react/icon';
 
 interface BookletItemProps {
   booklet: Booklet;
+  canEdit?: boolean;
 }
 
 const BookletItem: React.FC<BookletItemProps> = (props) => {
   
-  const { booklet } = props;
+  const { booklet, canEdit = false } = props;
 
   const navigate = useNavigate();
 
   const toDetail = () => {
     navigate(`/booklet/detail/${booklet.id}`);
+  };
+
+
+  const toEditBooklet = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.stopPropagation();
+    navigate(`/booklet/update/${booklet.id}`);
   };
 
   return (
@@ -25,6 +34,9 @@ const BookletItem: React.FC<BookletItemProps> = (props) => {
           <img src={booklet.cover_url} />
         </div>
         <div className={styles['booklet-item-info']}>
+          <div className={styles['booklet-operate-area']} onClick={toEditBooklet}>
+            <IconTip icon={<IconEdit />} size="22px"/>
+          </div>
           <div className={styles['booklet-info-name']}>
             {booklet.name}
           </div>

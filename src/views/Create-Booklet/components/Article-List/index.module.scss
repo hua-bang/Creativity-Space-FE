@@ -1,0 +1,25 @@
+.article-list-wrapper {
+  width: 100%;
+  margin: 0 auto;
+  max-width: 1000px;
+  margin-top: 20px;
+  box-sizing: border-box;
+
+  padding: 30px;
+  background: white;
+}
+
+.article-list-title {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.article-list-area {
+  margin-top: 20px;
+}
+
+.operate-area {
+  > button {
+    margin-right: 10px;
+  }
+}

@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import styles from './index.module.scss';
-import { Form, Modal, Upload, Input, Button, Message, Drawer } from '@arco-design/web-react';
+import { Form, Input, Button, Message, Drawer } from '@arco-design/web-react';
 import CosUpload from '@/components/Cos-Upload';
 import { UploadItem } from '@arco-design/web-react/es/Upload';
 import { createBooklet, getBookletDetail, updateBooklet } from '@/api/booklet';
 import { Booklet, CreateBookletType } from '@/typings/booklet';
 import { useParams } from 'react-router-dom';
 import MarkDownEditor from '@/components/MarkDown-Editor';
+import ArticleList from './components/Article-List';
+import { BookletArticle } from '@/typings/booklet-article';
 
 const BookletForm: React.FC = () => {
 
@@ -72,6 +74,7 @@ const BookletForm: React.FC = () => {
   const loadBooklet = (bookletId: string) => {
     getBookletDetail(bookletId).then(res => {
       if (res.data) {
+        res.data.articles = res.data.articles.sort((a: BookletArticle, b: BookletArticle) => (a.order - b.order));
         setBooklet(res.data);
         setIntroduce(res.data.introduce);
       }
@@ -97,10 +100,10 @@ const BookletForm: React.FC = () => {
 
   return (
     <div className={styles['setting-page-wrapper']}>
-      <div className={styles['setting-title']}>
-        { bookletId ? '修改小册' : '创建小册' }
-      </div>
       <div className={styles['setting-page']}>
+        <div className={styles['setting-title']}>
+          { bookletId ? '修改小册' : '创建小册' }
+        </div>
         <Form form={form} labelCol={{ offset: 0, span: 3 }} onSubmit={handleSubmit}>
           <FormItem label="封面" required>
             <CosUpload
@@ -134,6 +137,7 @@ const BookletForm: React.FC = () => {
       >
         <MarkDownEditor value={introduce} onChange={handleEditorChange} />
       </Drawer>
+      { booklet && <ArticleList booklet={booklet} /> }
     </div>
   );
 };
