@@ -20,3 +20,13 @@ export interface BookletArticle {
   booklet: Booklet;
   booklet_id: string;
 }
+
+export type UpdateBookletArticleType = Pick<
+  BookletArticle, 
+  'title' | 'content' | 'status' | 'description' | 'booklet_id'
+>
+
+export type CreateBookletArticleType = Pick<
+  BookletArticle,
+  'title' | 'content' | 'status' | 'description' | 'booklet_id'
+>;

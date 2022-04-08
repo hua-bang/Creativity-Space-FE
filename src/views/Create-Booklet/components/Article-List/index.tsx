@@ -1,12 +1,13 @@
 import { Booklet } from '@/typings/booklet';
 import React, { useEffect, useState } from 'react';
 import styles from './index.module.scss';
-import { Button, Drawer, Empty, Table } from '@arco-design/web-react';
-import { ColumnProps } from '@arco-design/web-react/es/Table';
-import { BookletArticle } from '@/typings/booklet-article';
+import { Button, Drawer, Empty, Message, Modal, Table } from '@arco-design/web-react';
+import { BookArticleStatusMapForAuthor } from '@/const/booklet-article';
+import { BookletArticle, BookletArticleStatusEnum } from '@/typings/booklet-article';
 import MarkdownView from '@/components/Markdown-View';
-import { getBookletArticleById } from '@/api/booklet';
+import { getBookletArticleById, deleteBookletArticle } from '@/api/booklet';
 import { useNavigate } from 'react-router-dom';
+import AddArticle from '../Add-Article';
 
 const defaultColumns = [
   {
@@ -22,8 +23,12 @@ const defaultColumns = [
     dataIndex: 'update_time',
   },
   {
-    title: '创建时间',
-    dataIndex: 'create_time',
+    title: '状态',
+    render(col: unknown, record: BookletArticle, index: number) {
+      return (
+        <div>{BookArticleStatusMapForAuthor[record.status]}</div>
+      );
+    }
   },
   {
     title: 'order',
@@ -40,6 +45,7 @@ const ArticleList: React.FC<ArticleListProps> = ({
 }) => {
 
   const [visible, setVisible] = useState(false);
+  const [addArticleVisible, setAddArticleVisible] = useState(false);
   const [bookletArticle, setBookletArticle] = useState<BookletArticle>();
   const [content, setContent] = useState('');
   const navigate = useNavigate();
@@ -48,14 +54,26 @@ const ArticleList: React.FC<ArticleListProps> = ({
     navigate(`/booklet/${booklet.id}/edit/${articleId}`);
   };
 
+  const deleteArticle = (articleId: string) => {
+    deleteBookletArticle(booklet.id, articleId).then(res => {
+      Message.success('删除成功');
+      setTimeout(() => {
+        location.reload();
+      }, 1000);
+    }).catch(err => {
+      Message.warning(err.message);
+    });
+  };
+
   const otherColumns = [
     {
       title: '操作',
-      width: '200px',
+      width: '280px',
       render: (col: unknown, record: BookletArticle) => (
         <div className={styles['operate-area']}>
           <Button onClick={() => { setBookletArticle({...record}); }} >查看</Button>
           <Button type='primary' onClick={() => toEdit(record.id)}>编辑</Button>
+          <Button status='danger' type='secondary' onClick={() => deleteArticle(record.id)}>删除</Button>
         </div>
       )
     }
@@ -81,8 +99,15 @@ const ArticleList: React.FC<ArticleListProps> = ({
       <div className={styles['article-list-title']}>
         小册文章
       </div>
+      <div className={styles['article-btn-area']}>
+        <Button type="primary" onClick={() => setAddArticleVisible(true)}>新增</Button>
+      </div>
       <div className={styles['article-list-area']}>
-        <Table data={booklet.articles} columns={columns} key="id" />
+        <Table 
+          data={booklet.articles.filter(item => item.status !== BookletArticleStatusEnum.DELETED)} 
+          columns={columns} 
+          key="id" 
+        />
       </div>
       <Drawer 
         footer={null} 
@@ -99,6 +124,17 @@ const ArticleList: React.FC<ArticleListProps> = ({
           ) : <Empty />
         }
       </Drawer>
+      <Modal
+        title='新增文章'
+        visible={addArticleVisible}
+        onOk={() => setAddArticleVisible(false)}
+        onCancel={() => setAddArticleVisible(false)}
+        autoFocus={false}
+        focusLock={true}
+        footer={null}
+      >
+        <AddArticle />
+      </Modal>
     </div>
   );
 };
