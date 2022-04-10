@@ -37,7 +37,12 @@ const ChatNav: React.FC<ChatNavProps> = ({
       <div className={styles['chat-nav-list']}>
         {
           chatList.map(item => (
-            <ChatItem onSelect={onSelect} active={selectChat?.id === item.id}  chat={item} key={item.id} />
+            <ChatItem
+              userInfo={userInfo} 
+              onSelect={onSelect} 
+              active={selectChat?.id === item.id}  
+              chat={item} key={item.id} 
+            />
           ))          
         }
       </div>

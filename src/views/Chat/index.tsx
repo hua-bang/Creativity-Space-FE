@@ -41,7 +41,11 @@ const ChatRoom = () => {
 
   const load = () => {
     getUserList().then(res => {
+      const list = res.data;
       setChatList(res.data);
+      if (list.length > 0) {
+        setChat(list[0]);
+      }
     });
   };
 
@@ -55,6 +59,10 @@ const ChatRoom = () => {
     }
   };
 
+  const otherUser = userInfo?.id === chat?.chat_users[0].user_id ? (
+    chat?.chat_users[1].user
+  ) : chat?.chat_users[0].user;
+  
   useEffect(() => {
     load();
   }, []);
@@ -65,7 +73,7 @@ const ChatRoom = () => {
         <ChatNav selectChat={chat} onSelect={handleSelect} chatList={chatList} userInfo={userInfo} />
       </div>
       <div className={styles['right-chat-main']}>
-        <ChatMain chat={chat} />
+        <ChatMain otherUser={otherUser} userInfo={userInfo} chat={chat} />
       </div>
     </div>
   );
