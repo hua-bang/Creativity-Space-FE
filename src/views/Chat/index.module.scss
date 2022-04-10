@@ -1,0 +1,16 @@
+.chat-wrapper {
+  width: 100vw;
+  margin-bottom: -20px;
+  display: flex;
+  height: calc(100vh - 56px);
+}
+
+.left-chat-nav {
+  width: 20%;
+  background: white;
+}
+
+.right-chat-main {
+  flex: 1;
+  background-color: red;
+}

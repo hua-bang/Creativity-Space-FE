@@ -4,6 +4,7 @@ import Author from './SubViews/Author';
 import Content from './SubViews/Content';
 import Point from './SubViews/Point';
 import BookletList from '../Booklet-List';
+import ChatList from './SubViews/Chat';
 import { 
   AuthorIcon,
   ContactIcon,
@@ -41,10 +42,10 @@ const menuList: Menu[] = [
     icon: ContentIcon
   },
   {
-    name: 'Tag',
-    path: 'tag',
+    name: 'Chat',
+    path: 'Chat',
     hidden: false,
-    element: <Author />,
+    element: <ChatList />,
     icon: TagIcon
   },
   {

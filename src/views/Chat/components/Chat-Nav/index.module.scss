@@ -1,0 +1,18 @@
+.chat-nav-wrapper {
+
+  .chat-nav-header {
+    height: 60px;
+    background: white;
+    display: flex;
+    align-items: center;
+    padding-left: 15px;
+    border-bottom: 1px solid #eee;
+ 
+    .chat-nav-tip {
+      margin-left: 10px;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+    }
+  }
+
+}
