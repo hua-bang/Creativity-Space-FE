@@ -46,10 +46,17 @@ const ChatNav = React.forwardRef((props: ChatNavProps, ref) => {
   }));
 
   const handleSelect = (id: string) => {
-    setUnreadCountMap(prev => ({
-      ...prev,
-      [id]: 0
-    }));
+
+    setUnreadCountMap(prev => {
+      const nextState = {
+        ...prev,
+        [id]: 0,
+      };
+      if (selectChat) {
+        nextState[selectChat.id] = 0;
+      }
+      return nextState;
+    });
     onSelect && onSelect(id);
   };
 

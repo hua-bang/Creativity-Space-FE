@@ -1,10 +1,12 @@
 import { createMessage, getMessageListById } from '@/api/chat';
+import CosUpload from '@/components/Cos-Upload';
 import Emoji from '@/components/Emoji';
 import { Chat } from '@/typings/chat';
 import { ChatMessage, ChatMessageTypeEnum } from '@/typings/chat-message';
 import { User } from '@/typings/user';
-import { Avatar, Icon, Input, Message, Popover } from '@arco-design/web-react';
-import { IconFaceSmileFill, IconSend, IconUser } from '@arco-design/web-react/icon';
+import { transformMessageByType } from '@/utils/chat';
+import { Avatar, Icon, Input, Message, Modal, Popover, Spin } from '@arco-design/web-react';
+import { IconBook, IconFaceSmileFill, IconFileImage, IconList, IconSend, IconUser } from '@arco-design/web-react/icon';
 import React, { useEffect, useRef, useState } from 'react';
 import { Socket } from 'socket.io-client';
 import ChatMessageItem from './compoents/Chat-Message-Item';
@@ -38,47 +40,59 @@ const ChatMain: React.FC<ChatMainProps> = ({
   };
   
   const loadChatMessage = (chat: Chat) => {
+    setLoading(true);
     getMessageListById(chat.id).then(res => {
       setMessageList(res.data);
-      msgEndRef.current?.scrollIntoView();
+      setTimeout(() => {
+        msgEndRef.current?.scrollIntoView();  
+      }, 300);     
     }).catch(err => {
       Message.warning(err.message);
+    }).finally(() => {
+      setLoading(false);
     });
   };
 
-  const changeList = (content: string, chat_id: string, increment = false) => {
-    const { value } = JSON.parse(content);
+  const changeList = (content: string, type: ChatMessageTypeEnum, chat_id: string, increment = false) => {
+    const last_message = transformMessageByType(JSON.parse(content), type);
     const onChatListChange = onChatListChangeRef.current;
     if (onChatListChange && userInfo) {
       onChatListChange(chat_id, {
         update_time: new Date().toLocaleString(),
-        last_message: value,
+        last_message,
       }, increment);
     }
   };
 
-  const afterReceived = (content: string, chat_id: string, increment = false) => {
-    changeList(content, chat_id, increment);    
+  const afterReceived = (content: string, type: ChatMessageTypeEnum, chat_id: string, increment = false) => {
+    changeList(content, type, chat_id, increment);    
     msgEndRef.current?.scrollIntoView();
   };
 
-  const create = () => {
-    if (loading) {
-      return ;
-    }
-    if (chat && val && socket) {
-      setLoading(true);
+  const createMessage = (content: string, type: ChatMessageTypeEnum = ChatMessageTypeEnum.MESSAGE) => {
+    if (chat && socket) {
       const message = {
-        content: JSON.stringify({ value: val }),
+        content,
+        type,
         chat_id: chat.id,
-        type: ChatMessageTypeEnum.MESSAGE
       };
       socket.emit('message', {
         createMessageDto: message,
       });
-      setLoading(false);
-      setVal('');
     }
+    setVal('');
+  };
+
+  const createTextMessage = () => {
+    if (loading || !val) {
+      return ;
+    }
+    createMessage(JSON.stringify({ value: val }));
+  };
+
+  const createImageMessage = (url: string) => {
+    const content = JSON.stringify({ value: url });
+    createMessage(content, ChatMessageTypeEnum.IMAGE);
   };
 
   const handleChoose = (emoji: string) => {
@@ -94,7 +108,7 @@ const ChatMain: React.FC<ChatMainProps> = ({
           data
         ]);
       }
-      afterReceived(data.content, data.chat_id, true);
+      afterReceived(data.content, data.type, data.chat_id, true);
     });
     socket.on('sendSuccess', (data) => {
       const chat = chatRef.current;
@@ -108,8 +122,30 @@ const ChatMain: React.FC<ChatMainProps> = ({
           newMessage,
         ]));
       }
-      afterReceived(data.content, data.chat_id);
+      afterReceived(data.content, data.type, data.chat_id);
     });
+  };
+
+  const handleUploadSuccess = (imgUrls: string[]) => {
+    const img = imgUrls[0];
+    Modal.confirm({
+      title: '确认发送',
+      content: (
+        <div style={{ textAlign: 'center' }}>
+          <img style={{ width: '80%', margin: '0 auto' }} src={img} />
+        </div>
+      ),
+      onOk() {
+        createImageMessage(img);
+      }
+    });
+  };
+
+  const handleSearch = (value: string) => {
+    if (value) {
+      const content = JSON.stringify({ value });
+      createMessage(content, ChatMessageTypeEnum.ARTICLE);
+    }
   };
 
   useEffect(() => {
@@ -140,18 +176,20 @@ const ChatMain: React.FC<ChatMainProps> = ({
           }
         </Avatar>
         <span className={styles['chat-main-name']}>
-          { otherUser ? otherUser.name : 'hug' }
+          { otherUser ? otherUser.name : '' }
         </span>
       </div>
       <div className={styles['chat-message-main-area']}>
-        { 
-          messageList.map(item => (
-            <ChatMessageItem 
-              chatMessage={item} 
-              key={item.id} 
-              position={item.user_id === userInfo?.id ? 'right' : 'left'}
-            />
-          ))
+        {
+          !loading ? (
+            messageList.map(item => (
+              <ChatMessageItem 
+                chatMessage={item} 
+                key={item.id} 
+                position={item.user_id === userInfo?.id ? 'right' : 'left'}
+              />
+            ))
+          ) : <Spin />
         }
         <div ref={msgEndRef} style={{ height: '0', overflow: 'hidden' }}></div>
       </div>
@@ -162,11 +200,27 @@ const ChatMain: React.FC<ChatMainProps> = ({
               <IconFaceSmileFill fontSize={26}/>
             </Popover>
           </div>
+          <div className={styles['chat-input-icon']}>
+            <CosUpload  showUploadList={false} onUploadSuccess={handleUploadSuccess}>
+              <IconFileImage fontSize={26}/>
+            </CosUpload>
+          </div>
+          <div className={styles['chat-input-icon']}>
+            <Popover 
+              trigger='click' 
+              content={
+                <Input.Search searchButton="确认" 
+                  placeholder="输入文章ID" 
+                  onSearch={handleSearch} 
+                />}>
+              <IconBook fontSize={26} />
+            </Popover>
+          </div>
           <div className={styles['chat-main-area']}>
-            <Input onPressEnter={create} value={val} onChange={handleChange} />
+            <Input onPressEnter={createTextMessage} value={val} onChange={handleChange} />
           </div>
           <div className={styles['chat-send']}>
-            <div className={styles['btn-wrapper']} onClick={create}>
+            <div className={styles['btn-wrapper']} onClick={createTextMessage}>
               <IconSend color="white"  fontSize={20}/>
             </div>
           </div> 

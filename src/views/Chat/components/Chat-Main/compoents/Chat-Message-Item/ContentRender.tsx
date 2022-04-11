@@ -1,5 +1,7 @@
 import React from 'react';
 import { ChatMessageTypeEnum } from '@/typings/chat-message';
+import { Image } from '@arco-design/web-react';
+import ChatArticle from '@/components/Chat-Article';
 
 interface ContentRenderProps {
   content: string;
@@ -24,7 +26,7 @@ const ContentMap = {
     render(data: any) {
       return (
         <div>
-          123
+          <Image width={300} src={data.value} />
         </div>
       );
     }
@@ -38,6 +40,13 @@ const ContentMap = {
       );
     }
   },
+  [ChatMessageTypeEnum.ARTICLE]: {
+    render(data: any) {
+      return (
+        <ChatArticle articleId={data.value} />
+      );
+    }
+  }
 };
 
 const ContentRender: React.FC<ContentRenderProps> = ({
