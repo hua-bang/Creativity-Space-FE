@@ -1,6 +1,6 @@
 import useToken from '@/hooks/useToken';
 import { Button } from '@arco-design/web-react';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import io, { Socket } from 'socket.io-client';
 import useStore from '@/hooks/useStore';
 import { observer } from 'mobx-react-lite';
@@ -19,6 +19,7 @@ const ChatRoom = () => {
   const [chatList, setChatList] = useState<Chat[]>([]);
   const { userStore } = useStore();
   const [chat, setChat] = useState<Chat>(); 
+  const chatNavRef = useRef<any>();
 
   const userInfo = userStore.userInfo;
 
@@ -31,12 +32,6 @@ const ChatRoom = () => {
       },
     });
     setSocket(ws);
-  };
-
-  const send = () => {
-    socket && socket.emit('message', { message: 'hug' }, (data: any) => {
-      console.log(data);
-    });
   };
 
   const load = () => {
@@ -67,7 +62,11 @@ const ChatRoom = () => {
     load();
   }, []);
 
-  const handleChatListChange = (id: string, chat: Partial<Chat>) => {
+  useEffect(() => {
+    connect();
+  }, [userInfo]);
+
+  const handleChatListChange = (id: string, chat: Partial<Chat>, increment = false) => {
     const target = chatList.find(item => item.id === id);
     if (target) {
       const newTarget = {
@@ -76,16 +75,22 @@ const ChatRoom = () => {
       };
       const otherChat = chatList.filter(item => item.id !== id);
       setChatList([newTarget, ...otherChat]);
+      increment && chatNavRef.current.increment(id, 1);
     }
   };
 
   return (
     <div className={styles['chat-wrapper']}>
       <div className={styles['left-chat-nav']}>
-        <ChatNav selectChat={chat} onSelect={handleSelect} chatList={chatList} userInfo={userInfo} />
+        <ChatNav ref={chatNavRef} selectChat={chat} onSelect={handleSelect} chatList={chatList} userInfo={userInfo} />
       </div>
       <div className={styles['right-chat-main']}>
-        <ChatMain onChatListChange={handleChatListChange} otherUser={otherUser} userInfo={userInfo} chat={chat} />
+        <ChatMain 
+          socket={socket} 
+          onChatListChange={handleChatListChange} 
+          otherUser={otherUser} 
+          userInfo={userInfo} 
+          chat={chat} />
       </div>
     </div>
   );

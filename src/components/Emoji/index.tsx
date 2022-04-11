@@ -20,8 +20,8 @@ const Emoji: React.FC<EmojiProps> = ({
     <div className={styles['emoji']}>
       <ul className={styles['emoji-default']}>
         {
-          emojiArr.map(item => (
-            <li onClick={() => handleClick(item)} key={item}>{item}</li>
+          emojiArr.map((item, index) => (
+            <li onClick={() => handleClick(item)} key={index}>{item}</li>
           ))
         }
       </ul>

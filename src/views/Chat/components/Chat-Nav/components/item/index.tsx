@@ -1,27 +1,30 @@
+/* eslint-disable react/display-name */
 import { Chat } from '@/typings/chat';
 import dayjs from 'dayjs';
-import React from 'react';
+import React, { useImperativeHandle, useState } from 'react';
 import styles from './index.module.scss';
 import className from 'classnames';
 import { User } from '@/typings/user';
-import { ChatUser } from '@/typings/chat-user';
 
 interface ChatItemProps {
   chat: Chat;
   active?: boolean;
   userInfo?: User;
   onSelect: (id: string) => void;
+  unreadCount: number;
 }
 
-const ChatItem: React.FC<ChatItemProps> = ({
-  chat,
-  active = false,
-  onSelect,
-  userInfo,
-}) => {
+const ChatItem = React.forwardRef((props: ChatItemProps, ref) => {
 
+  const {    
+    chat,
+    active = false,
+    onSelect,
+    userInfo,
+    unreadCount
+  } = props;
   const cls = className(styles['chat-item'], active ? styles['active'] : '');  
-  
+
   const handleClick = () => {
     onSelect(chat.id);
   };
@@ -29,10 +32,7 @@ const ChatItem: React.FC<ChatItemProps> = ({
   const otherUser = userInfo?.id === chat.chat_users[0].user_id ? (
     chat.chat_users[1].user
   ) : chat.chat_users[0].user;
-  
-  const selfChat = userInfo?.id === chat?.chat_users[0].user_id ? (
-    chat?.chat_users[0]
-  ) : chat?.chat_users[1];
+   
 
   return (
     <div className={cls} onClick={handleClick}>
@@ -50,15 +50,15 @@ const ChatItem: React.FC<ChatItemProps> = ({
       <div className={styles['chat-time']}>
         { dayjs(chat.update_time).format('hh:mm:ss') }
         {
-          selfChat && selfChat.unread_count > 0 && (
+          !active && unreadCount > 0 && (
             <div className={styles['unread-count']}>
-              {selfChat.unread_count}
+              {unreadCount}
             </div>
           )
         }
       </div>
     </div>
   );
-};
+});
 
 export default ChatItem;
