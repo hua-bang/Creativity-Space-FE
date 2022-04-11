@@ -36,6 +36,12 @@ const DropList: React.FC<DropListProps> = ({
       }
     },
     {
+      title: '聊天',
+      onClick() {
+        navigate('/chat');
+      }
+    },
+    {
       title: '个人设置',
       onClick() {
         navigate('/setting');

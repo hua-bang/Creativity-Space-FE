@@ -27,7 +27,11 @@ const ChatList = () => {
       <div className={styles['author-title']}>ChatRoom</div>
       <div className={styles['author-list']}>
         {
-          authorArr.map(item => ( <ChatUserItem canChat={!!userStore.userInfo} key={item.id} user={item} /> ))
+          authorArr.map(item => ( <ChatUserItem 
+            canChat={!!userStore.userInfo} 
+            key={item.id} 
+            user={item} 
+          /> ))
         }
       </div>
     </>

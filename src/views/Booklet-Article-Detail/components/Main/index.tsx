@@ -1,10 +1,11 @@
 import { Booklet } from '@/typings/booklet';
-import { BookletArticle } from '@/typings/booklet-article';
+import { BookletArticle, BookletArticleStatusEnum } from '@/typings/booklet-article';
 import React, { useState } from 'react';
 import styles from './index.module.scss';
 import SectionItem from './components/Section-Item';
 import MarkdownView from '@/components/Markdown-View';
 import { useNavigate, useParams } from 'react-router-dom';
+import { Result } from '@arco-design/web-react';
 
 interface ArticleDetailMainProps {
   booklet: Booklet;
@@ -41,7 +42,18 @@ const ArticleDetailMain: React.FC<ArticleDetailMainProps> = ({
       </div>
       <div className={styles['detail-main-content-wrapper']}>
         <div className={styles['detail-main-content']}>
-          <MarkdownView  value={article.content} />
+          {
+            article.status === BookletArticleStatusEnum.AUDITED 
+              ? (
+                <MarkdownView  value={article.content} />
+              ) : (
+                <Result
+                  status='403'
+                  subTitle='小册文章在书写中，敬请期待。'
+                >
+                </Result>
+              )
+          }
         </div>
       </div>
     </div>
