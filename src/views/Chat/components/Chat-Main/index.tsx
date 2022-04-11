@@ -5,7 +5,7 @@ import { ChatMessage, ChatMessageTypeEnum } from '@/typings/chat-message';
 import { User } from '@/typings/user';
 import { Avatar, Icon, Input, Message, Popover } from '@arco-design/web-react';
 import { IconFaceSmileFill, IconSend, IconUser } from '@arco-design/web-react/icon';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ChatMessageItem from './compoents/Chat-Message-Item';
 import styles from './index.module.scss';
 
@@ -13,42 +13,71 @@ interface ChatMainProps {
   userInfo?: User;
   chat?: Chat;
   otherUser?: User;
+  onChatListChange?: (id: string, chat: Partial<Chat>) => void;
 }
 
 const ChatMain: React.FC<ChatMainProps> = ({
   chat,
   userInfo,
-  otherUser
+  otherUser,
+  onChatListChange,
 }) => {
 
   const [val, setVal] = useState(''); 
   const [messageList, setMessageList] = useState<ChatMessage[]>([]);
+  const [loading, setLoading] = useState(false);
+  const msgEndRef = useRef<HTMLDivElement>(null);
 
   const handleChange = (value: string) => {
     setVal(value);
   };
-
   
   const loadChatMessage = (chat: Chat) => {
     getMessageListById(chat.id).then(res => {
       setMessageList(res.data);
+      msgEndRef.current?.scrollIntoView();
     }).catch(err => {
       Message.warning(err.message);
     });
   };
 
+  const changeList = (content: string) => {
+    const { value } = JSON.parse(content);
+    if (onChatListChange && userInfo && chat) {
+      onChatListChange(chat.id, {
+        update_time: new Date().toLocaleString(),
+        last_message: value,
+      });
+    }
+  };
+
   const create = () => {
+    if (loading) {
+      return ;
+    }
     if (chat && val) {
+      setLoading(true);
       const message = {
         content: JSON.stringify({ value: val }),
         chat_id: chat.id,
         type: ChatMessageTypeEnum.MESSAGE
       };
       createMessage(message).then(res => {
+        const newMessage = {
+          ...res.data,
+          user: userInfo,
+        };
         setVal('');
-        loadChatMessage(chat);
+        setMessageList((prev => [
+          ...prev,
+          newMessage,
+        ]));
+        changeList(JSON.stringify({ value: val }));    
+        msgEndRef.current?.scrollIntoView();
       }).catch(err => {
         Message.warning(err.message);
+      }).finally(() => {
+        setLoading(false);
       });
     }
   };
@@ -85,6 +114,7 @@ const ChatMain: React.FC<ChatMainProps> = ({
             />
           ))
         }
+        <div ref={msgEndRef} style={{ height: '0', overflow: 'hidden' }}></div>
       </div>
       <div className={styles['chat-input']}>
         <div className={styles['chat-input-main']}>

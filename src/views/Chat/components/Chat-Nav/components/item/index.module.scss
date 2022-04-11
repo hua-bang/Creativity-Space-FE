@@ -52,6 +52,22 @@
     color: #707559;
     font-size: 14px;
     margin-top: 2px;    
+    position: relative;
+  }
+
+  .unread-count {
+    position: absolute;
+    bottom: 2px;
+    right: 5px;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 12px;
   }
 }
 

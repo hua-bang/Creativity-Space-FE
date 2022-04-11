@@ -20,5 +20,9 @@ export interface Chat {
 
   update_time: string;
 
+  create_time: string;
+
+  last_message: string;
+
   chat_users: ChatUser[];
 }

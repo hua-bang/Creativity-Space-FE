@@ -67,13 +67,25 @@ const ChatRoom = () => {
     load();
   }, []);
 
+  const handleChatListChange = (id: string, chat: Partial<Chat>) => {
+    const target = chatList.find(item => item.id === id);
+    if (target) {
+      const newTarget = {
+        ...target,
+        ...chat
+      };
+      const otherChat = chatList.filter(item => item.id !== id);
+      setChatList([newTarget, ...otherChat]);
+    }
+  };
+
   return (
     <div className={styles['chat-wrapper']}>
       <div className={styles['left-chat-nav']}>
         <ChatNav selectChat={chat} onSelect={handleSelect} chatList={chatList} userInfo={userInfo} />
       </div>
       <div className={styles['right-chat-main']}>
-        <ChatMain otherUser={otherUser} userInfo={userInfo} chat={chat} />
+        <ChatMain onChatListChange={handleChatListChange} otherUser={otherUser} userInfo={userInfo} chat={chat} />
       </div>
     </div>
   );

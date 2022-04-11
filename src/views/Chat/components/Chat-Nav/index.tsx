@@ -1,4 +1,5 @@
 import { Chat } from '@/typings/chat';
+import { ChatUser } from '@/typings/chat-user';
 import { User } from '@/typings/user';
 import { Avatar, Icon } from '@arco-design/web-react';
 import { IconUser } from '@arco-design/web-react/icon';

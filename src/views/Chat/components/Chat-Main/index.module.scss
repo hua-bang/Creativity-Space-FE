@@ -25,6 +25,21 @@
   width: 100%;
   box-sizing: border-box;
   padding: 20px;
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar-track {
+    border-radius: 10px;
+    // background-color: #ffffff;
+  }
+  &::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+    // background-color: #ffffff;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.2);
+  }
 }
 
 .chat-main-name {
