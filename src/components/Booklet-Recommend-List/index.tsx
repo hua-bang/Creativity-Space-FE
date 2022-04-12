@@ -12,7 +12,7 @@ const BookletRecommendList: React.FC = () => {
 
   useEffect(() => {
     getBookletList().then(res => {
-      setBookletList(res.data);
+      setBookletList(res.data.list);
     });
   }, []);
 

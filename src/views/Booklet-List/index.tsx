@@ -15,7 +15,7 @@ const BookletList = () => {
 
   const load = () => {
     getBookletList().then(res => {
-      setBookletList(res.data);
+      setBookletList(res.data.list);
     });
   };
 
