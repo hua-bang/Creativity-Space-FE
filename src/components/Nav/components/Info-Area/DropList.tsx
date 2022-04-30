@@ -32,7 +32,7 @@ const DropList: React.FC<DropListProps> = ({
     {
       title: '创作者中心',
       onClick() {
-        Message.info('暂未开放');
+        navigate('/creation-center');
       }
     },
     {

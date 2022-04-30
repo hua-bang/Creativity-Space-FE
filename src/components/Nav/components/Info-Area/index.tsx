@@ -27,9 +27,7 @@ const InfoArea = () => {
         <Button type="primary" onClick={toEdit}>Create Post</Button>      
       </div>
       <div className={styles['notification-area']}>
-        <Badge count={10} style={{ fontSize: '3px' }}>
-          <IconNotification style={{ fontSize: '24px' }} />
-        </Badge>
+        
       </div>
       <div className={styles['avatar-area']}>
         <Dropdown position="bottom" droplist={dropList}>

@@ -1,42 +1,25 @@
-import { followUser, getUserFollowByFollowUserId } from '@/api/user-follow';
-import { Follow, UserFollowStatusEnum } from '@/typings/follow';
 import { User } from '@/typings/user';
 import { Button, Message, Avatar } from '@arco-design/web-react';
 import { IconUser } from '@arco-design/web-react/icon';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styles from './index.module.scss';
+import { useNavigate } from 'react-router-dom';
 
 interface AuthorBasicInfoProps {
-  author: User;
-  userInfo?: User;
+  userInfo: User;
 }
 
 const AuthorBasicInfo: React.FC<AuthorBasicInfoProps> = ({
-  author,
   userInfo
 }) => {
-  const isSelf = userInfo?.id === author.id;
-  const [followInfo, setFollowInfo] = useState<Follow>();
+  const author = userInfo;
 
-  const follow = () => {
-    followUser(author.id).then((res) => {
-      setFollowInfo(res.data);
-      Message.success('操作成功');
-    }).catch(err => {
-      Message.warning(err.message);
-    });
+  const navigate = useNavigate();
+
+  const toAuthorDetail = () => {
+    navigate(`/author/${userInfo.id}`);
   };
-
-  const loadFollowInfo = () => {
-    getUserFollowByFollowUserId(author.id).then(res => {
-      setFollowInfo(res.data);
-    }).catch(console.warn);
-  };
-
-  useEffect(() => {
-    loadFollowInfo();
-  }, [author]);
-
+ 
   return (
     <div className={styles['author-basic-info']}>
       <div className={styles['author-basic-info-image']}>
@@ -65,15 +48,11 @@ const AuthorBasicInfo: React.FC<AuthorBasicInfoProps> = ({
               {`🌐  ${author.home_page}`}
             </div>
           </div>
-          {
-            !isSelf && (    
-              <div className={styles['author-basic-info-introdcut-right']}>
-                <Button onClick={follow} type='outline'>
-                  { followInfo && followInfo.status === UserFollowStatusEnum.NORMAL ? '取消关注' : '关注' }
-                </Button>
-              </div>
-            )
-          }
+          <div className={styles['author-basic-info-introdcut-right']}>
+            <Button onClick={toAuthorDetail} type='outline'>
+              个人首页
+            </Button>
+          </div>
         </div>
       </div>
     </div>

@@ -124,10 +124,10 @@ const PublishForm: React.FC<PublishFormProps> = ({
           }}
         />
       </Form.Item>
-      <FormItem label='编辑摘要' field='description' rules={[{required: true}]}>
+      <FormItem label='编辑描述' field='description' rules={[{required: true}]}>
         <Input.TextArea 
           autoSize={{ minRows: 3, maxRows: 6 }}
-          placeholder='please enter your name'
+          placeholder='输入文章简要描述'
         />
       </FormItem>
       <FormItem style={{ width: '100%', textAlign: 'right' }} wrapperCol={{ span: 24 }}>

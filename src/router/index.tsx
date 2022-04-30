@@ -13,6 +13,7 @@ import CreateBooklet from '@/views/Create-Booklet';
 import BookletDetail from '@/views/Booklet-Detail';
 import BookletArticleDetail from '@/views/Booklet-Article-Detail';
 import BookletArticleEditor from '@/views/Booklet-Article-Editor';
+import CreationCenter from '@/views/Creation-Center';
 import Chat from '@/views/Chat';
 
 interface RouterConfig extends RouteObject {
@@ -87,6 +88,10 @@ const routes: RouterConfig[] = [
   {
     path: '/chat',
     element: <Chat />
+  },
+  {
+    path: '/creation-center',
+    element: <CreationCenter />
   }
 ];
 

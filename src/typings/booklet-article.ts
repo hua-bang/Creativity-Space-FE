@@ -7,7 +7,6 @@ export enum BookletArticleStatusEnum {
   UNAUDITED = 1,
   AUDITED = 2,
 }
-
 export interface BookletArticle {
   id: string;
   title: string;

@@ -28,7 +28,7 @@ const SearchArea = () => {
     <div className={styles['search-area']}>
       <div className={styles['logo-area']} onClick={toHomePage}>
         <img 
-          src='https://dev-to-uploads.s3.amazonaws.com/uploads/logos/resized_logo_UQww2soKuUsjaOGNB38o.png' 
+          src='https://cos-1258926018.cos.ap-guangzhou.myqcloud.com/common-file%2F%E6%AF%95%E8%AE%BE-Logo.drawio%20(1).png' 
         />
       </div>
       <div className={styles['input-area']}>
