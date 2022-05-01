@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import styles from './index.module.scss';
-import { Form, Input, Button, Message, Drawer } from '@arco-design/web-react';
+import { Form, Input, Button, Message, Drawer, Modal } from '@arco-design/web-react';
 import CosUpload from '@/components/Cos-Upload';
 import { UploadItem } from '@arco-design/web-react/es/Upload';
-import { createBooklet, getBookletDetail, updateBooklet } from '@/api/booklet';
+import { createBooklet, deleteBookletById, getBookletDetail, updateBooklet } from '@/api/booklet';
 import { Booklet, CreateBookletType } from '@/typings/booklet';
 import { useParams } from 'react-router-dom';
 import MarkDownEditor from '@/components/MarkDown-Editor';
 import ArticleList from './components/Article-List';
 import { BookletArticle } from '@/typings/booklet-article';
+import { useNavigate } from 'react-router-dom';
 
 const BookletForm: React.FC = () => {
 
@@ -18,8 +19,12 @@ const BookletForm: React.FC = () => {
   const [introduce, setIntroduce] = useState<string>('');
   const [visible, setVisible] = useState(false); 
 
+  const navigate = useNavigate();
+
   const params = useParams();
   const bookletId = params.id;
+
+  const isUpdate = !!bookletId;
 
   const FormItem = Form.Item;
   const [ form ] = Form.useForm();
@@ -50,15 +55,21 @@ const BookletForm: React.FC = () => {
 
   const update = (data: CreateBookletType) => {
     if (booklet) {
-      updateBooklet({
-        ...booklet,
-        ...data,
-        introduce,
-        cover_url: urls[0],
-      }).then(res => {
-        Message.success('修改成功。');
-      }).catch(err => {
-        Message.warning(err.message);
+      Modal.confirm({
+        title: '提示信息',
+        content: '修改会重新走审核流程，请确认。',
+        onOk() {
+          updateBooklet({
+            ...booklet,
+            ...data,
+            introduce,
+            cover_url: urls[0],
+          }).then(res => {
+            Message.success('修改成功,待管理员审核。');
+          }).catch(err => {
+            Message.warning(err.message);
+          });
+        }
       });
     }
   };
@@ -68,6 +79,25 @@ const BookletForm: React.FC = () => {
       update(data);
     } else {
       create(data);
+    }
+  };
+
+  const deleteBooklet = () => {
+    if (bookletId) {
+      Modal.confirm({
+        title: '提示信息',
+        content: '删除操作不可逆，请确定',
+        onOk() {
+          deleteBookletById(bookletId).then(res => {
+            Message.success('删除成功');
+            setTimeout(() => {
+              navigate('/creation-center');
+            }, 1000);
+          }).catch(err => {
+            Message.error('请求错误，请重试');
+          });
+        }
+      });
     }
   };
 
@@ -125,6 +155,13 @@ const BookletForm: React.FC = () => {
           </FormItem>
           <FormItem wrapperCol={{ offset: 3, span: 19 }}>
             <Button type='primary' htmlType="submit" long>保 存 😊 </Button>
+            {
+              isUpdate && (  
+                <Button onClick={deleteBooklet} status='danger' type='secondary' style={{ marginTop: '20px' }} long>
+                  删除
+                </Button>   
+              )
+            }
           </FormItem>
         </Form>
       </div>

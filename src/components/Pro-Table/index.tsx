@@ -78,17 +78,17 @@ function ProTable<
     setParams(prev => ({
       ...prev,
       page: current,
-    }))
-  }
+    }));
+  };
   
   const handleSubmit = (data: FormData) => {
     setParams(prev => ({
       ...prev,
       ...data,
       page: 1
-    }))
+    }));
     onFormChange && onFormChange(data);
-  }
+  };
 
   const request = (params: ParamsData) => {
     if (requestFn) {
@@ -97,19 +97,19 @@ function ProTable<
         .then(res => {
           const { list, pagination } = res.data;
           onDataChange && onDataChange(list);
-          setTotal(pagination.total)
+          setTotal(pagination.total);
         }).catch(err => {
           Message.warning(err.message);
         }).finally(() => {
           setLoading(false);
         });
     }
-  }
+  };
 
   const reset = () => {
     setParams({...defaultParams} as unknown as ParamsData);
     form.resetFields();
-  }
+  };
 
   useEffect(() => {
     request(params);

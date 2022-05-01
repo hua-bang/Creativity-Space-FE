@@ -1,6 +1,6 @@
 import { CreateArticleComment } from './../typings/comment';
 import request from '@/request';
-import { CreateArticleType, UpdateArticleType } from '@/typings/article';
+import { CreateArticleType, UpdateArticleType, QueryArticleDto } from '@/typings/article';
 
 export function createArticle(article: CreateArticleType) {
   return request({
@@ -59,3 +59,11 @@ export function updateArticle(article: UpdateArticleType) {
 export function deleteComment(commentId: string) {
   return request.post(`/article-comment/delete/${commentId}`);
 }
+
+export const queryArticleList = (queryArticleDto: QueryArticleDto) => {
+  return request.post('/article/queryByUser', queryArticleDto);
+};
+
+export const getArticleDetailById = (id: string) => {
+  return request.get(`/article/${id}`);
+};

@@ -42,3 +42,12 @@ export type UpdateArticleType = RequiredKey<
   Article, 
   'id' | 'title' | 'description' | 'category_id' | 'type' | 'content' | 'cover_url'
 >;
+
+export interface QueryArticleDto {
+  page: number;
+  pageSize: number;
+  status?: ArticleStatusEnum;
+  title?: string;
+  order?: string;
+  order_by?: string;
+}

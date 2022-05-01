@@ -18,6 +18,7 @@ export interface Point {
   user: User;
   point_tag_id?: string; 
   img_str: string;
+  status: number;
   tag?: Tag;
 }
 
@@ -25,3 +26,12 @@ export type CreatePointType = RequiredKey<
   Point, 
   'content' | 'point_tag_id'| 'img_str'
 >;
+
+export interface QueryPointDto {
+  page: number;
+  pageSize: number;
+  status?: PointStatusEnum;
+  content?: string;
+  order?: string;
+  order_by?: string;
+}

@@ -4,8 +4,8 @@ import React, { useState } from 'react';
 import styles from './index.module.scss';
 import CreationOverview from './components/CreationOverview';
 import ArticleList from './components/ArticleList';
-import PointList from './components/PointList';
 import BookletList from './components/BookletList';
+import PointList from './components/PointList';
 
 const menus = {
   overview: {
@@ -32,11 +32,13 @@ const MenuItem = Menu.Item;
 
 const CreationData = () => {
 
-  const [selectedKey, setSelectedKey] = useState(['overview']);
+  const [selectedKey, setSelectedKey] = useState(['article']);
 
   const handleKeyChange = (key: string) => {
     setSelectedKey([key]);
   };
+
+  [].reduce;
 
   const RenderComponent = menus[selectedKey[0] as MenuKey].component;
 
@@ -51,7 +53,9 @@ const CreationData = () => {
           }
         </Menu>
       </div>
-      <RenderComponent />
+      <div className={styles['render-component-wrapper']}>
+        <RenderComponent />
+      </div>
     </div>
   );
 };

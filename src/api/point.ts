@@ -1,5 +1,5 @@
 import request from '@/request';
-import { CreatePointType } from '@/typings/point';
+import { CreatePointType, QueryPointDto } from '@/typings/point';
 import { CreateCommentType} from '@/typings/comment';
 
 export function getAllPoint() {
@@ -46,3 +46,7 @@ export function likePoint(id: string) {
 export function getPointTag() {
   return request.get('/point-tag/all');
 }
+
+export const queryPoint = (queryPointDto: QueryPointDto) => {
+  return request.post('/point/queryByUser', queryPointDto);
+};

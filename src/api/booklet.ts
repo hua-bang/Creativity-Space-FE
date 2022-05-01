@@ -1,6 +1,6 @@
 import { updateArticle } from '@/api/article';
 import request from '@/request';
-import { CreateBookletType, UpdateBookletType } from './../typings/booklet';
+import { CreateBookletType, QueryBookletDto, UpdateBookletType } from './../typings/booklet';
 import { UpdateBookletArticleType, CreateBookletArticleType } from '@/typings/booklet-article';
 
 export const getBookletList = () => {
@@ -44,4 +44,12 @@ export const deleteBookletArticle = (bookletId: string, articleId: string) => {
     booklet_id: bookletId,
     article_id: articleId
   });
+};
+
+export const queryBookletList = (params: QueryBookletDto) => {
+  return request.post('/booklet/queryByUser', params);
+};
+
+export const deleteBookletById = (id: string) => {
+  return request.post(`/booklet/delete/${id}`);
 };

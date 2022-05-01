@@ -39,3 +39,14 @@ export type UpdateBookletType = Pick<
   Booklet,
   'id' | 'cover_url' | 'name' | 'description' | 'introduce'
 >; 
+
+
+export interface QueryBookletDto {
+  page: number;
+  pageSize: number;
+  status?: BookletStatusEnum;
+  name?: string;
+  description?: string;
+  order?: string;
+  order_by?: string;
+}
