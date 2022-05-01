@@ -1,0 +1,10 @@
+.count-area {
+  margin: 30px 0;
+  display: flex;
+  width: 100%;
+
+  > div {
+    flex: 1;
+    text-align: center;
+  }
+}

@@ -32,7 +32,7 @@ const MenuItem = Menu.Item;
 
 const CreationData = () => {
 
-  const [selectedKey, setSelectedKey] = useState(['article']);
+  const [selectedKey, setSelectedKey] = useState(['overview']);
 
   const handleKeyChange = (key: string) => {
     setSelectedKey([key]);

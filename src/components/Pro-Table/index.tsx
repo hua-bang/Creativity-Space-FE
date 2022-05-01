@@ -115,19 +115,6 @@ function ProTable<
     request(params);
   }, [params]);
 
-  useEffect(() => {
-    if (isMounted) {
-      if (defaultParams) {
-        setParams(prev => ({
-          ...prev,
-          ...defaultParams
-        }));
-      }
-    } else {
-      setIsMounted(true);
-    }
-  }, [defaultParams]);
-
   return (
     <div>
       <div style={{ padding: '5px' }}>

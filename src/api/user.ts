@@ -32,3 +32,7 @@ export function setUserInfo(info: UserBasicInfo) {
 export function updatePassword(info: UpdatePasswordInfo) {
   return request.post('/auth/updatePassword', info);
 }
+
+export function getUserStaticInfo() {
+  return request.get('/admin/user/static/info');
+}

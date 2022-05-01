@@ -9,8 +9,15 @@ import { QueryPointDto } from '@/typings/point';
 import { queryPoint } from '@/api/point';
 import { ColumnProps } from '@arco-design/web-react/es/Table';
 
+interface PointListProps {
+  showTitle?: boolean;
+  searchParams?: Record<string, any>;
+}
 
-const PointList: React.FC = () => {
+const PointList: React.FC<PointListProps> = ({
+  showTitle = true,
+  searchParams = {}
+}) => {
   
   const [data, setData] = useState<Point[]>([]);
   const handleDataChange = (data: Point[]) => {
@@ -42,12 +49,13 @@ const PointList: React.FC = () => {
 
   return (
     <div className={styles['user-list-page']}>
-      <h3>动态列表</h3>
+      { showTitle && (<h3>动态列表</h3>) }
       <ProTable<Point, QueryPointDto>
         columns={columns}
         requestFn={queryPoint}
         formColumns={formColumns}
         data={data}
+        defaultParams={searchParams}
         onDataChange={handleDataChange}
       />
     </div>

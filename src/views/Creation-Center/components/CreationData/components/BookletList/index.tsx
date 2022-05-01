@@ -7,6 +7,11 @@ import React, { useEffect, useState } from 'react';
 import { columns as defaultColumn } from './columns';
 import styles from './index.module.scss';
 
+interface BookletListProps {
+  showTitle?: boolean;
+  searchParams?: Record<string, any>;
+}
+
 const defaultParams = {
   page: 1,
   pageSize: 10,
@@ -15,10 +20,13 @@ const defaultParams = {
 const FormItem = Form.Item;
 const Option = Select.Option;
 
-const BookletList: React.FC = () => {
+const BookletList: React.FC<BookletListProps> = ({
+  showTitle = true,
+  searchParams = {}
+}) => {
 
   const [booklets, setBooklets] = useState<Booklet[]>([]);
-  const [params, setParams] = useState<QueryBookletDto>({...defaultParams});
+  const [params, setParams] = useState<QueryBookletDto>({...defaultParams, ...searchParams});
   const [total, setTotal] = useState<number>(0);
 
   const [form] = Form.useForm();
@@ -87,13 +95,13 @@ const BookletList: React.FC = () => {
   const columns = [...defaultColumn, ...operateColumns];
 
   const reset = () => {
-    setParams({...defaultParams});
+    setParams({...defaultParams, ...searchParams});
     form.resetFields();
   };
 
   return (
     <div>
-      <h3>小册列表</h3>
+      { showTitle && (<h3>小册列表</h3>) }
       <div style={{ padding: '5px' }}>
         <Form form={form} layout='inline' onSubmit={handleSubmit}>
           <FormItem label='小册名称' field='name'>

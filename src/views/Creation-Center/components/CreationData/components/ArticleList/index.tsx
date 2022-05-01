@@ -8,6 +8,11 @@ import { ColumnProps } from '@arco-design/web-react/es/Table';
 import MarkdownView from '@/components/Markdown-View';
 import { ARTICLE_STATUS_MAP, ARTICLE_STATUS_MAP_KEY } from '@/const/article';
 
+interface ArticleListProps {
+  showTitle?: boolean;
+  searchParams?: Record<string, any>;
+}
+
 const defaultParams = {
   page: 1,
   pageSize: 5,
@@ -16,13 +21,16 @@ const defaultParams = {
 const FormItem = Form.Item;
 const Option = Select.Option;
 
-const ArticleList: React.FC = () => {
+const ArticleList: React.FC<ArticleListProps> = ({
+  showTitle = true,
+  searchParams = {}
+}) => {
 
   const [articles, setArticles] = useState<Article[]>([]);
   const [drawVisible, setDrawVisible] = useState(false);
   const [selectArticle, setSelectArticle] = useState<Article>();
   const [content, setContent] = useState('');
-  const [params, setParams] = useState<QueryArticleDto>({...defaultParams});
+  const [params, setParams] = useState<QueryArticleDto>({...defaultParams, ...searchParams});
   const [total, setTotal] = useState(0);
   const [ form ] = Form.useForm();
 
@@ -109,14 +117,15 @@ const ArticleList: React.FC = () => {
 
   const reset = () => {
     setParams({
-      ...defaultParams
+      ...defaultParams,
+      ...searchParams
     });
     form.resetFields();
   };
 
   return (
     <div className={styles['article-list-page']}>
-      <h3>文章列表</h3>
+      { showTitle && (<h3>文章列表</h3>) }
       <div style={{ padding: '5px' }}>
         <Form form={form} layout='inline' onSubmit={handleSubmit}>
           <FormItem label='文章名称' field='title'>
