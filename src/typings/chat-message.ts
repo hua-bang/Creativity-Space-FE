@@ -8,7 +8,9 @@ export enum ChatMessageTypeEnum {
   MESSAGE = 1,
   URL = 2,
   IMAGE = 3,
-  ARTICLE
+  ARTICLE = 4,
+  POINT = 5,
+  BOOKLET = 6,
 }
 
 export interface ChatMessage {

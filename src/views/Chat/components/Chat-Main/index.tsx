@@ -11,6 +11,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Socket } from 'socket.io-client';
 import ChatMessageItem from './compoents/Chat-Message-Item';
 import styles from './index.module.scss';
+import ChatShare from './compoents/Chat-Share';
 
 interface ChatMainProps {
   socket?: Socket;
@@ -141,10 +142,10 @@ const ChatMain: React.FC<ChatMainProps> = ({
     });
   };
 
-  const handleSearch = (value: string) => {
+  const handleCreate = (value: string, type: ChatMessageTypeEnum) => {
     if (value) {
       const content = JSON.stringify({ value });
-      createMessage(content, ChatMessageTypeEnum.ARTICLE);
+      createMessage(content, type);
     }
   };
 
@@ -209,10 +210,9 @@ const ChatMain: React.FC<ChatMainProps> = ({
             <Popover 
               trigger='click' 
               content={
-                <Input.Search searchButton="确认" 
-                  placeholder="输入文章ID" 
-                  onSearch={handleSearch} 
-                />}>
+                <ChatShare onCreate={handleCreate} />
+              }
+            >
               <IconBook fontSize={26} />
             </Popover>
           </div>

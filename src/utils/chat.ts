@@ -18,6 +18,12 @@ export const ChatMessageTypeTransformMap = {
   [ChatMessageTypeEnum.URL]: (content: ContentProps) => {
     return '[链接信息]';
   },
+  [ChatMessageTypeEnum.BOOKLET]: (content: ContentProps) => {
+    return '[小册信息]';
+  },
+  [ChatMessageTypeEnum.POINT]: (content: ContentProps) => {
+    return '[动态信息]';
+  },
 };
 
 export const transformMessageByType = (

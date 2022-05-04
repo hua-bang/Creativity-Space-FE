@@ -9,11 +9,16 @@ import { IconEdit } from '@arco-design/web-react/icon';
 interface BookletItemProps {
   booklet: Booklet;
   canEdit?: boolean;
+  showUserDetail?: boolean;
 }
 
 const BookletItem: React.FC<BookletItemProps> = (props) => {
   
-  const { booklet, canEdit = false } = props;
+  const { 
+    booklet, 
+    canEdit = false,
+    showUserDetail = true
+  } = props;
 
   const navigate = useNavigate();
 
@@ -49,9 +54,13 @@ const BookletItem: React.FC<BookletItemProps> = (props) => {
             </Avatar>
             <span>
               <span>{booklet.user.name}</span>
-              <span className={styles['user-info-description']}>
-                {booklet.user.job_title} @ {booklet.user.company}
-              </span>
+              {
+                showUserDetail && (    
+                  <span className={styles['user-info-description']}>
+                    {booklet.user.job_title} @ {booklet.user.company}
+                  </span>
+                )
+              }
             </span>
           </div>
         </div>

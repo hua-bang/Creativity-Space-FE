@@ -91,7 +91,7 @@ const ChatNav = React.forwardRef((props: ChatNavProps, ref) => {
           }
         </Avatar>
         <span className={styles['chat-nav-tip']}>
-          Message
+          { userInfo ? userInfo.name : 'Message' }
         </span>
       </div>
       <div className={styles['chat-nav-list']}>

@@ -48,7 +48,7 @@ const ChatItem = React.forwardRef((props: ChatItemProps, ref) => {
         </div>
       </div>
       <div className={styles['chat-time']}>
-        { dayjs(chat.update_time).format('hh:mm:ss') }
+        { dayjs(chat.update_time).format('YYYY-MM-DD HH:mm:ss') }
         {
           !active && unreadCount > 0 && (
             <div className={styles['unread-count']}>

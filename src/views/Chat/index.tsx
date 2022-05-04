@@ -9,6 +9,7 @@ import ChatNav from './components/Chat-Nav';
 import ChatMain from './components/Chat-Main';
 import { getUserList } from '@/api/chat';
 import { Chat } from '@/typings/chat';
+import dayjs from 'dayjs';
 
 
 const ChatRoom = () => {
@@ -36,7 +37,9 @@ const ChatRoom = () => {
 
   const load = () => {
     getUserList().then(res => {
-      const list = res.data;
+      const list = res.data.sort((a: Chat, b: Chat) => {
+        return (dayjs(b.update_time).unix() - dayjs(a.update_time).unix());
+      });
       setChatList(res.data);
       if (list.length > 0) {
         setChat(list[0]);
