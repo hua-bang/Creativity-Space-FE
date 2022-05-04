@@ -1,3 +1,4 @@
+import { QueryData } from './commons';
 export enum DraftTypeEnum {
   ARTICLE = 1,
   BOOKLET = 2,
@@ -17,3 +18,11 @@ export interface Draft {
 export type UpsertDraftType = Pick<Draft, 'content' | 'title' | 'type'> & {
   id?: string;
 };
+
+export interface QueryDraft extends QueryData {
+  title: string;
+
+  user_id: string;
+
+  status: number;
+}

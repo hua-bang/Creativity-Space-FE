@@ -6,6 +6,7 @@ import CreationOverview from './components/CreationOverview';
 import ArticleList from './components/ArticleList';
 import BookletList from './components/BookletList';
 import PointList from './components/PointList';
+import DraftList from './components/DraftList';
 
 const menus = {
   overview: {
@@ -23,6 +24,10 @@ const menus = {
   booklet: {
     title: '小册',
     component: BookletList
+  },
+  draft: {
+    title: '草稿',
+    component: DraftList
   }
 };
 
