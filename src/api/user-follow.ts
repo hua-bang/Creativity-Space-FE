@@ -8,6 +8,14 @@ export const followUser = (id: string) => {
 
 export function getUserFollowByFollowUserId(follow_user_id: string) {
   return request.get(`user-follow/user/follow/${follow_user_id}`, { 
-    autoRedirect: true
+    autoRedirect: false
   });
+}
+
+export function getFollowers(userId: string) {
+  return request.get(`user-follow/user/followers/${userId}`);
+}
+
+export function getBeFollowers(userId: string) {
+  return request.get(`user-follow/user/be_followers/${userId}`);
 }

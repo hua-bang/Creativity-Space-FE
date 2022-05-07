@@ -59,7 +59,7 @@ const DraftList: React.FC<DraftListProps> = ({
 
   return (
     <div className={styles['user-list-page']}>
-      { showTitle && (<h3>动态列表</h3>) }
+      { showTitle && (<h3>草稿列表</h3>) }
       <ProTable<Draft, QueryDraft>
         columns={columns}
         requestFn={queryDraftList}

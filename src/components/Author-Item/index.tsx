@@ -14,7 +14,7 @@ const AuthorItem: React.FC<AuthorItemProps> = ({
   const navigate = useNavigate();
 
   const toAuthorDetail = () => {
-    navigate(`/author/${author.id}`);
+    window.open(`/author/${author.id}`);
   };
 
   return (

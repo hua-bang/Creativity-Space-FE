@@ -39,9 +39,7 @@ export function likeArticle(articleId: string) {
 }
 
 export function getArticleLikeInfo(articleId: string) {
-  return request.get(`/article/user/like/info/${articleId}`, { 
-    autoRedirect: false
-  });
+  return request.get(`/article/user/like/info/${articleId}`);
 }
 
 export function followArticle(articleId: string) {
