@@ -11,4 +11,9 @@ declare module 'axios' {
     put<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T>;
     patch<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T>;
   }
+
+  export interface AxiosRequestConfig {
+    autoRedirect?: boolean;
+  }
 }
+

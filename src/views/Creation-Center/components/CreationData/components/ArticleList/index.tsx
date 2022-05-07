@@ -3,7 +3,7 @@ import { Button, Table, Drawer, Empty, Message, PaginationProps, Form, Input, Se
 import { columns as defaultColumns } from './columns';
 import styles from './index.module.scss';
 import { Article, ArticleStatusEnum, QueryArticleDto } from '@/typings/article';
-import { getArticleDetailById, queryArticleList } from '@/api/article';
+import { getArticleDetailById, queryArticleList, deleteArticle } from '@/api/article';
 import { ColumnProps } from '@arco-design/web-react/es/Table';
 import MarkdownView from '@/components/Markdown-View';
 import { ARTICLE_STATUS_MAP, ARTICLE_STATUS_MAP_KEY } from '@/const/article';
@@ -42,11 +42,21 @@ const ArticleList: React.FC<ArticleListProps> = ({
     window.open(`editor?articleId=${record.id}`);
   };
 
+  const delArticle = (record: Article, index: number) => {
+    deleteArticle(record.id).then(() => {
+      Message.success('删除成功');
+      articles[index].status = ArticleStatusEnum.DELETED;
+      setArticles(prev => [...prev]);
+    }).catch(err => {
+      Message.warning(err.message);
+    });
+  };
+
   const operateColumns: ColumnProps<Article>[] = [
     {
       title: '操作',
       align: 'center',
-      width: 300,
+      width: 400,
       render: (col, record, index) => {
         return (
           <div className={styles['btn-area']}>
@@ -56,16 +66,11 @@ const ArticleList: React.FC<ArticleListProps> = ({
                 <Button type='primary' onClick={() => toUpdate(record) }>更新内容</Button>
               )
             }
-            {/* {
-              record.status !== ArticleStatusEnum.DELETED
-                && (
-                  ( record.status === ArticleStatusEnum.AUDITED ? (
-                    <Button type='primary' status='danger' onClick={() => { updateArticleStatus(record.id, ArticleStatusEnum.FORBIDDEN, index); }}>审核不通过</Button>
-                  ) : (
-                    <Button type='primary' onClick={() => { updateArticleStatus(record.id, ArticleStatusEnum.AUDITED, index); }}>审核通过</Button>
-                  ))
-                ) 
-            } */}
+            {
+              record.status !== ArticleStatusEnum.DELETED && (
+                <Button type='primary' status='danger'onClick={() => delArticle(record, index)} >删除</Button>
+              ) 
+            }
           </div>
         );
       }

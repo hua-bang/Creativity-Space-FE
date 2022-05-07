@@ -33,15 +33,21 @@ export function uploadArticleImg(file: File) {
 }
 
 export function likeArticle(articleId: string) {
-  return request.get(`/article/like/${articleId}`);
+  return request.get(`/article/like/${articleId}`, { 
+    autoRedirect: true
+  });
 }
 
 export function getArticleLikeInfo(articleId: string) {
-  return request.get(`/article/user/like/info/${articleId}`);
+  return request.get(`/article/user/like/info/${articleId}`, { 
+    autoRedirect: false
+  });
 }
 
 export function followArticle(articleId: string) {
-  return request.get(`/article/follow/${articleId}`);
+  return request.get(`/article/follow/${articleId}`, { 
+    autoRedirect: true
+  });
 }
 
 export function createComment(comment: CreateArticleComment) {

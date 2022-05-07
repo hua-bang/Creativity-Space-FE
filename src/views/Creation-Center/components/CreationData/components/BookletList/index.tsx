@@ -1,7 +1,7 @@
-import { queryBookletList } from '@/api/booklet';
+import { deleteBookletById, queryBookletList } from '@/api/booklet';
 import { BOOKLET_STATUS_MAP, BOOKLET_STATUS_MAP_KEY } from '@/const/booklet';
 import { Booklet, BookletStatusEnum, QueryBookletDto } from '@/typings/booklet';
-import { Form, PaginationProps, Table, Input, Button, Select, Message, Modal, Empty } from '@arco-design/web-react';
+import { Form, PaginationProps, Table, Input, Button, Select, Message } from '@arco-design/web-react';
 import { ColumnProps } from '@arco-design/web-react/es/Table';
 import React, { useEffect, useState } from 'react';
 import { columns as defaultColumn } from './columns';
@@ -68,6 +68,16 @@ const BookletList: React.FC<BookletListProps> = ({
     window.open(`/booklet/update/${id}`);
   };
 
+  const delBooklet = (booklet: Booklet, index: number) => {
+    deleteBookletById(booklet.id).then(() => {
+      Message.success('删除成功');
+      booklets[index].status = BookletStatusEnum.REJECTED;
+      setBooklets(prev => [...prev]);
+    }).catch(err => {
+      Message.warning(err.message);
+    });
+  };
+
   const operateColumns: ColumnProps<Booklet>[] = [
     {
       title: '操作',
@@ -83,7 +93,11 @@ const BookletList: React.FC<BookletListProps> = ({
             }
             {
               record.status !== BookletStatusEnum.REJECTED && (
-                <Button type="primary" onClick={() => updateBooklet(record.id)}>修改</Button>
+                <>
+                  <Button type="primary" onClick={() => updateBooklet(record.id)}>修改</Button>
+                  <Button type="primary" status='danger' onClick={() => delBooklet(record, index)}>删除</Button>
+                </>
+                
               )  
             }
           </div>

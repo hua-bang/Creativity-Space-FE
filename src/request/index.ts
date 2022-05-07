@@ -1,6 +1,7 @@
 import { BASE_URL } from '../config/network';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { getToken } from '@/utils/token';
+import { Modal } from '@arco-design/web-react';
 
 const service = axios.create({
   baseURL: BASE_URL, // 设置统一的请求前缀
@@ -26,6 +27,20 @@ service.interceptors.response.use(
   },
   (err) => {
     const res = err.response;
+    const { config } = res;
+    const { 
+      autoRedirect = false
+    } = config;
+    console.log(autoRedirect, config);
+    if (res.data.code === 401 && autoRedirect) {
+      Modal.confirm({
+        title: '没有权限，是否跳转登录页面？',
+        cancelText: '取消',
+        onOk: function() {
+          location.href = '/login';
+        }
+      });
+    }
     throw res.data;
   },
 );

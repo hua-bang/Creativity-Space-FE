@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styles from './index.module.scss';
-import { Table, Form, Input, Button, Message } from '@arco-design/web-react';
+import { Button, Message } from '@arco-design/web-react';
 import { columns as defaultColumns } from './columns';
 import { Point, PointStatusEnum } from '@/typings/point';
 import ProTable from '@/components/Pro-Table';
 import { formColumns } from './form';
 import { QueryPointDto } from '@/typings/point';
-import { queryPoint } from '@/api/point';
+import { queryPoint, deletePoint } from '@/api/point';
 import { ColumnProps } from '@arco-design/web-react/es/Table';
 
 interface PointListProps {
@@ -27,6 +27,16 @@ const PointList: React.FC<PointListProps> = ({
   const toPointDetail = (id: string) => {
     window.open(`/point/${id}`);
   };
+  
+  const delPoint = (record: Point, index: number) => {
+    deletePoint(record.id).then(() => {
+      Message.success('删除成功');
+      data[index].status = PointStatusEnum.DELETED;
+      setData(prev => [...prev]);
+    }).catch(err => {
+      Message.warning(err.message);
+    });
+  };
 
   const operateColumns: ColumnProps<Point>[] = [
     {
@@ -36,15 +46,23 @@ const PointList: React.FC<PointListProps> = ({
       render: (col, record, index) => {
         return (
           <div className={styles['btn-area']}>
-            <Button onClick={() => toPointDetail(record.id)} >详情</Button>
-            {/* <Button type='primary' onClick={() => audit(record.id, PointStatusEnum.AUDITED, index)}>审核通过</Button>
-            <Button type='primary' status='danger' onClick={() => audit(record.id, PointStatusEnum.FORBIDDEN, index)}>审核不通过</Button> */}
+            {
+              record.status !== PointStatusEnum.DELETED && (
+                <>
+                  <Button onClick={() => toPointDetail(record.id)} >详情</Button>
+                  <Button type='primary' status='danger' onClick={() => delPoint(record, index)}>
+                    删除
+                  </Button> 
+                </>  
+              )
+            }
           </div>
         );
       }
     }
   ];
 
+ 
   const columns = [...defaultColumns, ...operateColumns];
 
   return (
