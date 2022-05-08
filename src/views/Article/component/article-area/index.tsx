@@ -1,4 +1,4 @@
-import { Article } from '@/typings/article';
+import { Article, ArticleStatusEnum } from '@/typings/article';
 import { Skeleton } from '@arco-design/web-react';
 import React from 'react';
 import styles from './index.module.scss';
@@ -9,6 +9,9 @@ import highlight from '@bytemd/plugin-highlight';
 import CommentArea from './components/comment-area';
 import Tag from '@/components/Tag';
 import { observer } from 'mobx-react-lite';
+import { Tag as ArcoTag } from '@arco-design/web-react';
+import { ARTICLE_STATUS_MAP } from '@/const/article';
+
 
 const plugins = [
   gfm(),
@@ -42,6 +45,17 @@ const ArticleArea: React.FC<ArticleAreaProps> = ({
               <div className={styles['article-title']}>
                 {article.title}
               </div>
+              {
+                article.status !== ArticleStatusEnum.AUDITED && (
+                  <div className={styles['article-title-status']}>
+                    <ArcoTag color={ARTICLE_STATUS_MAP[article.status].color}>
+                      {
+                        ARTICLE_STATUS_MAP[article.status].value
+                      }
+                    </ArcoTag>
+                  </div>
+                )
+              }
               {
                 article.tags.length > 0 && (
                   <div className={styles['article-tag']}>

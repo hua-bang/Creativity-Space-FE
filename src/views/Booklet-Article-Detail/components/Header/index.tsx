@@ -25,8 +25,9 @@ const Header: React.FC<HeaderProps> = ({
     <div className={styles['article-detail-header']}>
       <div className={styles['logo-area']}>
         <img 
+          className={styles['logo']}
           onClick={toHomePage}
-          src='https://dev-to-uploads.s3.amazonaws.com/uploads/logos/resized_logo_UQww2soKuUsjaOGNB38o.png' 
+          src='https://cos-1258926018.cos.ap-guangzhou.myqcloud.com/common-file%2F%E6%AF%95%E8%AE%BE-Logo.drawio%20(1).png' 
         />
         <span  onClick={toBooklet} className={styles['logo-area-title']}>{booklet.name}</span>
       </div>

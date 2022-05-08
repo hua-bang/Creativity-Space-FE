@@ -6,6 +6,10 @@ import { ColumnProps } from '@arco-design/web-react/es/Table';
 import React, { useEffect, useState } from 'react';
 import { columns as defaultColumn } from './columns';
 import styles from './index.module.scss';
+import useStore  from '@/hooks/useStore';
+import { observer } from 'mobx-react-lite';
+import { applyBookletAuthor } from '@/api/user';
+
 
 interface BookletListProps {
   showTitle?: boolean;
@@ -39,7 +43,9 @@ const BookletList: React.FC<BookletListProps> = ({
     });
   };
 
-  
+  const { userStore } = useStore();
+  const { userInfo } = userStore;
+
   const handleChange = (pagination: PaginationProps) => {
     const { current = 1 } = pagination;
     setParams(prev => ({
@@ -97,7 +103,6 @@ const BookletList: React.FC<BookletListProps> = ({
                   <Button type="primary" onClick={() => updateBooklet(record.id)}>修改</Button>
                   <Button type="primary" status='danger' onClick={() => delBooklet(record, index)}>删除</Button>
                 </>
-                
               )  
             }
           </div>
@@ -113,9 +118,26 @@ const BookletList: React.FC<BookletListProps> = ({
     form.resetFields();
   };
 
+  const applyAuthor = () => {
+    applyBookletAuthor().then(() => {
+      Message.success('申请成功，待审核');
+    }).catch(err => {
+      Message.warning(err.message);
+    });
+  };
+
   return (
     <div>
       { showTitle && (<h3>小册列表</h3>) }
+      {
+        userInfo && Number(userInfo.is_booklet_author) !== 1 && (
+          <Button disabled={Number(userInfo.is_booklet_author) === 2} type="primary" onClick={applyAuthor}>
+            {Number(userInfo.is_booklet_author) === -1 && '审核不通过，请重新申请'}
+            {Number(userInfo.is_booklet_author) === 2 && '审核中，请等待'}
+            {Number(userInfo.is_booklet_author) === 0 && '申请成为小册作者'}
+          </Button>
+        )
+      }
       <div style={{ padding: '5px' }}>
         <Form form={form} layout='inline' onSubmit={handleSubmit}>
           <FormItem label='小册名称' field='name'>
@@ -152,4 +174,4 @@ const BookletList: React.FC<BookletListProps> = ({
   );
 };
 
-export default BookletList;
+export default observer(BookletList);

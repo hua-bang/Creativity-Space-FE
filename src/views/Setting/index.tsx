@@ -45,6 +45,7 @@ const Setting = () => {
     };
     fetchSetUserInfo(info).then(() => {
       Message.success('修改成功。');
+      window.location.reload();
     }).catch(err => {
       Message.warning(err.message);
     });

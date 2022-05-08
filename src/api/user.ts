@@ -36,3 +36,7 @@ export function updatePassword(info: UpdatePasswordInfo) {
 export function getUserStaticInfo() {
   return request.get('/admin/user/static/info');
 }
+
+export function applyBookletAuthor() {
+  return request.post('/user/applyBookletAuthor');
+}

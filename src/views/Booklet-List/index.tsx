@@ -25,7 +25,7 @@ const BookletList = () => {
   
   return (
     <div>
-      <NavGroup defaultValue={navKey} onChange={handleActiveKeyChange} menuList={['All', 'My']} />
+      <NavGroup defaultValue={navKey} onChange={handleActiveKeyChange} menuList={['All']} />
       <div className={styles['booklet-container']}>
         { 
           bookletList.map(item => (<BookletItem key={item.id} booklet={item} />))

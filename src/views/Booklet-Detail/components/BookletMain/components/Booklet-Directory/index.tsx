@@ -22,7 +22,8 @@ const BookletDirectory: React.FC<BookletDirectoryProps> = ({
 
   const loadBookArticle = (bookletId: string) => {
     getArticlesByBookletId(bookletId).then(res => {
-      setArticles(res.data);
+      const list = (res.data as BookletArticle[]).sort((a, b) => a.order - b.order);
+      setArticles(list);
     }).catch(err => {
       Message.warning('拉取小册文章失败。');
     });

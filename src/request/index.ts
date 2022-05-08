@@ -31,7 +31,6 @@ service.interceptors.response.use(
     const { 
       autoRedirect = false
     } = config;
-    console.log(autoRedirect, config);
     if (res.data.code === 401 && autoRedirect) {
       Modal.confirm({
         title: '没有权限，是否跳转登录页面？',

@@ -1,8 +1,8 @@
 import React from 'react';
-import { Menu, Message } from '@arco-design/web-react';
+import { Menu, Message, Modal } from '@arco-design/web-react';
 import { useNavigate } from 'react-router-dom';
 import { logout } from '@/api/user';
-import { User } from '@/typings/user';
+import { User, UserStatus } from '@/typings/user';
 
 interface DropListProps {
   userInfo?: User;
@@ -14,6 +14,25 @@ const DropList: React.FC<DropListProps> = ({
 
   const navigate = useNavigate();
 
+  const noRegisterHandler = () => {
+    Modal.confirm({
+      title: '提示信息',
+      content: '请先完善用户信息',
+      onOk() {
+        navigate('/setting');
+      }
+    });
+  };
+
+  const checkUserRegister = (fn: () => void, handler?: () => void) => {
+    const handleFn = handler ? handler : noRegisterHandler;
+    if (userInfo && userInfo.status === UserStatus.NORMAL) {
+      fn();
+    } else {
+      handleFn();
+    }
+  };
+
   const menuList = [
     { 
       title: '写文章',
@@ -24,21 +43,19 @@ const DropList: React.FC<DropListProps> = ({
     {
       title: '个人主页',
       onClick() {
-        if (userInfo) {
-          navigate(`/author/${userInfo.id}`);
-        }
-      } 
+        checkUserRegister(() => { navigate(`/author/${userInfo!.id}`); });
+      }
     },
     {
       title: '创作者中心',
       onClick() {
-        navigate('/creation-center');
+        checkUserRegister(() => { navigate('/creation-center'); });
       }
     },
     {
       title: '聊天',
       onClick() {
-        navigate('/chat');
+        checkUserRegister(() => { navigate('/chat'); });
       }
     },
     {
