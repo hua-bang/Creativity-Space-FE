@@ -24,7 +24,7 @@ const ContentCard = ({
   const navigate = useNavigate();
 
   const toArticleDetail = () => {
-    navigate(`/article/${article.id}`);
+    window.open(`/article/${article.id}`);
   };
 
   const operateAreaClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {

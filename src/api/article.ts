@@ -71,3 +71,11 @@ export const queryArticleList = (queryArticleDto: QueryArticleDto) => {
 export const getArticleDetailById = (id: string) => {
   return request.get(`/article/${id}`);
 };
+
+export const getUserLikeArticle = (id: string) => {
+  return request.get(`/article/user/like/${id}`);
+};
+
+export const getUserFollowArticle = (id: string) => {
+  return request.get(`/article/user/follow/${id}`);
+};
